@@ -17,7 +17,7 @@ public class ImageController {
     // CREATE: Add a new image
     @PostMapping
     public Image addImage(@RequestBody Image newImage) {
-        newImage.setImageId(currentId++); // Set a unique ID for the new image
+        newImage.setImage_Id(currentId++); // Set a unique ID for the new image
         images.add(newImage); // Add the image to the list
         return newImage; // Return the created image
     }
@@ -32,7 +32,7 @@ public class ImageController {
     @GetMapping("/{id}")
     public Image getImageById(@PathVariable Long id) {
         return images.stream()
-                .filter(image -> image.getImageId().equals(id)) // Find the image with the matching ID
+                .filter(image -> image.getImage_Id().equals(id)) // Find the image with the matching ID
                 .findFirst()
                 .orElse(null); // Return null if no image is found
     }
@@ -41,8 +41,8 @@ public class ImageController {
     @PutMapping("/{id}")
     public Image updateImage(@PathVariable Long id, @RequestBody Image updatedImage) {
         for (Image image : images) {
-            if (image.getImageId().equals(id)) { // Check if the ID matches
-                image.setImage(updatedImage.getImage()); // Update the image data
+            if (image.getImage_Id().equals(id)) { // Check if the ID matches
+                image.setImage_Path(updatedImage.getImage_Path()); // Update the image data
                 return image; // Return the updated image
             }
         }
@@ -52,7 +52,7 @@ public class ImageController {
     // DELETE: Delete an image by its ID
     @DeleteMapping("/{id}")
     public String deleteImage(@PathVariable Long id) {
-        boolean removed = images.removeIf(image -> image.getImageId().equals(id)); // Remove the image
+        boolean removed = images.removeIf(image -> image.getImage_Id().equals(id)); // Remove the image
         return removed ? "Image deleted successfully" : "Image not found"; // Return status message
     }
 
@@ -60,11 +60,11 @@ public class ImageController {
     @GetMapping("/{id}/base64")
     public String getImageAsBase64(@PathVariable Long id) {
         Image image = images.stream()
-                .filter(img -> img.getImageId().equals(id))
+                .filter(img -> img.getImage_Id().equals(id))
                 .findFirst()
                 .orElse(null);
         if (image != null) {
-            return Base64.getEncoder().encodeToString(image.getImage()); // Return image as Base64 string
+            return Base64.getEncoder().encodeToString(image.getImage_Path()); // Return image as Base64 string
         }
         return null; // Return null if no image is found
     }

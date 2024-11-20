@@ -1,33 +1,37 @@
 package be.helha.journalapp.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
+
+import java.util.List;
 
 @Entity
 @Table(name = "Utilisateur")
 @Data
 public class User {
     @Id
-    private Long userId;
-    private String lastName;
-    private String firstName;
-    private String birthDate;
-    private String email;
-    private String password;
-    private String newPassword;
-    private double longitude;
-    private double latitude;
-    private boolean isAuthorized;
-    private boolean isRoleChanged;
+    @jakarta.persistence.Id
+    private Long UserId;
+    private String Last_Name;
+    private String First_Name;
+    private String Date_Of_Birth;
+    private String Email;
+    private String Password;
+    private String New_Password;
+    private double Longitude;
+    private double Latitude;
+    private boolean Is_Authorized;
+    private boolean Is_Role_Change;
+    @OneToOne
     private Role role;
+    // Relation One-to-Many with Comment
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Comment> comments;
 
-    // Constructor
-    public User(Long userId, String lastName, String firstName, String email) {
-        this.userId = userId;
-        this.lastName = lastName;
-        this.firstName = firstName;
-        this.email = email;
-    }
+    // Relation One-to-Many with Newsletter
+    @OneToMany( cascade = CascadeType.ALL)
+    private List<Newsletter> newsletters;
+
+
 }

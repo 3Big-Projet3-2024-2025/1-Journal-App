@@ -9,9 +9,11 @@ import org.springframework.data.annotation.Id;
 @Table(name = "Role")
 @Data
 public class Role {
+    @jakarta.persistence.Id
     @Id
-    private Long roleId;
-    private String roleName;
+    private Long Role_Id;
+    private String Role_Name;
+
 
 
 }

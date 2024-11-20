@@ -1,17 +1,21 @@
 package be.helha.journalapp;
 
 import be.helha.journalapp.model.Comment;
+import be.helha.journalapp.model.DatabaseConnection;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.sql.Connection;
 
 @SpringBootApplication
 @RestController
 public class JournalappApplication {
 
 	public static void main(String[] args) {
-/*		// Configuration de la base de données
+		// Configuration de la base de données
 		String url = "jdbc:mysql://localhost:3306/journalapp"; // Exemple pour MySQL
 		String username = "root";
 		String password = "";
@@ -33,7 +37,7 @@ public class JournalappApplication {
 		dbConnection.disconnect();
 		SpringApplication.run(JournalappApplication.class, args);
 
- */
+
 
 
 

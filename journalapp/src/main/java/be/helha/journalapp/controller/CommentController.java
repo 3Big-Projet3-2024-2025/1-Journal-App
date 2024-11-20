@@ -16,7 +16,7 @@ public class CommentController {
     // CREATE: Add a new comment
     @PostMapping
     public Comment addComment(@RequestBody Comment newComment) {
-        newComment.setCommentId(currentId++); // Set a unique ID for the new comment
+        newComment.setComment_Id(currentId++); // Set a unique ID for the new comment
         comments.add(newComment); // Add the comment to the list
         return newComment; // Return the created comment
     }
@@ -31,7 +31,7 @@ public class CommentController {
     @GetMapping("/{id}")
     public Comment getCommentById(@PathVariable Long id) {
         return comments.stream()
-                .filter(comment -> comment.getCommentId().equals(id)) // Find the comment with the matching ID
+                .filter(comment -> comment.getComment_Id().equals(id)) // Find the comment with the matching ID
                 .findFirst()
                 .orElse(null); // Return null if no comment is found
     }
@@ -40,9 +40,9 @@ public class CommentController {
     @PutMapping("/{id}")
     public Comment updateComment(@PathVariable Long id, @RequestBody Comment updatedComment) {
         for (Comment comment : comments) {
-            if (comment.getCommentId().equals(id)) { // Check if the ID matches
+            if (comment.getComment_Id().equals(id)) { // Check if the ID matches
                 comment.setContent(updatedComment.getContent()); // Update the content
-                comment.setPublicationDate(updatedComment.getPublicationDate()); // Update the publication date
+                comment.setPublication_Date(updatedComment.getPublication_Date()); // Update the publication date
                 return comment; // Return the updated comment
             }
         }
@@ -52,7 +52,7 @@ public class CommentController {
     // DELETE: Delete a comment by its ID
     @DeleteMapping("/{id}")
     public String deleteComment(@PathVariable Long id) {
-        boolean removed = comments.removeIf(comment -> comment.getCommentId().equals(id)); // Remove the comment
+        boolean removed = comments.removeIf(comment -> comment.getComment_Id().equals(id)); // Remove the comment
         return removed ? "Comment deleted successfully" : "Comment not found"; // Return status message
     }
 }
