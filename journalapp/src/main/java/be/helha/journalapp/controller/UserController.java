@@ -174,4 +174,43 @@ public class UserController {
                 })
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found"));
     }
+
+
+
+
+    @PostMapping("/register")
+    public ResponseEntity<String> registerUser(@RequestBody User newUser) {
+        // Check if email already exists
+        if (userRepository.findByEmail(newUser.getEmail()).isPresent()) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body("A user with this email already exists.");
+        }
+
+        // Hash password
+        newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
+
+        // Save the new user
+        userRepository.save(newUser);
+
+        try {
+            // Send a welcome email to the user
+            String subject = "Welcome to JournalApp!";
+            String content = "<p>Hello " + newUser.getFirstName() + ",</p>"
+                    + "<p>Thank you for registering with JournalApp. We are thrilled to have you onboard!</p>"
+                    + "<p>Explore our platform and make the most of it.</p>"
+                    + "<p>Best regards,</p>"
+                    + "<p>The JournalApp Team</p>";
+
+            emailService.sendEmail(newUser.getEmail(), subject, content);
+
+            return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully and email sent.");
+        } catch (MessagingException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("User registered but email sending failed.");
+        }
+    }
+
+
+
+
+
 }
