@@ -4,23 +4,19 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
-@Table(name = "Commentaire")
 @Data
 public class Comment {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-increment ID
-    private Long Comment_Id;            // Unique identifier for the comment
-    private String Content;            // Content of the comment
-    private String Publication_Date;    // Date the comment was published
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long commentId;
+    private String content;
+    private String publicationDate;
 
-    // Relation Many-to-One with User
     @ManyToOne
-    @JoinColumn()
-    private User users;
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    // Relation Many-to-One avec Newsletter
     @ManyToOne
-    @JoinColumn() // Clé étrangère dans la table Commentaire
+    @JoinColumn(name = "newsletter_id")
     private Newsletter newsletter;
-
 }

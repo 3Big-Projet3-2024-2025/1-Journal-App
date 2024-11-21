@@ -14,63 +14,63 @@ public class ImageController {
 
     private final ImageRepository imageRepository;
 
-    // Injecting the repository via constructor
+    // Injection via le constructeur
     public ImageController(ImageRepository imageRepository) {
         this.imageRepository = imageRepository;
     }
 
-    // CREATE: Add a new image
+    // CREATE: Ajouter une nouvelle image
     @PostMapping
     public ResponseEntity<Image> addImage(@RequestBody Image newImage) {
-        Image savedImage = imageRepository.save(newImage); // Save the image to the database
+        Image savedImage = imageRepository.save(newImage);
         return ResponseEntity.ok(savedImage);
     }
 
-    // READ: Retrieve all images
+    // READ: Récupérer toutes les images
     @GetMapping
     public ResponseEntity<List<Image>> getAllImages() {
-        List<Image> images = imageRepository.findAll(); // Fetch all images
+        List<Image> images = imageRepository.findAll();
         return ResponseEntity.ok(images);
     }
 
-    // READ: Retrieve a specific image by its ID
+    // READ: Récupérer une image par son ID
     @GetMapping("/{id}")
     public ResponseEntity<Image> getImageById(@PathVariable Long id) {
         return imageRepository.findById(id)
-                .map(ResponseEntity::ok) // Return the image if found
-                .orElse(ResponseEntity.notFound().build()); // Return 404 if not found
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
-    // UPDATE: Update an existing image
+    // UPDATE: Mettre à jour une image existante
     @PutMapping("/{id}")
     public ResponseEntity<Image> updateImage(@PathVariable Long id, @RequestBody Image updatedImage) {
         return imageRepository.findById(id)
                 .map(existingImage -> {
-                    existingImage.setImage_Path(updatedImage.getImage_Path()); // Update image data
-                    Image savedImage = imageRepository.save(existingImage); // Save the updated image
+                    existingImage.setImagePath(updatedImage.getImagePath()); // Mise à jour des données de l'image
+                    Image savedImage = imageRepository.save(existingImage);
                     return ResponseEntity.ok(savedImage);
                 })
-                .orElse(ResponseEntity.notFound().build()); // Return 404 if not found
+                .orElse(ResponseEntity.notFound().build());
     }
 
-    // DELETE: Delete an image by its ID
+    // DELETE: Supprimer une image par son ID
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteImage(@PathVariable Long id) {
         if (imageRepository.existsById(id)) {
-            imageRepository.deleteById(id); // Delete the image by ID
+            imageRepository.deleteById(id);
             return ResponseEntity.ok("Image deleted successfully");
         }
-        return ResponseEntity.notFound().build(); // Return 404 if not found
+        return ResponseEntity.notFound().build();
     }
 
-    // Additional: Get an image as a Base64 string
+    // Extra: Obtenir une image en Base64
     @GetMapping("/{id}/base64")
     public ResponseEntity<String> getImageAsBase64(@PathVariable Long id) {
         return imageRepository.findById(id)
                 .map(image -> {
-                    String base64 = Base64.getEncoder().encodeToString(image.getImage_Path()); // Convert to Base64
+                    String base64 = Base64.getEncoder().encodeToString(image.getImagePath());
                     return ResponseEntity.ok(base64);
                 })
-                .orElse(ResponseEntity.notFound().build()); // Return 404 if not found
+                .orElse(ResponseEntity.notFound().build());
     }
 }

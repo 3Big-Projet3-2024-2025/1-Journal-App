@@ -2,37 +2,32 @@ package be.helha.journalapp.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-
-
 import java.util.List;
 
 @Entity
-@Table(name = "Utilisateur")
 @Data
 public class User {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-increment ID
-    private Long UserId;
-    private String Last_Name;
-    private String First_Name;
-    private String Date_Of_Birth;
-    private String Email;
-    private String Password;
-    private String New_Password;
-    private double Longitude;
-    private double Latitude;
-    private boolean Is_Authorized;
-    private boolean Is_Role_Change;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long userId;
+    private String lastName;
+    private String firstName;
+    private String dateOfBirth;
+    private String email;
+    private String password;
+    private String newPassword;
+    private double longitude;
+    private double latitude;
+    private boolean isAuthorized;
+    private boolean isRoleChange;
+
     @OneToOne
+    @JoinColumn(name = "role_id")
     private Role role;
-    // Relation One-to-Many with Comment
-    @OneToMany(cascade = CascadeType.ALL)
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Comment> comments;
 
-    // Relation One-to-Many with Newsletter
-    @OneToMany( cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Newsletter> newsletters;
-
-
 }

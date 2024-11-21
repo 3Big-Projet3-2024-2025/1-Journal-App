@@ -48,7 +48,7 @@ public class CommentController {
         return commentRepository.findById(id)
                 .map(existingComment -> {
                     existingComment.setContent(updatedComment.getContent());
-                    existingComment.setPublication_Date(updatedComment.getPublication_Date());
+                    existingComment.setPublicationDate(updatedComment.getPublicationDate());
                     Comment savedComment = commentRepository.save(existingComment);
                     return ResponseEntity.ok(savedComment);
                 })
@@ -66,17 +66,17 @@ public class CommentController {
         }
     }
 
-    // Additional: Retrieve comments by user ID
+    // Retrieve comments by user ID
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<Comment>> getCommentsByUserId(@PathVariable Long userId) {
-        List<Comment> comments = commentRepository.findByUsers_UserId(userId);
+        List<Comment> comments = commentRepository.findByUserUserId(userId);
         return ResponseEntity.ok(comments);
     }
 
-    // Additional: Retrieve comments by newsletter ID
+    // Retrieve comments by newsletter ID
     @GetMapping("/newsletter/{newsletterId}")
     public ResponseEntity<List<Comment>> getCommentsByNewsletterId(@PathVariable Long newsletterId) {
-        List<Comment> comments = commentRepository.findByNewsletter_Newsletter_Id(newsletterId);
+        List<Comment> comments = commentRepository.findByNewsletterNewsletterId(newsletterId);
         return ResponseEntity.ok(comments);
     }
 }

@@ -8,13 +8,7 @@ import java.util.List;
 
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Long> {
-
-    // Find comments by user ID
-    List<Comment> findByUsers_UserId(Long userId);
-
-    // Find comments by newsletter ID
-    List<Comment> findByNewsletter_Newsletter_Id(Long newsletterId);
-
-    // Find comments by content containing a specific keyword (case-insensitive)
+    List<Comment> findByUserUserId(Long userId);
+    List<Comment> findByNewsletterNewsletterId(Long newsletterId);
     List<Comment> findByContentContainingIgnoreCase(String keyword);
 }

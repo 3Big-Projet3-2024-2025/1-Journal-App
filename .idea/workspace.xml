@@ -5,16 +5,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="af164164-7e97-4c69-ba83-7b02461781e2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jpa.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/158128d0-8091-46c8-831b-43396d4f25ac.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/158128d0-8091-46c8-831b-43396d4f25ac.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/controller/ArticleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/controller/ArticleController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/controller/CommentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/controller/CommentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/controller/ImageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/controller/ImageController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/controller/NewsletterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/controller/NewsletterController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/controller/RoleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/controller/RoleController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/controller/UserController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/model/Article.java" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/model/Article.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/model/Comment.java" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/model/Comment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/model/Image.java" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/model/Image.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/model/Newsletter.java" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/model/Newsletter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/model/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/model/Role.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/repositories/ArticleRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/repositories/ArticleRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/repositories/CommentRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/repositories/CommentRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/repositories/ImageRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/repositories/ImageRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/repositories/NewsletterRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/repositories/NewsletterRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/repositories/RoleRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/repositories/RoleRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/repositories/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/repositories/UserRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/journalapp/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -80,38 +92,45 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Gradle.Build journalapp.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.C:/Workspace/Projet3/1-Journal-App/journalapp/build.gradle.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.journalapp.executor&quot;: &quot;Run&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;Spring Boot.JournalappApplication.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Authentification&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Workspace/intro&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Gradle.Build journalapp.executor": "Run",
+    "Gradle.C:/Workspace/Projet3/1-Journal-App/journalapp/build.gradle.executor": "Run",
+    "Gradle.journalapp.executor": "Run",
+    "HTTP Request.generated-requests | #1.executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Spring Boot.JournalappApplication.executor": "Run",
+    "git-widget-placeholder": "Authentification",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Workspace/intro",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;mysql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
     ]
   }
-}</component>
-  <component name="RunManager">
+}]]></component>
+  <component name="RunManager" selected="Spring Boot.JournalappApplication">
+    <configuration name="generated-requests | #1" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" executionIdentifier="#1" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="generated-requests | #2" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" executionIdentifier="#2" index="2" runType="Run single request">
+      <method v="2" />
+    </configuration>
     <configuration name="JournalappApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
       <module name="journalapp.main" />
@@ -120,6 +139,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="HTTP Request.generated-requests | #2" />
+        <item itemvalue="HTTP Request.generated-requests | #1" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -150,7 +175,8 @@
       <workItem from="1732194045473" duration="1263000" />
       <workItem from="1732198689963" duration="798000" />
       <workItem from="1732199516273" duration="1424000" />
-      <workItem from="1732200990763" duration="327000" />
+      <workItem from="1732200990763" duration="1495000" />
+      <workItem from="1732204732292" duration="4400000" />
     </task>
     <servers />
   </component>

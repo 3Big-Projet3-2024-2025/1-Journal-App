@@ -2,32 +2,27 @@ package be.helha.journalapp.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-
 import java.util.List;
 
 @Entity
-@Table(name = "Newsletter")
 @Data
 public class Newsletter {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-increment ID
-    private Long Newsletter_Id;
-    private String Title;
-    private String Subtitle;
-    private String PublicationDate;
-    private boolean IsRead;
 
-    // Relation One-to-Many with Article
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long newsletterId;
+    private String title;
+    private String subtitle;
+    private String publicationDate;
+    private boolean read; // Notez l'utilisation de "read" au lieu de "isRead"
+
     @OneToMany(mappedBy = "newsletter", cascade = CascadeType.ALL)
     private List<Article> articles;
 
-    // Relation Many-to-One with User
     @ManyToOne
-    @JoinColumn(name = "utilisateur_id") // Clé étrangère dans la table Newsletter
-    private User users;
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    // Relation One-to-Many avec Commentaire
     @OneToMany(mappedBy = "newsletter", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments;
-
 }

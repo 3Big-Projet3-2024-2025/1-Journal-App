@@ -13,67 +13,65 @@ public class NewsletterController {
 
     private final NewsletterRepository newsletterRepository;
 
-    // Inject the repository via the constructor
+    // Injection du repository via le constructeur
     public NewsletterController(NewsletterRepository newsletterRepository) {
         this.newsletterRepository = newsletterRepository;
     }
 
-    // CREATE: Add a new newsletter
+    // CREATE: Ajouter une nouvelle newsletter
     @PostMapping
     public ResponseEntity<Newsletter> addNewsletter(@RequestBody Newsletter newNewsletter) {
-        Newsletter savedNewsletter = newsletterRepository.save(newNewsletter); // Save to the database
-        return ResponseEntity.ok(savedNewsletter); // Return the created newsletter
+        Newsletter savedNewsletter = newsletterRepository.save(newNewsletter);
+        return ResponseEntity.ok(savedNewsletter);
     }
 
-    // READ: Retrieve all newsletters
+    // READ: Récupérer toutes les newsletters
     @GetMapping
     public ResponseEntity<List<Newsletter>> getAllNewsletters() {
-        List<Newsletter> newsletters = newsletterRepository.findAll(); // Fetch all newsletters from the database
+        List<Newsletter> newsletters = newsletterRepository.findAll();
         return ResponseEntity.ok(newsletters);
     }
 
-    // READ: Retrieve a specific newsletter by its ID
+    // READ: Récupérer une newsletter par son ID
     @GetMapping("/{id}")
     public ResponseEntity<Newsletter> getNewsletterById(@PathVariable Long id) {
         return newsletterRepository.findById(id)
-                .map(ResponseEntity::ok) // Return the found newsletter
-                .orElse(ResponseEntity.notFound().build()); // Return 404 if not found
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
-    // UPDATE: Update an existing newsletter
+    // Mise à jour de la méthode updateNewsletter
     @PutMapping("/{id}")
     public ResponseEntity<Newsletter> updateNewsletter(@PathVariable Long id, @RequestBody Newsletter updatedNewsletter) {
         return newsletterRepository.findById(id)
                 .map(existingNewsletter -> {
-                    // Update fields
                     existingNewsletter.setTitle(updatedNewsletter.getTitle());
                     existingNewsletter.setSubtitle(updatedNewsletter.getSubtitle());
                     existingNewsletter.setPublicationDate(updatedNewsletter.getPublicationDate());
-                    existingNewsletter.setIsRead(updatedNewsletter.isIsRead());
-                    // Save updated newsletter
+                    existingNewsletter.setRead(updatedNewsletter.isRead()); // Utilisation correcte
                     Newsletter savedNewsletter = newsletterRepository.save(existingNewsletter);
                     return ResponseEntity.ok(savedNewsletter);
                 })
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // DELETE: Delete a newsletter by its ID
+
+    // DELETE: Supprimer une newsletter par son ID
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteNewsletter(@PathVariable Long id) {
         if (newsletterRepository.existsById(id)) {
-            newsletterRepository.deleteById(id); // Delete from the database
+            newsletterRepository.deleteById(id);
             return ResponseEntity.ok("Newsletter deleted successfully");
-        } else {
-            return ResponseEntity.notFound().build();
         }
+        return ResponseEntity.notFound().build();
     }
 
-    // Additional: Mark a newsletter as read
+    // Exemple pour la méthode markAsRead
     @PatchMapping("/{id}/read")
     public ResponseEntity<Newsletter> markAsRead(@PathVariable Long id) {
         return newsletterRepository.findById(id)
                 .map(existingNewsletter -> {
-                    existingNewsletter.setIsRead(true); // Mark as read
+                    existingNewsletter.setRead(true); // Utilisation correcte
                     Newsletter updatedNewsletter = newsletterRepository.save(existingNewsletter);
                     return ResponseEntity.ok(updatedNewsletter);
                 })

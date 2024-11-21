@@ -54,7 +54,7 @@ public class RoleController {
     public ResponseEntity<Role> updateRole(@PathVariable Long id, @RequestBody Role updatedRole) {
         return roleRepository.findById(id)
                 .map(existingRole -> {
-                    existingRole.setRole_Name(updatedRole.getRole_Name()); // Update the role name
+                    existingRole.setRoleName(updatedRole.getRoleName()); // Update the role name
                     Role savedRole = roleRepository.save(existingRole); // Save the updated role
                     return ResponseEntity.ok(savedRole);
                 })
