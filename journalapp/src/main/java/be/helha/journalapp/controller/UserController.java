@@ -1,272 +1,187 @@
 package be.helha.journalapp.controller;
+
 import be.helha.journalapp.model.Newsletter;
+import be.helha.journalapp.model.Role;
+import be.helha.journalapp.model.User;
+import be.helha.journalapp.repositories.RoleRepository;
+import be.helha.journalapp.repositories.UserRepository;
 import be.helha.journalapp.service.EmailService;
 import jakarta.mail.MessagingException;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
-import be.helha.journalapp.model.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
 
-    private final EmailService emailService; // Declare EmailService
-    private final PasswordEncoder passwordEncoder; // Inject the PasswordEncoder
-    private List<User> users = new ArrayList<>();
-    private Long currentId = 1L;
+    private final EmailService emailService;
+    private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
-
-    public UserController(PasswordEncoder passwordEncoder, EmailService emailService) {
+    public UserController(PasswordEncoder passwordEncoder, EmailService emailService, UserRepository userRepository, RoleRepository roleRepository) {
         this.passwordEncoder = passwordEncoder;
-        this.emailService = emailService; // Create EmailService instance
+        this.emailService = emailService;
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
     }
 
     // CREATE: Add a new user
     @PostMapping
-    public User addUser(@RequestBody User newUser) {
-        newUser.setUserId(currentId++); // Set a unique ID for the new user
-        users.add(newUser); // Add the user to the list
-        return newUser; // Return the created user
+    public ResponseEntity<User> addUser(@RequestBody User newUser) {
+        if (userRepository.findByEmail(newUser.getEmail()).isPresent()) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null); // Email already exists
+        }
+        newUser.setPassword(passwordEncoder.encode(newUser.getPassword())); // Hash the password
+        User savedUser = userRepository.save(newUser); // Save the user in the database
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
     }
 
     // READ: Retrieve all users
     @GetMapping
-    public List<User> getAllUsers() {
-        return users; // Return the list of users
+    public ResponseEntity<List<User>> getAllUsers() {
+        List<User> users = userRepository.findAll(); // Fetch all users from the database
+        return ResponseEntity.ok(users);
     }
 
     // READ: Retrieve a specific user by ID
     @GetMapping("/{id}")
-    public User getUserById(@PathVariable Long id) {
-        return users.stream()
-                .filter(user -> user.getUserId().equals(id)) // Find the user with the matching ID
-                .findFirst()
-                .orElse(null); // Return null if no user is found
+    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+        return userRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
     // UPDATE: Update an existing user's details
     @PutMapping("/{id}")
-    public User updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
-        for (User user : users) {
-            if (user.getUserId().equals(id)) { // Check if the ID matches
-                user.setLast_Name(updatedUser.getLast_Name()); // Update last name
-                user.setFirst_Name(updatedUser.getFirst_Name()); // Update first name
-                user.setDate_Of_Birth(updatedUser.getDate_Of_Birth()); // Update birthdate
-                user.setEmail(updatedUser.getEmail()); // Update email
-                user.setPassword(updatedUser.getPassword()); // Update password
-                user.setNew_Password(updatedUser.getNew_Password()); // Update new password
-                user.setLongitude(updatedUser.getLongitude()); // Update longitude
-                user.setLatitude(updatedUser.getLatitude()); // Update latitude
-                user.setIs_Authorized(updatedUser.isIs_Authorized()); // Update authorization status
-                user.setIs_Role_Change(updatedUser.isIs_Role_Change()); // Update role change status
-                user.setRole(updatedUser.getRole()); // Update role
-                return user; // Return the updated user
-            }
-        }
-        return null; // Return null if no user is found
+    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
+        return userRepository.findById(id)
+                .map(existingUser -> {
+                    existingUser.setLast_Name(updatedUser.getLast_Name());
+                    existingUser.setFirst_Name(updatedUser.getFirst_Name());
+                    existingUser.setDate_Of_Birth(updatedUser.getDate_Of_Birth());
+                    existingUser.setEmail(updatedUser.getEmail());
+                    existingUser.setPassword(passwordEncoder.encode(updatedUser.getPassword())); // Hash the password
+                    existingUser.setLongitude(updatedUser.getLongitude());
+                    existingUser.setLatitude(updatedUser.getLatitude());
+                    existingUser.setIs_Authorized(updatedUser.isIs_Authorized());
+                    existingUser.setIs_Role_Change(updatedUser.isIs_Role_Change());
+                    existingUser.setRole(updatedUser.getRole());
+                    User savedUser = userRepository.save(existingUser);
+                    return ResponseEntity.ok(savedUser);
+                })
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
     // DELETE: Delete a user by ID
     @DeleteMapping("/{id}")
-    public String deleteUser(@PathVariable Long id) {
-        boolean removed = users.removeIf(user -> user.getUserId().equals(id)); // Remove the user
-        return removed ? "User deleted successfully" : "User not found"; // Return status message
-    }
-
-    // Additional: Change user role
-    @PatchMapping("/{id}/role")
-    public User changeUserRole(@PathVariable Long id, @RequestBody User updatedUser) {
-        for (User user : users) {
-            if (user.getUserId().equals(id)) { // Check if the ID matches
-                user.setRole(updatedUser.getRole()); // Update the user's role
-                user.setIs_Role_Change(true); // Mark role as changed
-                return user; // Return the updated user
-            }
+    public ResponseEntity<String> deleteUser(@PathVariable Long id) {
+        if (userRepository.existsById(id)) {
+            userRepository.deleteById(id);
+            return ResponseEntity.ok("User deleted successfully");
         }
-        return null; // Return null if no user is found
-    }
-
-    // Additional: Authorize a user
-    @PatchMapping("/{id}/authorize")
-    public User authorizeUser(@PathVariable Long id) {
-        for (User user : users) {
-            if (user.getUserId().equals(id)) { // Check if the ID matches
-                user.setIs_Authorized(true); // Mark the user as authorized
-                return user; // Return the updated user
-            }
-        }
-        return null; // Return null if no user is found
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
     }
 
 
 
-
-    /**
-     * Registers a new user in the system.
-     *
-     * @param newUser The user object containing the details of the new user.
-     * @return A ResponseEntity containing a success or error message.
-     */
-    // NEW: Register a new user (inscription)
-    @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@RequestBody User newUser) {
-        // Step 1: Validate input
-        if (newUser.getEmail() == null || newUser.getEmail().isEmpty()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email is required");
-        }
-        if (newUser.getPassword() == null || newUser.getPassword().isEmpty()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Password is required");
-        }
-        if (newUser.getFirst_Name() == null || newUser.getLast_Name() == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("First name and last name are required");
-        }
-
-        // Step 2: Check if the email is already used
-        boolean emailExists = users.stream()
-                .anyMatch(user -> user.getEmail().equalsIgnoreCase(newUser.getEmail()));
-        if (emailExists) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already exists");
-        }
-
-        // Step 3: Hash the password before saving
-        newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
-
-        // Step 4: Assign a unique ID and add the user to the list
-        newUser.setUserId(currentId++);
-        users.add(newUser);
-
-        try {
-            // Step 5: Send welcome email
-            String subject = "Welcome to JournalApp";
-            String content = "<p>Hello " + newUser.getFirst_Name() + ",</p>"
-                    + "<p>Thank you for registering with JournalApp. We are excited to have you on board!</p>"
-                    + "<p>Feel free to explore our platform and make the most out of it.</p>"
-                    + "<p>Best regards,</p>"
-                    + "<p>The JournalApp Team</p>";
-
-            emailService.sendEmail(newUser.getEmail(), subject, content);
-
-            return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully and confirmation email sent");
-        } catch (MessagingException e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("User registered but failed to send confirmation email");
-        }
-    }
-
-
-
-
-
+    // RESET PASSWORD: Update password for a user
     @PostMapping("/reset-password")
     public ResponseEntity<String> resetPassword(@RequestParam String email, @RequestBody String newPassword) {
-        for (User user : users) {
-            if (user.getEmail().equalsIgnoreCase(email)) {
-                if (newPassword == null || newPassword.isEmpty()) {
-                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("New password cannot be empty");
-                }
+        return userRepository.findByEmail(email)
+                .map(user -> {
+                    if (newPassword == null || newPassword.isEmpty()) {
+                        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("New password cannot be empty");
+                    }
 
-                // Step 1: Hash the new password
-                String hashedPassword = passwordEncoder.encode(newPassword);
-
-                // Step 2: Update the password in the user object
-                user.setPassword(hashedPassword);
-
-                // Step 3: Clear the `new_password` field after applying the change
-                user.setNew_Password("");
-
-                return ResponseEntity.ok("Password reset successfully");
-            }
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with the specified email not found");
+                    user.setPassword(passwordEncoder.encode(newPassword)); // Hash the new password
+                    userRepository.save(user); // Save the updated user
+                    return ResponseEntity.ok("Password reset successfully");
+                })
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with the specified email not found"));
     }
 
-
-    /**
-     * Sends a password reset email to the user identified by their email address.
-     *
-     * @param email The email address of the user requesting the password reset.
-     * @return A ResponseEntity containing a success or error message.
-     */
     // Forgot Password: Send email with reset link
     @PostMapping("/forgot-password")
     public ResponseEntity<String> forgotPassword(@RequestParam String email) {
-        for (User user : users) {
-            if (user.getEmail().equalsIgnoreCase(email)) {
-                try {
-                    // Generate a password reset token (simple example)
-                    String resetToken = "reset-token-" + user.getUserId();
+        return userRepository.findByEmail(email)
+                .map(user -> {
+                    try {
+                        String resetToken = "reset-token-" + user.getUserId(); // Generate a token
+                        String resetLink = "http://localhost:3306/reset-password?token=" + resetToken; // frontend url
+                        String subject = "Password Reset Request";
+                        String content = "<p>Hello " + user.getFirst_Name() + ",</p>"
+                                + "<p>You requested a password reset. Click the link below to reset your password:</p>"
+                                + "<p><a href=\"" + resetLink + "\">Reset Password</a></p>"
+                                + "<p>If you did not request this, please ignore this email.</p>";
 
-                    // Generate the reset link
-                    String resetLink = "http://localhost:3306/reset-password?token=" + resetToken; // change with frontend url be careful
+                        emailService.sendEmail(user.getEmail(), subject, content);
+                        return ResponseEntity.ok("Password reset email sent");
+                    } catch (MessagingException e) {
+                        e.printStackTrace();
+                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                .body("Failed to send password reset email");
+                    }
+                })
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with the specified email not found"));
+    }
 
-                    // Email content
-                    String subject = "Password Reset Request";
-                    String content = "<p>Hello " + user.getFirst_Name() + ",</p>"
-                            + "<p>You requested a password reset. Click the link below to reset your password:</p>"
-                            + "<p><a href=\"" + resetLink + "\">Reset Password</a></p>"
-                            + "<p>If you did not request this, please ignore this email.</p>";
+    @PatchMapping("/{id}/role")
+    public ResponseEntity<User> changeUserRole(@PathVariable Long id, @RequestBody String newRoleName) {
+        return userRepository.findById(id)
+                .map(user -> {
+                    // Rechercher le rôle par nom
+                    Role newRole = roleRepository.findByRoleName(newRoleName)
+                            .orElseThrow(() -> new RuntimeException("Role not found: " + newRoleName));
 
-                    // Send the email
-                    emailService.sendEmail(user.getEmail(), subject, content);
+                    // Assigner le nouveau rôle à l'utilisateur
+                    user.setRole(newRole);
+                    user.setIs_Role_Change(true); // Marquer comme rôle changé
 
-                    return ResponseEntity.ok("Password reset email sent");
-                } catch (MessagingException e) {
-                    e.printStackTrace();
-                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                            .body("Failed to send password reset email");
-                }
-            }
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with the specified email not found");
+                    // Sauvegarder les modifications
+                    User updatedUser = userRepository.save(user);
+                    return ResponseEntity.ok(updatedUser);
+                })
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(null)); // Retourner 404 si l'utilisateur n'est pas trouvé
     }
 
 
+    // AUTHORIZE USER: Mark a user as authorized
+    @PatchMapping("/{id}/authorize")
+    public ResponseEntity<User> authorizeUser(@PathVariable Long id) {
+        return userRepository.findById(id)
+                .map(user -> {
+                    user.setIs_Authorized(true); // Authorize the user
+                    User updatedUser = userRepository.save(user);
+                    return ResponseEntity.ok(updatedUser);
+                })
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
 
-    /**
-     * Marks a specific newsletter as read for the user.
-     *
-     * @param userId       The ID of the user who wants to mark the newsletter as read.
-     * @param newsletterId The ID of the newsletter to be marked as read.
-     * @return A ResponseEntity containing a success or error message.
-     */
+    // MARK NEWSLETTER AS READ
     @PatchMapping("/{userId}/mark-newsletter-as-read/{newsletterId}")
     public ResponseEntity<String> markNewsletterAsRead(
             @PathVariable Long userId,
             @PathVariable Long newsletterId) {
-        // found user
-        User user = users.stream()
-                .filter(u -> u.getUserId().equals(userId))
-                .findFirst()
-                .orElse(null);
+        return userRepository.findById(userId)
+                .map(user -> {
+                    Newsletter newsletter = user.getNewsletters().stream()
+                            .filter(n -> n.getNewsletter_Id().equals(newsletterId))
+                            .findFirst()
+                            .orElse(null);
 
-        if (user == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
-        }
+                    if (newsletter == null) {
+                        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Newsletter not found for this user");
+                    }
 
-        // found the newsletter
-        Newsletter newsletter = user.getNewsletters().stream()
-                .filter(n -> n.getNewsletter_Id().equals(newsletterId))
-                .findFirst()
-                .orElse(null);
-
-        if (newsletter == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Newsletter not found for this user");
-        }
-
-        // update the newsletter read state
-        newsletter.setIsRead(true);
-
-        return ResponseEntity.ok("Newsletter marked as read successfully");
+                    newsletter.setIsRead(true);
+                    userRepository.save(user); // Save the updated user
+                    return ResponseEntity.ok("Newsletter marked as read successfully");
+                })
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found"));
     }
-
-
-
-
-
 }

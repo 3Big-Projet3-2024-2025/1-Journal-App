@@ -12,6 +12,7 @@ import java.util.List;
 public class Article {
     @jakarta.persistence.Id
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-increment ID
     private Long Article_Id;
     private String Title;
     private String Content;

@@ -10,12 +10,13 @@ import org.springframework.data.annotation.Id;
 public class Image {
     @jakarta.persistence.Id
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-increment ID
     private Long Image_Id;
     private byte [] Image_Path;
 
     // Relation One-to-One avec Newsletter (bidirectionnelle si nécessaire)
-    @OneToOne(mappedBy = "image")
-    private Newsletter newsletter;
+   /* @OneToOne(mappedBy = "image")
+    private Newsletter newsletter; */
 
     // Relation Many-to-One avec Image
     @ManyToOne

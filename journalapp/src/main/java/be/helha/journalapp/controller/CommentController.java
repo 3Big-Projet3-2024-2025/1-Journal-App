@@ -1,58 +1,82 @@
 package be.helha.journalapp.controller;
 
 import be.helha.journalapp.model.Comment;
+import be.helha.journalapp.repositories.CommentRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/comments")
 public class CommentController {
 
-    private List<Comment> comments = new ArrayList<>(); // In-memory storage for comments
-    private Long currentId = 1L; // Counter for generating unique IDs
+    private final CommentRepository commentRepository;
+
+    @Autowired
+    public CommentController(CommentRepository commentRepository) {
+        this.commentRepository = commentRepository;
+    }
 
     // CREATE: Add a new comment
     @PostMapping
-    public Comment addComment(@RequestBody Comment newComment) {
-        newComment.setComment_Id(currentId++); // Set a unique ID for the new comment
-        comments.add(newComment); // Add the comment to the list
-        return newComment; // Return the created comment
+    public ResponseEntity<Comment> addComment(@RequestBody Comment newComment) {
+        Comment savedComment = commentRepository.save(newComment);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedComment);
     }
 
     // READ: Retrieve all comments
     @GetMapping
-    public List<Comment> getAllComments() {
-        return comments; // Return the list of comments
+    public ResponseEntity<List<Comment>> getAllComments() {
+        List<Comment> comments = commentRepository.findAll();
+        return ResponseEntity.ok(comments);
     }
 
     // READ: Retrieve a specific comment by its ID
     @GetMapping("/{id}")
-    public Comment getCommentById(@PathVariable Long id) {
-        return comments.stream()
-                .filter(comment -> comment.getComment_Id().equals(id)) // Find the comment with the matching ID
-                .findFirst()
-                .orElse(null); // Return null if no comment is found
+    public ResponseEntity<Comment> getCommentById(@PathVariable Long id) {
+        return commentRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
     // UPDATE: Update an existing comment
     @PutMapping("/{id}")
-    public Comment updateComment(@PathVariable Long id, @RequestBody Comment updatedComment) {
-        for (Comment comment : comments) {
-            if (comment.getComment_Id().equals(id)) { // Check if the ID matches
-                comment.setContent(updatedComment.getContent()); // Update the content
-                comment.setPublication_Date(updatedComment.getPublication_Date()); // Update the publication date
-                return comment; // Return the updated comment
-            }
-        }
-        return null; // Return null if no comment is found
+    public ResponseEntity<Comment> updateComment(@PathVariable Long id, @RequestBody Comment updatedComment) {
+        return commentRepository.findById(id)
+                .map(existingComment -> {
+                    existingComment.setContent(updatedComment.getContent());
+                    existingComment.setPublication_Date(updatedComment.getPublication_Date());
+                    Comment savedComment = commentRepository.save(existingComment);
+                    return ResponseEntity.ok(savedComment);
+                })
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
     // DELETE: Delete a comment by its ID
     @DeleteMapping("/{id}")
-    public String deleteComment(@PathVariable Long id) {
-        boolean removed = comments.removeIf(comment -> comment.getComment_Id().equals(id)); // Remove the comment
-        return removed ? "Comment deleted successfully" : "Comment not found"; // Return status message
+    public ResponseEntity<String> deleteComment(@PathVariable Long id) {
+        if (commentRepository.existsById(id)) {
+            commentRepository.deleteById(id);
+            return ResponseEntity.ok("Comment deleted successfully");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Comment not found");
+        }
+    }
+
+    // Additional: Retrieve comments by user ID
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<Comment>> getCommentsByUserId(@PathVariable Long userId) {
+        List<Comment> comments = commentRepository.findByUsers_UserId(userId);
+        return ResponseEntity.ok(comments);
+    }
+
+    // Additional: Retrieve comments by newsletter ID
+    @GetMapping("/newsletter/{newsletterId}")
+    public ResponseEntity<List<Comment>> getCommentsByNewsletterId(@PathVariable Long newsletterId) {
+        List<Comment> comments = commentRepository.findByNewsletter_Newsletter_Id(newsletterId);
+        return ResponseEntity.ok(comments);
     }
 }

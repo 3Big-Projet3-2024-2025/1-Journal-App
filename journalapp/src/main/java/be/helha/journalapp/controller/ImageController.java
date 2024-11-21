@@ -1,9 +1,10 @@
 package be.helha.journalapp.controller;
 
 import be.helha.journalapp.model.Image;
+import be.helha.journalapp.repositories.ImageRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
@@ -11,61 +12,65 @@ import java.util.List;
 @RequestMapping("/images")
 public class ImageController {
 
-    private List<Image> images = new ArrayList<>(); // In-memory storage for images
-    private Long currentId = 1L; // Counter for generating unique IDs
+    private final ImageRepository imageRepository;
+
+    // Injecting the repository via constructor
+    public ImageController(ImageRepository imageRepository) {
+        this.imageRepository = imageRepository;
+    }
 
     // CREATE: Add a new image
     @PostMapping
-    public Image addImage(@RequestBody Image newImage) {
-        newImage.setImage_Id(currentId++); // Set a unique ID for the new image
-        images.add(newImage); // Add the image to the list
-        return newImage; // Return the created image
+    public ResponseEntity<Image> addImage(@RequestBody Image newImage) {
+        Image savedImage = imageRepository.save(newImage); // Save the image to the database
+        return ResponseEntity.ok(savedImage);
     }
 
     // READ: Retrieve all images
     @GetMapping
-    public List<Image> getAllImages() {
-        return images; // Return the list of images
+    public ResponseEntity<List<Image>> getAllImages() {
+        List<Image> images = imageRepository.findAll(); // Fetch all images
+        return ResponseEntity.ok(images);
     }
 
     // READ: Retrieve a specific image by its ID
     @GetMapping("/{id}")
-    public Image getImageById(@PathVariable Long id) {
-        return images.stream()
-                .filter(image -> image.getImage_Id().equals(id)) // Find the image with the matching ID
-                .findFirst()
-                .orElse(null); // Return null if no image is found
+    public ResponseEntity<Image> getImageById(@PathVariable Long id) {
+        return imageRepository.findById(id)
+                .map(ResponseEntity::ok) // Return the image if found
+                .orElse(ResponseEntity.notFound().build()); // Return 404 if not found
     }
 
     // UPDATE: Update an existing image
     @PutMapping("/{id}")
-    public Image updateImage(@PathVariable Long id, @RequestBody Image updatedImage) {
-        for (Image image : images) {
-            if (image.getImage_Id().equals(id)) { // Check if the ID matches
-                image.setImage_Path(updatedImage.getImage_Path()); // Update the image data
-                return image; // Return the updated image
-            }
-        }
-        return null; // Return null if no image is found
+    public ResponseEntity<Image> updateImage(@PathVariable Long id, @RequestBody Image updatedImage) {
+        return imageRepository.findById(id)
+                .map(existingImage -> {
+                    existingImage.setImage_Path(updatedImage.getImage_Path()); // Update image data
+                    Image savedImage = imageRepository.save(existingImage); // Save the updated image
+                    return ResponseEntity.ok(savedImage);
+                })
+                .orElse(ResponseEntity.notFound().build()); // Return 404 if not found
     }
 
     // DELETE: Delete an image by its ID
     @DeleteMapping("/{id}")
-    public String deleteImage(@PathVariable Long id) {
-        boolean removed = images.removeIf(image -> image.getImage_Id().equals(id)); // Remove the image
-        return removed ? "Image deleted successfully" : "Image not found"; // Return status message
+    public ResponseEntity<String> deleteImage(@PathVariable Long id) {
+        if (imageRepository.existsById(id)) {
+            imageRepository.deleteById(id); // Delete the image by ID
+            return ResponseEntity.ok("Image deleted successfully");
+        }
+        return ResponseEntity.notFound().build(); // Return 404 if not found
     }
 
-    // Additional: Get image as Base64 string (optional)
+    // Additional: Get an image as a Base64 string
     @GetMapping("/{id}/base64")
-    public String getImageAsBase64(@PathVariable Long id) {
-        Image image = images.stream()
-                .filter(img -> img.getImage_Id().equals(id))
-                .findFirst()
-                .orElse(null);
-        if (image != null) {
-            return Base64.getEncoder().encodeToString(image.getImage_Path()); // Return image as Base64 string
-        }
-        return null; // Return null if no image is found
+    public ResponseEntity<String> getImageAsBase64(@PathVariable Long id) {
+        return imageRepository.findById(id)
+                .map(image -> {
+                    String base64 = Base64.getEncoder().encodeToString(image.getImage_Path()); // Convert to Base64
+                    return ResponseEntity.ok(base64);
+                })
+                .orElse(ResponseEntity.notFound().build()); // Return 404 if not found
     }
 }

@@ -11,6 +11,7 @@ import java.util.List;
 @Data
 public class User {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-increment ID
     @jakarta.persistence.Id
     private Long UserId;
     private String Last_Name;

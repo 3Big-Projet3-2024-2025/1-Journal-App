@@ -12,6 +12,7 @@ import java.util.List;
 public class Newsletter {
     @jakarta.persistence.Id
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-increment ID
     private Long Newsletter_Id;
     private String Title;
     private String Subtitle;
