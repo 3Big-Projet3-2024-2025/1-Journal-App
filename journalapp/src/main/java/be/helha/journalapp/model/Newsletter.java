@@ -2,7 +2,6 @@ package be.helha.journalapp.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
 
 import java.util.List;
 
@@ -10,7 +9,6 @@ import java.util.List;
 @Table(name = "Newsletter")
 @Data
 public class Newsletter {
-    @jakarta.persistence.Id
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-increment ID
     private Long Newsletter_Id;

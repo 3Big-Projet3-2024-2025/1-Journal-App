@@ -5,25 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="af164164-7e97-4c69-ba83-7b02461781e2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/config/MySQLConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/repositories/ArticleRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/repositories/CommentRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/repositories/ImageRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/repositories/NewsletterRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/repositories/RoleRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/repositories/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jpa.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/journalapp/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/JournalappApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/JournalappApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/controller/ArticleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/controller/ArticleController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/controller/CommentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/controller/CommentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/controller/ImageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/controller/ImageController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/controller/NewsletterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/controller/NewsletterController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/controller/RoleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/controller/RoleController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/controller/UserController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/model/Article.java" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/model/Article.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/model/Comment.java" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/model/Comment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/model/Image.java" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/model/Image.java" afterDir="false" />
@@ -58,7 +43,7 @@
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="journalapp" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="Dependencies" type="6de06a37:ExternalSystemViewDefaultContributor$MyDependenciesNode" />
               </path>
             </expand>
             <select />
@@ -95,37 +80,37 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Gradle.Build journalapp.executor": "Run",
-    "Gradle.C:/Workspace/Projet3/1-Journal-App/journalapp/build.gradle.executor": "Run",
-    "Gradle.journalapp.executor": "Run",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Spring Boot.JournalappApplication.executor": "Run",
-    "git-widget-placeholder": "Authentification",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Workspace/Projet3/1-Journal-App",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Gradle.Build journalapp.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.C:/Workspace/Projet3/1-Journal-App/journalapp/build.gradle.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.journalapp.executor&quot;: &quot;Run&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Spring Boot.JournalappApplication.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Authentification&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Workspace/intro&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="JournalappApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
@@ -161,7 +146,11 @@
       <workItem from="1732150993055" duration="2371000" />
       <workItem from="1732153423231" duration="889000" />
       <workItem from="1732154330572" duration="1650000" />
-      <workItem from="1732156079792" duration="861000" />
+      <workItem from="1732156079792" duration="1137000" />
+      <workItem from="1732194045473" duration="1263000" />
+      <workItem from="1732198689963" duration="798000" />
+      <workItem from="1732199516273" duration="1424000" />
+      <workItem from="1732200990763" duration="327000" />
     </task>
     <servers />
   </component>

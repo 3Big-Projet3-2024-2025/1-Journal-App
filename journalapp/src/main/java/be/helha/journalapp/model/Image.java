@@ -2,13 +2,12 @@ package be.helha.journalapp.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
 
 @Entity
 @Table(name = "Image")
 @Data
 public class Image {
-    @jakarta.persistence.Id
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-increment ID
     private Long Image_Id;

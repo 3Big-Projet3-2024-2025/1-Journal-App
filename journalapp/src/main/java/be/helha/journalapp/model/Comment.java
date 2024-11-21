@@ -2,13 +2,11 @@ package be.helha.journalapp.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
 
 @Entity
 @Table(name = "Commentaire")
 @Data
 public class Comment {
-    @jakarta.persistence.Id
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-increment ID
     private Long Comment_Id;            // Unique identifier for the comment

@@ -2,7 +2,7 @@ package be.helha.journalapp.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
+
 
 import java.util.List;
 
@@ -10,9 +10,9 @@ import java.util.List;
 @Table(name = "Utilisateur")
 @Data
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-increment ID
-    @jakarta.persistence.Id
     private Long UserId;
     private String Last_Name;
     private String First_Name;
