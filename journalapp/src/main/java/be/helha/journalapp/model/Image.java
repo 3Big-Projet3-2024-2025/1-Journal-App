@@ -6,14 +6,15 @@ import lombok.Data;
 @Entity
 @Data
 public class Image {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long imageId; // Renommé pour respecter les conventions camelCase
-    private byte[] imagePath; // Renommé en camelCase
+    private Long imageId;
 
-    // Relation Many-to-One avec Article
+    @Lob
+    private byte[] imagePath; // Used to store binary data (such as an image)
+
+    // Many-to-One relationship with Article (each image belongs to a single article)
     @ManyToOne
-    @JoinColumn(name = "article_id") // Clé étrangère pour associer une image à un article
+    @JoinColumn(name = "article_id", nullable = false) // Foreign key to Article
     private Article article;
 }

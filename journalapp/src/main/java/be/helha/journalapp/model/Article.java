@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.List;
-
 @Entity
 @Data
 public class Article {
@@ -12,20 +11,28 @@ public class Article {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-increment ID
     private Long articleId;
 
-    private String title; // Champ renommé pour respecter les conventions
+    private String title;
     private String content;
-    private String publicationDate; // Respectez le camelCase
+    private String publicationDate;
     private double longitude;
     private double latitude;
 
-    private boolean valid; // Champ boolean corrigé (sans underscore)
+    private boolean valid;
 
-    // Relation Many-to-One avec Newsletter
+    // Many-to-One relationship with Newsletter
     @ManyToOne
-    @JoinColumn(name = "newsletter_id") // Nom de la clé étrangère
+    @JoinColumn(name = "newsletter_id", nullable = false)// Foreign key to Newsletter
     private Newsletter newsletter;
 
-    // Relation One-to-Many avec Image
-    @OneToMany(cascade = CascadeType.ALL)
+
+
+    // Many-to-One relationship with User (an article is written by a single user)
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false) // Foreign key to User
+    private User author;
+
+    // One-to-Many relationship with Image (an article can have multiple images)
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
     private List<Image> images;
 }
+
