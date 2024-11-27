@@ -1,5 +1,7 @@
 package be.helha.journalapp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModelProperty;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -19,8 +21,10 @@ public class Comment {
     private User user;
 
     // Many-to-One relationship with Newsletter (each comment belongs to a newsletter)
+    //@JsonIgnore
+    //@ApiModelProperty(hidden = true)
     @ManyToOne
-    @JoinColumn(name = "newsletter_id", nullable = false) // Foreign key to Newsletter
+    @JoinColumn(name = "newsletterId",nullable = true) // Foreign key to Newsletter
     private Newsletter newsletter;
 }
 

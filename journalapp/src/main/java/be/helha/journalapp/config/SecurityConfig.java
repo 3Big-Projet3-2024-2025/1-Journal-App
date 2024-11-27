@@ -23,16 +23,12 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtUtils jwtUtils, CustomUserDetailsService customUserDetailsService) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())
+                .csrf(csrf -> csrf.disable()) // Désactiver CSRF
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/login").permitAll() // Routes publiques
-                        .requestMatchers("/users/me").authenticated() // Routes nécessitant une authentification
-                        .anyRequest().authenticated() // Protéger toutes les autres routes par défaut
-                )
-                .addFilterBefore(new JwtAuthenticationFilter(jwtUtils, customUserDetailsService), UsernamePasswordAuthenticationFilter.class);
-
+                        .anyRequest().permitAll() // just for API test
+                );
         return http.build();
     }
 

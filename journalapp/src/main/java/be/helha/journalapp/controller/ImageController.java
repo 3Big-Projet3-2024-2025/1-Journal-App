@@ -14,7 +14,7 @@ public class ImageController {
 
     private final ImageRepository imageRepository;
 
-    // Injection via le constructeur
+    // Constructor Injection
     public ImageController(ImageRepository imageRepository) {
         this.imageRepository = imageRepository;
     }
@@ -74,3 +74,4 @@ public class ImageController {
                 .orElse(ResponseEntity.notFound().build());
     }
 }
+

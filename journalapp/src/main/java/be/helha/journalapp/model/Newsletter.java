@@ -1,8 +1,12 @@
 package be.helha.journalapp.model;
 
+import io.swagger.annotations.ApiModelProperty;
 import jakarta.persistence.*;
 import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.List;
+
 @Entity
 @Data
 public class Newsletter {
@@ -15,17 +19,22 @@ public class Newsletter {
     private String publicationDate;
     private boolean isRead;
 
-    // One-to-Many relationship with Article (a newsletter contains multiple articles)
+    // One-to-Many relationship with Article (not serialized to JSON or Swagger)
+    @JsonIgnore
+    @ApiModelProperty(hidden = true)
     @OneToMany(mappedBy = "newsletter", cascade = CascadeType.ALL)
     private List<Article> articles;
 
-    // Many-to-One relationship with User (the creator of the newsletter)
+    // Many-to-One relationship with User (creator of the newsletter)
     @ManyToOne
-    @JoinColumn(name = "creator_id", nullable = false) // Clé étrangère vers User
+    @JoinColumn(name = "creator_id", nullable = false)
     private User creator;
 
-    // One-to-Many relationship with Comment (a newsletter can receive multiple comments)
+    // One-to-Many relationship with Comment (not serialized to JSON or Swagger)
+    @JsonIgnore
+    @ApiModelProperty(hidden = true)
     @OneToMany(mappedBy = "newsletter", cascade = CascadeType.ALL)
     private List<Comment> comments;
 }
+
 

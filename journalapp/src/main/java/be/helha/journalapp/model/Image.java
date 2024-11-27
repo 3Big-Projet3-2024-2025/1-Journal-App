@@ -1,5 +1,6 @@
 package be.helha.journalapp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -14,6 +15,7 @@ public class Image {
     private byte[] imagePath; // Used to store binary data (such as an image)
 
     // Many-to-One relationship with Article (each image belongs to a single article)
+
     @ManyToOne
     @JoinColumn(name = "article_id", nullable = false) // Foreign key to Article
     private Article article;

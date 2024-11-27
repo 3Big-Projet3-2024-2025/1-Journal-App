@@ -14,6 +14,5 @@ public class Role {
     private String roleName;
 
     // One-to-Many relationship with User (a role can be assigned to multiple users)
-    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
-    private List<User> users;
+
 }
