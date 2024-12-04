@@ -8,6 +8,7 @@ services:
       - '5433:5432'
     environment:
       POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: journalapp
     volumes:
       - ./data/postgresql/data:/var/lib/postgresql/data:rw
 

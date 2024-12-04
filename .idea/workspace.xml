@@ -5,12 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="af164164-7e97-4c69-ba83-7b02461781e2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/journalapp/docker-compose.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/model/LoginRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/security/KeycloakRoleConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/158128d0-8091-46c8-831b-43396d4f25ac.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/158128d0-8091-46c8-831b-43396d4f25ac.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/158128d0-8091-46c8-831b-43396d4f25ac.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/158128d0-8091-46c8-831b-43396d4f25ac/storage_v2/_src_/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/158128d0-8091-46c8-831b-43396d4f25ac/storage_v2/_src_/schema/journalapp.imvDOQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/158128d0-8091-46c8-831b-43396d4f25ac/storage_v2/_src_/schema/mysql.osA4Bg.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/158128d0-8091-46c8-831b-43396d4f25ac/storage_v2/_src_/schema/performance_schema.kIw0nw.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/158128d0-8091-46c8-831b-43396d4f25ac/storage_v2/_src_/schema/sys.zb4BAA.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/journalapp/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/journalapp/docker-compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/docker-compose.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/config/MySQLConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/config/PostgreSQLConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/controller/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/model/DatabaseConnection.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/journalapp/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -51,8 +63,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -83,6 +95,7 @@
     &quot;Docker.journalapp/docker-compose.yaml: Compose Deployment.executor&quot;: &quot;Run&quot;,
     &quot;Gradle.Build journalapp.executor&quot;: &quot;Run&quot;,
     &quot;Gradle.C:/Workspace/Projet3/1-Journal-App/journalapp/build.gradle.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Download Sources.executor&quot;: &quot;Run&quot;,
     &quot;Gradle.journalapp.executor&quot;: &quot;Run&quot;,
     &quot;HTTP Request.generated-requests | #1.executor&quot;: &quot;Run&quot;,
     &quot;HTTP Request.generated-requests | #2.executor&quot;: &quot;Run&quot;,
@@ -113,7 +126,7 @@
     ]
   }
 }</component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Spring Boot.JournalappApplication">
     <configuration name="generated-requests | #1" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" executionIdentifier="#1" runType="Run single request">
       <method v="2" />
     </configuration>
@@ -170,9 +183,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Docker.journalapp/docker-compose.yaml: Compose Deployment" />
         <item itemvalue="Docker.journalapp/docker-compose.yaml.keycloak: Compose Deployment" />
         <item itemvalue="Docker.journalapp/docker-compose.yaml.postgresql: Compose Deployment" />
-        <item itemvalue="Docker.journalapp/docker-compose.yaml: Compose Deployment" />
         <item itemvalue="HTTP Request.generated-requests | #2" />
         <item itemvalue="HTTP Request.generated-requests | #1" />
       </list>
@@ -223,6 +236,9 @@
       <workItem from="1733156062176" duration="1441000" />
       <workItem from="1733159132077" duration="375000" />
       <workItem from="1733160057603" duration="4073000" />
+      <workItem from="1733218244617" duration="12889000" />
+      <workItem from="1733249744982" duration="7632000" />
+      <workItem from="1733307339708" duration="7679000" />
     </task>
     <servers />
   </component>
