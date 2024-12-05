@@ -5,29 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="af164164-7e97-4c69-ba83-7b02461781e2" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16384/pg_internal.init" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16384/pg_internal.init" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/1259" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/1259" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/16443" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/16443" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/16478" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/16478" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17242" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17242" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17242_fsm" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17242_fsm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17242_vm" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17242_vm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17247" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17247" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17247_fsm" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17247_fsm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17247_vm" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17247_vm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17252" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17252" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17794" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17794" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17990" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17990" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/18025" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/18025" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/18026" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/18026" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/2619" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/2619" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/pg_internal.init" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/pg_internal.init" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/global/pg_control" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/global/pg_control" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/global/pg_internal.init" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/global/pg_internal.init" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/pg_stat/pgstat.stat" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/pg_stat/pgstat.stat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/pg_wal/000000010000000000000002" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/pg_wal/000000010000000000000002" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/pg_xact/0000" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/pg_xact/0000" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontEnd/Journal-App" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/Journal-App" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontEnd/Journal-App/angular.json" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/Journal-App/angular.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontEnd/Journal-App/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/Journal-App/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontEnd/Journal-App/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/Journal-App/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontEnd/Journal-App/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/Journal-App/src/app/app-routing.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontEnd/Journal-App/src/app/app.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/Journal-App/src/app/app.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontEnd/Journal-App/src/app/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/Journal-App/src/app/app.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontEnd/Journal-App/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/Journal-App/src/app/app.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontEnd/Journal-App/src/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/Journal-App/src/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -248,6 +234,7 @@
       <workItem from="1733353039026" duration="1985000" />
       <workItem from="1733408700856" duration="4715000" />
       <workItem from="1733424856025" duration="53000" />
+      <workItem from="1733424979999" duration="402000" />
     </task>
     <servers />
   </component>
