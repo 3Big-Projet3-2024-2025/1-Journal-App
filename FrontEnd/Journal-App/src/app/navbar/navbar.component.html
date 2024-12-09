@@ -1,0 +1,98 @@
+<header>
+  <div class="navbar">
+    <div class="left-section">
+      
+            <!-- Bouton gestion (affiché si l'utilisateur connect et bon role??) -->
+            <button *ngIf="isAuthenticated && (userRole === 'ADMIN' || userRole === 'JOURNALIST' || userRole === 'EDITOR')" 
+            class="menu-button" 
+            type="button" 
+            data-bs-toggle="offcanvas" 
+            data-bs-target="#offcanvasExample" 
+            aria-controls="offcanvasExample">
+            <i class="fa-solid fa-bars"></i>
+           </button>
+
+      
+  
+    </div>
+    <div class="logo" routerLink="/home">Journal-App</div>
+    <div class="right-section">
+      <div *ngIf="isAuthenticated" class="user-icon">
+        <button type="button" class="menu-button" (click)="showUserInfo()">
+        👤
+        </button><!-- Bouton profile (affiché si l'utilisateur n'est pas connecté) -->
+      </div> 
+
+
+        <!-- Bouton d'identification (affiché si l'utilisateur n'est pas connecté) -->
+        <button *ngIf="!(isAuthenticated )" type="button" class="btn" (click)="login()" id="btGeen">
+          Log in <i class="fa-solid fa-right-to-bracket"></i>
+        </button>
+  
+        <!-- Bouton de déconnexion (affiché si l'utilisateur est connecté) -->
+        <button *ngIf="isAuthenticated" type="button" class="btn" (click)="logout()">
+          Log out <i class="fa-solid fa-right-from-bracket"></i>
+        </button>
+    </div>
+  </div>
+
+
+
+
+
+       <!-- Afficher un panneau avec les informations utilisateur -->
+       <div *ngIf="detailsVisible && userInfo"  class="user-info-panel">
+        <h5>My data</h5>
+       <p><strong>First name :</strong> {{ userInfo.firstName }}</p> 
+       <p><strong>Last name :</strong> {{ userInfo.lastName }}</p> 
+       <p><strong>Email :</strong> {{ userInfo.email }}</p> 
+       <p *ngIf="isAuthenticated"><strong>Role :</strong> {{ userRole }}</p> 
+      </div>
+
+
+
+ <!-- Menu offcanvas -->
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasExampleLabel">
+      <i class="fa-solid fa-gears"></i>Manage Journal App 
+      <i class="fa-solid fa-gears"></i>
+    </h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div>
+      <p>Welcome, you are {{ userRole }}!</p> 
+      This location is reserved only for users with the ADMIN, EDITOR, or JOURNALIST role!
+    </div><br>
+
+      <div class="offcanvas-title" id="offcanvasExampleLabel"  *ngIf="isAuthenticated && (userRole === 'ADMIN')">ADMIN<!-- if user ADMIN -->
+          <div class="button-like mt-3">Manage Users </div>
+          <div routerLink="/manage-articles" class="button-like">Manage Articles</div>
+          <div routerLink="/manage-newsletters" class="button-like">Manage Newsletters</div>
+          <div class="button-like">Manage RGPD</div>
+      </div>
+
+      <div  class="offcanvas-title" id="offcanvasExampleLabel" *ngIf="isAuthenticated && (userRole === 'ADMIN' ||  userRole === 'EDITOR')">EDITOR<!-- if user EDITOR    -->
+        <div class="button-like mt-3">Manage local news</div>
+        <div routerLink="/manage-articles" class="button-like">Manage Articles</div>
+        <div routerLink="/manage-newsletters" class="button-like">Manage Newsletters</div>
+      </div>
+
+      <div  class="offcanvas-title" id="offcanvasExampleLabel" *ngIf="isAuthenticated && (userRole === 'ADMIN' || userRole === 'JOURNALIST' || userRole === 'EDITOR')">JOURNALIST<!-- if user JOURNALISTE -->
+        <div class="button-like mt-3">Track local news</div>
+        <div class="button-like">Add a picture</div>
+        <div class="button-like ">Create an article</div>
+      </div>
+  
+    
+  </div>
+</div>
+
+
+</header>
+
+
+
+
+
