@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { KeycloakService } from 'keycloak-angular'; // Importer KeycloakService
 import { KeycloakProfile } from 'keycloak-js'; // Importer KeycloakProfile pour les informations utilisateur
 import { BehaviorSubject } from 'rxjs';
+import { UsersService } from './users.service';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,7 @@ export class AuthService {
   private isAuthenticatedSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
 
-  constructor(private keycloakService: KeycloakService) {}
+  constructor(private keycloakService: KeycloakService ,private usersService: UsersService) {}
 
   
 
@@ -21,7 +22,7 @@ export class AuthService {
         config: {
           url: 'http://localhost:8082/',
           realm: 'journalapp',
-          clientId: 'journalapp-frontend',
+          clientId: 'journalapp-frontend'
         },
         initOptions: {
           onLoad: 'check-sso', // Permet de vérifier si l'utilisateur est déjà authentifié
@@ -71,4 +72,12 @@ export class AuthService {
   updateToken(): Promise<boolean> {
     return this.keycloakService.updateToken();
   }
+
+
+  getRoles(): string[] {
+    const token = this.keycloakService.getKeycloakInstance().tokenParsed;
+    const realmAccess = token?.realm_access;
+    return realmAccess ? realmAccess.roles : [];
+  }
+  
 }

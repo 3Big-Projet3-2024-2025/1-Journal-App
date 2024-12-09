@@ -1,30 +1,29 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
-import { Router } from '@angular/router';
-import { KeycloakProfile } from 'keycloak-js';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.css'
+  styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
 
-  userInfo: KeycloakProfile | null = null;  // Stocker les informations utilisateur
-  isAuthenticated$: any;
+  userInfo: any; // Stocker les informations utilisateur
+  isAuthenticated = false;  // Variable pour stocker l'état d'authentification
+  userRole: string | null = null;  // Stocker le rôle principal
   detailsVisible = false;
 
-
+  private roleHierarchy: string[] = ['ADMIN', 'EDITOR', 'JOURNALIST', 'READER'];
 
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-    // Initialisez isAuthenticated$ dans ngOnInit pour éviter l'accès avant l'injection
-    this.isAuthenticated$ = this.authService.isAuthenticated$;
-
-    if (this.authService.isAuthenticated()) {
-      this.loadUserInfo();  // Charger les informations utilisateur si authentifié
-    }
+    this.authService.isAuthenticated$.subscribe(authenticated => {
+      this.isAuthenticated = authenticated; // Mettre à jour l'état d'authentification
+      if (authenticated) {
+        this.loadUserInfo();  // Charger les informations utilisateur si authentifié
+      }
+    });
   }
 
   login() {
@@ -35,25 +34,29 @@ export class NavbarComponent {
     this.authService.logout();
   }
 
- 
-
-   // Afficher les informations utilisateur (peut être utilisée dans un modal, un panneau, etc.)
-   showUserInfo():void {
-    this.detailsVisible = !this.detailsVisible;  // Inverser l'état de visibility des détails
+  showUserInfo(): void {
+    this.detailsVisible = !this.detailsVisible;  // Inverser l'état de visibilité des détails
     if (this.detailsVisible && !this.userInfo) {
       this.loadUserInfo();  // Charger les informations si elles ne sont pas déjà chargées
     }
   }
 
-  
   loadUserInfo(): void {
     this.authService.getUserProfile().then(profile => {
       this.userInfo = profile;  // Stocker les informations dans la variable userInfo
+      this.setUserRole();  // Déterminer et afficher le rôle principal
     }).catch(error => {
       console.error('Erreur lors du chargement des informations utilisateur', error);
     });
   }
 
-
-
+  private setUserRole(): void {
+    const roles = this.authService.getRoles();  // Récupérer les rôles de l'utilisateur
+    for (let role of this.roleHierarchy) {
+      if (roles.includes(role)) {
+        this.userRole = role;  // Assigner le rôle principal
+        break;
+      }
+    }
+  }
 }
