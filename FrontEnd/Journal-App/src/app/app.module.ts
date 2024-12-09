@@ -15,6 +15,7 @@ import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { MapComponent } from './map/map.component';
 import { ManageArticleComponent } from './manage-article/manage-article.component';
 import { ManageNewsletterComponent } from './manage-newsletter/manage-newsletter.component';
+import { ListCrudComponent } from './list-crud/list-crud.component';
 
 @NgModule({
   declarations: [// component
@@ -25,7 +26,8 @@ import { ManageNewsletterComponent } from './manage-newsletter/manage-newsletter
     AuthComponent,
     MapComponent,
     ManageArticleComponent,
-    ManageNewsletterComponent
+    ManageNewsletterComponent,
+    ListCrudComponent
   ],
   imports: [
     BrowserModule,
