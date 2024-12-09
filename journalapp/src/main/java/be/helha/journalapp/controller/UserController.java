@@ -216,6 +216,15 @@ public class UserController {
     }
 
 
+    // READ: Retrieve a specific user by Keycloak ID
+    @GetMapping("/keycloak/{keycloakId}")
+    public ResponseEntity<User> getUserByKeycloakId(@PathVariable String keycloakId) {
+        return userRepository.findByKeycloakId(keycloakId)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
+
+
 
 
 

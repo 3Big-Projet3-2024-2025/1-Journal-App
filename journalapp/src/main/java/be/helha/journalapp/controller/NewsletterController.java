@@ -26,7 +26,7 @@ public class NewsletterController {
     }
 
     // READ: Récupérer toutes les newsletters
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<Newsletter>> getAllNewsletters() {
         List<Newsletter> newsletters = newsletterRepository.findAll();
         return ResponseEntity.ok(newsletters);

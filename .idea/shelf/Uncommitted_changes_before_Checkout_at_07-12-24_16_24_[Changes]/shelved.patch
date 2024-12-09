@@ -1,0 +1,157 @@
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"af164164-7e97-4c69-ba83-7b02461781e2\" name=\"Changes\" comment=\"\">\r\n      <change beforePath=\"$PROJECT_DIR$/FrontEnd/Journal-App\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/FrontEnd/Journal-App\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/FrontEnd/Journal-App/angular.json\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/FrontEnd/Journal-App/angular.json\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/FrontEnd/Journal-App/package-lock.json\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/FrontEnd/Journal-App/package-lock.json\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/FrontEnd/Journal-App/package.json\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/FrontEnd/Journal-App/package.json\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/FrontEnd/Journal-App/src/app/app-routing.module.ts\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/FrontEnd/Journal-App/src/app/app-routing.module.ts\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/FrontEnd/Journal-App/src/app/app.component.html\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/FrontEnd/Journal-App/src/app/app.component.html\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/FrontEnd/Journal-App/src/app/app.component.ts\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/FrontEnd/Journal-App/src/app/app.component.ts\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/FrontEnd/Journal-App/src/app/app.module.ts\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/FrontEnd/Journal-App/src/app/app.module.ts\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/FrontEnd/Journal-App/src/index.html\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/FrontEnd/Journal-App/src/index.html\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"ExternalProjectsData\">\r\n    <projectState path=\"$PROJECT_DIR$/journalapp\">\r\n      <ProjectState />\r\n    </projectState>\r\n  </component>\r\n  <component name=\"ExternalProjectsManager\">\r\n    <system id=\"GRADLE\">\r\n      <state>\r\n        <task path=\"$PROJECT_DIR$/journalapp\">\r\n          <activation />\r\n        </task>\r\n        <projects_view>\r\n          <tree_state>\r\n            <expand>\r\n              <path>\r\n                <item name=\"\" type=\"6a2764b6:ExternalProjectsStructure$RootNode\" />\r\n                <item name=\"journalapp\" type=\"f1a62948:ProjectNode\" />\r\n              </path>\r\n              <path>\r\n                <item name=\"\" type=\"6a2764b6:ExternalProjectsStructure$RootNode\" />\r\n                <item name=\"journalapp\" type=\"f1a62948:ProjectNode\" />\r\n                <item name=\"Dependencies\" type=\"6de06a37:ExternalSystemViewDefaultContributor$MyDependenciesNode\" />\r\n              </path>\r\n            </expand>\r\n            <select />\r\n          </tree_state>\r\n        </projects_view>\r\n      </state>\r\n    </system>\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Interface\" />\r\n        <option value=\"Class\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\r\n      <map>\r\n        <entry key=\"$PROJECT_DIR$\" value=\"main\" />\r\n      </map>\r\n    </option>\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"KubernetesApiPersistence\">{}</component>\r\n  <component name=\"KubernetesApiProvider\">{\r\n  &quot;isMigrated&quot;: true\r\n}</component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;associatedIndex&quot;: 8\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"2p2ETBpAczQeufE9WkozepmAysY\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">{\r\n  &quot;keyToString&quot;: {\r\n    &quot;Docker.journalapp/docker-compose.yaml.keycloak: Compose Deployment.executor&quot;: &quot;Run&quot;,\r\n    &quot;Docker.journalapp/docker-compose.yaml.postgresql: Compose Deployment.executor&quot;: &quot;Run&quot;,\r\n    &quot;Docker.journalapp/docker-compose.yaml: Compose Deployment.executor&quot;: &quot;Run&quot;,\r\n    &quot;Gradle.Build journalapp.executor&quot;: &quot;Run&quot;,\r\n    &quot;Gradle.C:/Workspace/Projet3/1-Journal-App/journalapp/build.gradle.executor&quot;: &quot;Run&quot;,\r\n    &quot;Gradle.Download Sources.executor&quot;: &quot;Run&quot;,\r\n    &quot;Gradle.journalapp.executor&quot;: &quot;Run&quot;,\r\n    &quot;HTTP Request.generated-requests | #1.executor&quot;: &quot;Run&quot;,\r\n    &quot;HTTP Request.generated-requests | #2.executor&quot;: &quot;Run&quot;,\r\n    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,\r\n    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,\r\n    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,\r\n    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,\r\n    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,\r\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\r\n    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,\r\n    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,\r\n    &quot;Spring Boot.JournalappApplication.executor&quot;: &quot;Run&quot;,\r\n    &quot;git-widget-placeholder&quot;: &quot;Authentification&quot;,\r\n    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,\r\n    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,\r\n    &quot;last_opened_file_path&quot;: &quot;C:/Workspace/intro&quot;,\r\n    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,\r\n    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,\r\n    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,\r\n    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,\r\n    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,\r\n    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;\r\n  },\r\n  &quot;keyToStringList&quot;: {\r\n    &quot;DatabaseDriversLRU&quot;: [\r\n      &quot;mysql&quot;,\r\n      &quot;postgresql&quot;\r\n    ]\r\n  }\r\n}</component>\r\n  <component name=\"RunManager\" selected=\"Spring Boot.JournalappApplication\">\r\n    <configuration name=\"generated-requests | #1\" type=\"HttpClient.HttpRequestRunConfigurationType\" factoryName=\"HTTP Request\" temporary=\"true\" nameIsGenerated=\"true\" path=\"$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http\" executionIdentifier=\"#1\" runType=\"Run single request\">\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"generated-requests | #2\" type=\"HttpClient.HttpRequestRunConfigurationType\" factoryName=\"HTTP Request\" temporary=\"true\" nameIsGenerated=\"true\" path=\"$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http\" executionIdentifier=\"#2\" index=\"2\" runType=\"Run single request\">\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"JournalappApplication\" type=\"SpringBootApplicationConfigurationType\" factoryName=\"Spring Boot\" nameIsGenerated=\"true\">\r\n      <option name=\"FRAME_DEACTIVATION_UPDATE_POLICY\" value=\"UpdateClassesAndResources\" />\r\n      <module name=\"journalapp.main\" />\r\n      <option name=\"SPRING_BOOT_MAIN_CLASS\" value=\"be.helha.journalapp.JournalappApplication\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration default=\"true\" type=\"docker-deploy\" factoryName=\"docker-compose.yml\" temporary=\"true\">\r\n      <deployment type=\"docker-compose.yml\">\r\n        <settings />\r\n      </deployment>\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"journalapp/docker-compose.yaml: Compose Deployment\" type=\"docker-deploy\" factoryName=\"docker-compose.yml\" temporary=\"true\" server-name=\"Docker\">\r\n      <deployment type=\"docker-compose.yml\">\r\n        <settings>\r\n          <option name=\"sourceFilePath\" value=\"journalapp/docker-compose.yaml\" />\r\n        </settings>\r\n      </deployment>\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"journalapp/docker-compose.yaml.keycloak: Compose Deployment\" type=\"docker-deploy\" factoryName=\"docker-compose.yml\" temporary=\"true\" server-name=\"Docker\">\r\n      <deployment type=\"docker-compose.yml\">\r\n        <settings>\r\n          <option name=\"services\">\r\n            <list>\r\n              <option value=\"keycloak\" />\r\n            </list>\r\n          </option>\r\n          <option name=\"sourceFilePath\" value=\"journalapp/docker-compose.yaml\" />\r\n        </settings>\r\n      </deployment>\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"journalapp/docker-compose.yaml.postgresql: Compose Deployment\" type=\"docker-deploy\" factoryName=\"docker-compose.yml\" temporary=\"true\" server-name=\"Docker\">\r\n      <deployment type=\"docker-compose.yml\">\r\n        <settings>\r\n          <option name=\"services\">\r\n            <list>\r\n              <option value=\"postgresql\" />\r\n            </list>\r\n          </option>\r\n          <option name=\"sourceFilePath\" value=\"journalapp/docker-compose.yaml\" />\r\n        </settings>\r\n      </deployment>\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\"Docker.journalapp/docker-compose.yaml: Compose Deployment\" />\r\n        <item itemvalue=\"Docker.journalapp/docker-compose.yaml.keycloak: Compose Deployment\" />\r\n        <item itemvalue=\"Docker.journalapp/docker-compose.yaml.postgresql: Compose Deployment\" />\r\n        <item itemvalue=\"HTTP Request.generated-requests | #2\" />\r\n        <item itemvalue=\"HTTP Request.generated-requests | #1\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SharedIndexes\">\r\n    <attachedChunks>\r\n      <set>\r\n        <option value=\"bundled-jdk-9823dce3aa75-fdfe4dae3a2d-intellij.indexing.shared.core-IU-243.21565.193\" />\r\n        <option value=\"bundled-js-predefined-d6986cc7102b-e768b9ed790e-JavaScript-IU-243.21565.193\" />\r\n      </set>\r\n    </attachedChunks>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"SwiftWorkspaceSettings\">\r\n    <option name=\"detectedToolchain\" value=\"true\" />\r\n  </component>\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"af164164-7e97-4c69-ba83-7b02461781e2\" name=\"Changes\" comment=\"\" />\r\n      <created>1731955775336</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1731955775336</updated>\r\n      <workItem from=\"1731955776457\" duration=\"251000\" />\r\n      <workItem from=\"1732038842038\" duration=\"59000\" />\r\n      <workItem from=\"1732144566406\" duration=\"6198000\" />\r\n      <workItem from=\"1732150993055\" duration=\"2371000\" />\r\n      <workItem from=\"1732153423231\" duration=\"889000\" />\r\n      <workItem from=\"1732154330572\" duration=\"1650000\" />\r\n      <workItem from=\"1732156079792\" duration=\"1137000\" />\r\n      <workItem from=\"1732194045473\" duration=\"1263000\" />\r\n      <workItem from=\"1732198689963\" duration=\"798000\" />\r\n      <workItem from=\"1732199516273\" duration=\"1424000\" />\r\n      <workItem from=\"1732200990763\" duration=\"1495000\" />\r\n      <workItem from=\"1732204732292\" duration=\"4979000\" />\r\n      <workItem from=\"1732209905450\" duration=\"5911000\" />\r\n      <workItem from=\"1732381777473\" duration=\"392000\" />\r\n      <workItem from=\"1732382750116\" duration=\"4690000\" />\r\n      <workItem from=\"1732821651341\" duration=\"72000\" />\r\n      <workItem from=\"1732822231829\" duration=\"4264000\" />\r\n      <workItem from=\"1732827489350\" duration=\"1199000\" />\r\n      <workItem from=\"1732976912873\" duration=\"2633000\" />\r\n      <workItem from=\"1733129587376\" duration=\"2362000\" />\r\n      <workItem from=\"1733151183483\" duration=\"24000\" />\r\n      <workItem from=\"1733153643344\" duration=\"310000\" />\r\n      <workItem from=\"1733154472805\" duration=\"1207000\" />\r\n      <workItem from=\"1733156062176\" duration=\"1441000\" />\r\n      <workItem from=\"1733159132077\" duration=\"375000\" />\r\n      <workItem from=\"1733160057603\" duration=\"4073000\" />\r\n      <workItem from=\"1733218244617\" duration=\"12889000\" />\r\n      <workItem from=\"1733249744982\" duration=\"7632000\" />\r\n      <workItem from=\"1733307339708\" duration=\"7679000\" />\r\n      <workItem from=\"1733333833826\" duration=\"521000\" />\r\n      <workItem from=\"1733334411620\" duration=\"2384000\" />\r\n      <workItem from=\"1733353039026\" duration=\"1985000\" />\r\n      <workItem from=\"1733408700856\" duration=\"4715000\" />\r\n      <workItem from=\"1733424856025\" duration=\"53000\" />\r\n      <workItem from=\"1733424979999\" duration=\"402000\" />\r\n    </task>\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State />\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision ca4757596410e7f299da9c562e4d73ba9a55459d)
++++ b/.idea/workspace.xml	(date 1733440470451)
+@@ -4,16 +4,61 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="af164164-7e97-4c69-ba83-7b02461781e2" name="Changes" comment="">
+-      <change beforePath="$PROJECT_DIR$/FrontEnd/Journal-App" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/Journal-App" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/FrontEnd/Journal-App/angular.json" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/Journal-App/angular.json" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/FrontEnd/Journal-App/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/Journal-App/package-lock.json" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/FrontEnd/Journal-App/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/Journal-App/package.json" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/FrontEnd/Journal-App/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/Journal-App/src/app/app-routing.module.ts" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/FrontEnd/Journal-App/src/app/app.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/Journal-App/src/app/app.component.html" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/FrontEnd/Journal-App/src/app/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/Journal-App/src/app/app.component.ts" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/FrontEnd/Journal-App/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/Journal-App/src/app/app.module.ts" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/FrontEnd/Journal-App/src/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/FrontEnd/Journal-App/src/index.html" afterDir="false" />
++    <list default="true" id="af164164-7e97-4c69-ba83-7b02461781e2" name="Changes" comment="init front pt2">
++      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/.gitignore" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16384/pg_internal.init" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16384/pg_internal.init" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/1259" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/1259" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/16443" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/16443" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/16475" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/16475" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/16478" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/16478" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/16491" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/16491" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/16497" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/16497" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/16514" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/16514" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/16514_vm" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/16514_vm" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/16522" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/16522" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/16532" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/16532" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/16532_fsm" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/16532_fsm" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/16532_vm" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/16532_vm" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/16556" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/16556" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/16574" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/16574" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/16577" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/16577" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/16620" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/16620" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/16626" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/16626" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/16628" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/16628" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/16630" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/16630" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/16634" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/16634" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/16642" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/16642" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17127" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17127" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17242" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17242" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17242_fsm" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17242_fsm" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17242_vm" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17242_vm" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17247" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17247" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17252" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17252" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17400" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17400" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17401" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17401" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17407" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17407" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17408" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17408" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17642" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17642" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17678" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17678" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17679" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17679" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17691" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17691" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17695" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17695" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17742" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17742" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17763" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17763" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17794" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17794" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17990" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17990" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17994" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17994" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/18025" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/18025" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/18026" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/18026" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/2619" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/2619" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/pg_internal.init" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/pg_internal.init" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/global/pg_control" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/global/pg_control" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/global/pg_internal.init" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/global/pg_internal.init" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/pg_wal/000000010000000000000002" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/pg_wal/000000010000000000000002" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/pg_xact/0000" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/pg_xact/0000" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/postmaster.pid" beforeDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -66,6 +111,18 @@
+     </option>
+     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+   </component>
++  <component name="GitHubPullRequestSearchHistory">{
++  &quot;lastFilter&quot;: {
++    &quot;state&quot;: &quot;OPEN&quot;,
++    &quot;assignee&quot;: &quot;DarrylSeshie&quot;
++  }
++}</component>
++  <component name="GithubPullRequestsUISettings">{
++  &quot;selectedUrlAndAccountId&quot;: {
++    &quot;url&quot;: &quot;https://github.com/3Big-Projet3-2024-2025/1-Journal-App.git&quot;,
++    &quot;accountId&quot;: &quot;9abd7991-9d45-4f2e-b569-b7bf7ebb17b2&quot;
++  }
++}</component>
+   <component name="KubernetesApiPersistence">{}</component>
+   <component name="KubernetesApiProvider">{
+   &quot;isMigrated&quot;: true
+@@ -107,6 +164,7 @@
+     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
++    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.DirectoryMappings&quot;,
+     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+   },
+   &quot;keyToStringList&quot;: {
+@@ -116,7 +174,12 @@
+     ]
+   }
+ }</component>
+-  <component name="RunManager" selected="Spring Boot.JournalappApplication">
++  <component name="RecentsManager">
++    <key name="MoveFile.RECENT_KEYS">
++      <recent name="C:\Workspace\BAC3\SpringBoot\Projet3\1-Journal-App\journalapp" />
++    </key>
++  </component>
++  <component name="RunManager" selected="Docker.journalapp/docker-compose.yaml: Compose Deployment">
+     <configuration name="generated-requests | #1" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" executionIdentifier="#1" runType="Run single request">
+       <method v="2" />
+     </configuration>
+@@ -234,8 +297,22 @@
+       <workItem from="1733353039026" duration="1985000" />
+       <workItem from="1733408700856" duration="4715000" />
+       <workItem from="1733424856025" duration="53000" />
+-      <workItem from="1733424979999" duration="402000" />
++      <workItem from="1733424979999" duration="1096000" />
++      <workItem from="1733426142388" duration="330000" />
++      <workItem from="1733426582452" duration="657000" />
++      <workItem from="1733428747366" duration="2633000" />
++      <workItem from="1733434519360" duration="2872000" />
++      <workItem from="1733439977352" duration="489000" />
+     </task>
++    <task id="LOCAL-00001" summary="init front pt2">
++      <option name="closed" value="true" />
++      <created>1733425520986</created>
++      <option name="number" value="00001" />
++      <option name="presentableId" value="LOCAL-00001" />
++      <option name="project" value="LOCAL" />
++      <updated>1733425520986</updated>
++    </task>
++    <option name="localTasksCounter" value="2" />
+     <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
+@@ -252,4 +329,8 @@
+       </map>
+     </option>
+   </component>
++  <component name="VcsManagerConfiguration">
++    <MESSAGE value="init front pt2" />
++    <option name="LAST_COMMIT_MESSAGE" value="init front pt2" />
++  </component>
+ </project>
+\ No newline at end of file

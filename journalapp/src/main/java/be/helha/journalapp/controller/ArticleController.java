@@ -24,7 +24,7 @@ public class ArticleController {
         return ResponseEntity.ok(savedArticle);
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<Article>> getAllArticles() {
         List<Article> articles = articleRepository.findAll();
         return ResponseEntity.ok(articles);

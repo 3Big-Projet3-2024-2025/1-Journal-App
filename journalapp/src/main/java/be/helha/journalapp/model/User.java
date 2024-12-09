@@ -8,6 +8,7 @@ import java.util.List;
 
 @Entity
 @Data
+@Table(name = "Users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,6 +24,7 @@ public class User {
     private double latitude;
     private boolean isAuthorized;
     private boolean isRoleChange;
+    private String keycloakId;
 
     // user has a single role
     @ManyToOne
