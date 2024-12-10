@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -8,7 +8,6 @@ import { HomeComponent } from './home/home.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
 import { AuthComponent } from './auth/auth.component';
-import { HttpClient } from '@angular/common/http';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
@@ -19,8 +18,11 @@ import { ListCrudComponent } from './list-crud/list-crud.component';
 import { ManageNewsletterFormComponent } from './manage-newsletter-form/manage-newsletter-form.component';
 import { ManageRgpdFormComponent } from './manage-rgpd-form/manage-rgpd-form.component';
 
+// IMPORT DE L'INTERCEPTOR
+import { AuthInterceptor } from './interceptors/auth.interceptor';
+
 @NgModule({
-  declarations: [// component
+  declarations: [
     AppComponent,
     NavbarComponent,
     FooterComponent,
@@ -39,15 +41,18 @@ import { ManageRgpdFormComponent } from './manage-rgpd-form/manage-rgpd-form.com
     RouterOutlet,
     RouterLink,
     KeycloakAngularModule,
-    HttpClientModule,
-    
-    
+    HttpClientModule
   ],
-  providers: [ // servies
+  providers: [
     AuthService,
-   KeycloakService,
-   HttpClient
-    
+    KeycloakService,
+    HttpClient,
+    // Déclaration de l'intercepteur HTTP
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

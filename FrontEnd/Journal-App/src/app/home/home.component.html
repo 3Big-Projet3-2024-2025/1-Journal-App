@@ -58,4 +58,18 @@
   <app-map></app-map>
   <br>
 
+  <br><br><br>
+<!-- Affichage de la liste des articles existants -->
+<div *ngIf="articles && articles.length > 0">
+  <h2>Existing Articles</h2>
+  <ul>
+    <li *ngFor="let article of articles">
+      <strong>{{ article.title }}</strong> - {{ article.content }}
+    </li>
+  </ul>
+</div>
+<div *ngIf="articles && articles.length === 0">
+  <p>No articles available.</p>
+</div>
+
 

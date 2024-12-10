@@ -1,22 +1,35 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ArticleService } from '../services/article.service';
+import { Article } from '../models/article';
 
 @Component({
   selector: 'app-manage-article',
   templateUrl: './manage-article.component.html',
-  styleUrls: ['./manage-article.component.css'] // Corrigé ici
+  styleUrls: ['./manage-article.component.css']
 })
-export class ManageArticleComponent {
+export class ManageArticleComponent implements OnInit {
   
+  articles: Article[] = [];
 
-  
+  constructor(private articleService: ArticleService) {}
 
-
-
+  ngOnInit(): void {
+    // Au chargement du composant, on récupère la liste des articles
+    this.articleService.getArticles().subscribe({
+      next: (data) => {
+        this.articles = data;
+        console.log("Articles loaded:", this.articles);
+      },
+      error: (err) => {
+        console.error("Erreur lors du chargement des articles", err);
+      }
+    });
+  }
 
   validateFileCount(event: any): void {
     const files = event.target.files;
     
-    // Vérifie si plus de 5 fichiers sont sélectionnés
+    // Vérifie si plus de 3 fichiers sont sélectionnés
     if (files.length > 3) {
       alert("You can upload a maximum of 3 images.");
       event.target.value = ""; // Réinitialise la sélection
