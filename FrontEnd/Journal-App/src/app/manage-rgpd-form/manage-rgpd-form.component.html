@@ -1,0 +1,37 @@
+<div class="form-section">
+    <div class="form-card">
+      <h2>Exercer vos droits RGPD</h2>
+      <p>Veuillez remplir ce formulaire pour faire une demande relative à vos données personnelles.</p>
+      <form action="#" method="POST">
+        <div class="form-group">
+          <label for="userName">Nom</label>
+          <input type="text" id="userName" name="userName" placeholder="Entrez votre nom" required>
+        </div>
+  
+        <div class="form-group">
+          <label for="userEmail">Email</label>
+          <input type="email" id="userEmail" name="userEmail" placeholder="Entrez votre email" required>
+        </div>
+  
+        <div class="form-group">
+          <label for="requestType">Type de demande</label>
+          <select id="requestType" name="requestType" required>
+            <option value="" disabled selected>Veuillez choisir...</option>
+            <option value="access">Accès à mes données</option>
+            <option value="rectification">Rectification de mes données</option>
+            <option value="effacement">Effacement de mes données</option>
+            <option value="opposition">Opposition au traitement</option>
+            <option value="portabilite">Portabilité de mes données</option>
+          </select>
+        </div>
+  
+        <div class="form-group">
+          <label for="requestDetails">Détails de la demande (optionnel)</label>
+          <textarea id="requestDetails" name="requestDetails" placeholder="Précisez votre demande ou vos informations (facultatif)"></textarea>
+        </div>
+  
+        <button type="submit">Envoyer la demande</button>
+      </form>
+    </div>
+  </div>
+  

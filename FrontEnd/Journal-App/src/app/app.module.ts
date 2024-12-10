@@ -16,6 +16,8 @@ import { MapComponent } from './map/map.component';
 import { ManageArticleComponent } from './manage-article/manage-article.component';
 import { ManageNewsletterComponent } from './manage-newsletter/manage-newsletter.component';
 import { ListCrudComponent } from './list-crud/list-crud.component';
+import { ManageNewsletterFormComponent } from './manage-newsletter-form/manage-newsletter-form.component';
+import { ManageRgpdFormComponent } from './manage-rgpd-form/manage-rgpd-form.component';
 
 @NgModule({
   declarations: [// component
@@ -27,7 +29,9 @@ import { ListCrudComponent } from './list-crud/list-crud.component';
     MapComponent,
     ManageArticleComponent,
     ManageNewsletterComponent,
-    ListCrudComponent
+    ListCrudComponent,
+    ManageNewsletterFormComponent,
+    ManageRgpdFormComponent
   ],
   imports: [
     BrowserModule,
