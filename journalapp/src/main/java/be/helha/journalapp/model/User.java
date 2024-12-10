@@ -18,10 +18,6 @@ public class User {
     private String firstName;
     private String dateOfBirth;
     private String email;
-    private String password;
-    private String newPassword;
-    private double longitude;
-    private double latitude;
     private boolean isAuthorized;
     private boolean isRoleChange;
     private String keycloakId;

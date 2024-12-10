@@ -20,27 +20,16 @@ import java.util.List;
 public class UserController {
 
     private final EmailService emailService;
-    private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
 
-    public UserController(PasswordEncoder passwordEncoder, EmailService emailService, UserRepository userRepository, RoleRepository roleRepository) {
-        this.passwordEncoder = passwordEncoder;
+    public UserController( EmailService emailService, UserRepository userRepository, RoleRepository roleRepository) {
         this.emailService = emailService;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
     }
 
-    // CREATE: Add a new user
-    @PostMapping
-    public ResponseEntity<User> addUser(@RequestBody User newUser) {
-        if (userRepository.findByEmail(newUser.getEmail()).isPresent()) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(null); // Email already exists
-        }
-        newUser.setPassword(passwordEncoder.encode(newUser.getPassword())); // Hash the password
-        User savedUser = userRepository.save(newUser);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
-    }
+
 
     // READ: Retrieve all users
     @GetMapping
@@ -57,26 +46,7 @@ public class UserController {
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
-    // UPDATE: Update an existing user's details
-    @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
-        return userRepository.findById(id)
-                .map(existingUser -> {
-                    existingUser.setLastName(updatedUser.getLastName());
-                    existingUser.setFirstName(updatedUser.getFirstName());
-                    existingUser.setDateOfBirth(updatedUser.getDateOfBirth());
-                    existingUser.setEmail(updatedUser.getEmail());
-                    existingUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
-                    existingUser.setLongitude(updatedUser.getLongitude());
-                    existingUser.setLatitude(updatedUser.getLatitude());
-                    existingUser.setAuthorized(updatedUser.isAuthorized());
-                    existingUser.setRoleChange(updatedUser.isRoleChange());
-                    existingUser.setRole(updatedUser.getRole());
-                    User savedUser = userRepository.save(existingUser);
-                    return ResponseEntity.ok(savedUser);
-                })
-                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
-    }
+
 
     // DELETE: Delete a user by ID
     @DeleteMapping("/{id}")
@@ -88,20 +58,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
     }
 
-    // RESET PASSWORD: Update password for a user
-    @PostMapping("/reset-password")
-    public ResponseEntity<String> resetPassword(@RequestParam String email, @RequestBody String newPassword) {
-        return userRepository.findByEmail(email)
-                .map(user -> {
-                    if (newPassword == null || newPassword.isEmpty()) {
-                        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("New password cannot be empty");
-                    }
-                    user.setPassword(passwordEncoder.encode(newPassword));
-                    userRepository.save(user);
-                    return ResponseEntity.ok("Password reset successfully");
-                })
-                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with the specified email not found"));
-    }
+
 
     // Forgot Password: Send email with reset link
     @PostMapping("/forgot-password")
@@ -179,36 +136,7 @@ public class UserController {
 
 
 
-    @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@RequestBody User newUser) {
-        // Check if email already exists
-        if (userRepository.findByEmail(newUser.getEmail()).isPresent()) {
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body("A user with this email already exists.");
-        }
 
-        // Hash password
-        newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
-
-        // Save the new user
-        userRepository.save(newUser);
-
-        try {
-            // Send a welcome email to the user
-            String subject = "Welcome to JournalApp!";
-            String content = "<p>Hello " + newUser.getFirstName() + ",</p>"
-                    + "<p>Thank you for registering with JournalApp. We are thrilled to have you onboard!</p>"
-                    + "<p>Explore our platform and make the most of it.</p>"
-                    + "<p>Best regards,</p>"
-                    + "<p>The JournalApp Team</p>";
-
-            emailService.sendEmail(newUser.getEmail(), subject, content);
-
-            return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully and email sent.");
-        } catch (MessagingException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("User registered but email sending failed.");
-        }
-    }
 
     @GetMapping("/me")
     public ResponseEntity<?> getCurrentUser(Authentication authentication) {

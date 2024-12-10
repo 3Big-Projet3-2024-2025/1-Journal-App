@@ -1,15 +1,12 @@
 package be.helha.journalapp.config;
 
 import be.helha.journalapp.security.KeycloakRoleConverter;
+import be.helha.journalapp.security.UserSynchronizationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
@@ -19,53 +16,50 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final UserDetailsService userDetailsService;
-
-    public SecurityConfig(UserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
-    }
-
     @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
-        AuthenticationManagerBuilder authenticationManagerBuilder =
-                http.getSharedObject(AuthenticationManagerBuilder.class);
-        authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-        return authenticationManagerBuilder.build();
-    }
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, UserSynchronizationFilter userSynchronizationFilter) throws Exception {
+        return http
+                .csrf(csrf -> csrf.disable())
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .authorizeHttpRequests(auth -> {
+                    auth.requestMatchers("/articles/all").permitAll();
+                    auth.requestMatchers("/newsletters/all").permitAll();
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+                    // Lecture des commentaires accessible à tous
+                    auth.requestMatchers(HttpMethod.GET, "/comments/**").permitAll();
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.csrf(csrf -> csrf.disable())
-                .cors(cors -> cors.configurationSource(corsConfigurationSource()))  // Configuration CORS
-                .authorizeHttpRequests(authorizeRequests -> {
-                    // Autoriser certaines routes à tout le monde sans authentification
-                    authorizeRequests
-                            .requestMatchers("/users/**").permitAll();
-                    // Permettre l'accès sans authentification à toutes les routes sous /users
+                    // Ajout de commentaires réservé aux utilisateurs authentifiés
+                    auth.requestMatchers(HttpMethod.POST, "/comments").authenticated();
 
-                    // Routes avec des rôles spécifiques
-                    authorizeRequests
-                            .requestMatchers("/newsletters/all").hasRole("ADMIN")
-                            .requestMatchers("/images/all").hasRole("ADMIN")
-                            .requestMatchers("/comments/all").hasRole("ADMIN")
-                            .requestMatchers("/articles").hasRole("ADMIN")
-                            .requestMatchers("/images").hasRole("ADMIN");
+                    // Pour la mise à jour ou la suppression des commentaires (si nécessaire), on peut restreindre à ADMIN
+                    auth.requestMatchers(HttpMethod.PUT, "/comments/**").hasAnyRole("ADMIN", "EDITOR");
+                    auth.requestMatchers(HttpMethod.DELETE, "/comments/**").hasAnyRole("ADMIN", "EDITOR");
 
-                    // Routes Swagger accessibles sans authentification
-                    authorizeRequests
-                            .requestMatchers("/swagger-ui/**", "/v3/api-docs", "/articles/all", "/newsletters/all").permitAll();
+                    // Contrôles d'accès par rôle pour les autres endpoints :
+                    // Comments: déjà traités ci-dessus
+                    // Newsletters (autres que /all) : ADMIN, EDITOR
+                    auth.requestMatchers("/newsletters/**").hasAnyRole("ADMIN", "EDITOR");
 
-                    // Toutes les autres routes nécessitent une authentification
-                    authorizeRequests.anyRequest().authenticated();
+                    // Articles (autres que /all) : ADMIN, EDITOR, JOURNALIST
+                    auth.requestMatchers("/articles/**").hasAnyRole("ADMIN", "EDITOR", "JOURNALIST");
+
+                    // Users : uniquement ADMIN
+                    auth.requestMatchers("/users/**").hasRole("ADMIN");
+
+                    // Roles : uniquement ADMIN
+                    auth.requestMatchers("/roles/**").hasRole("ADMIN");
+
+                    // Images : ADMIN, EDITOR, JOURNALIST
+                    auth.requestMatchers("/images/**").hasAnyRole("ADMIN", "EDITOR", "JOURNALIST");
+
+                    // Toute autre requête nécessite une authentification
+                    auth.anyRequest().authenticated();
                 })
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())))
+                .addFilterAfter(userSynchronizationFilter, org.springframework.security.web.access.intercept.AuthorizationFilter.class)
                 .build();
     }
+
 
     @Bean
     public JwtAuthenticationConverter jwtAuthenticationConverter() {
@@ -79,10 +73,10 @@ public class SecurityConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOriginPattern("*");  // Autoriser toutes les origines
+        config.addAllowedOriginPattern("*"); // Autoriser toutes les origines
         config.addAllowedHeader("*");        // Autoriser tous les en-têtes
         config.addAllowedMethod("*");        // Autoriser toutes les méthodes HTTP
-        config.addExposedHeader("Authorization"); // Permettre l'exposition de l'en-tête Authorization
+        config.addExposedHeader("Authorization");
         source.registerCorsConfiguration("/**", config);
         return source;
     }
