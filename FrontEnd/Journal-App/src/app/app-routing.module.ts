@@ -17,13 +17,16 @@ const routes: Routes = [
     path: 'home', component: HomeComponent
   },
   {
-    path:'crud',component:ListCrudComponent
+    path:'crud/:type',component:ListCrudComponent
   },
   {
     path: 'manage-articles', component: ManageArticleComponent
   },
   {
-    path: 'manage-newsletters', component: ManageNewsletterFormComponent
+    path: 'manage-newsletters', component: ManageNewsletterComponent
+  },
+  {
+    path: 'manage-newsletter-form', component:ManageNewsletterFormComponent
   }
 ];
 @NgModule({

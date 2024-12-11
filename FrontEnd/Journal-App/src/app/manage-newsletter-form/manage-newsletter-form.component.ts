@@ -68,4 +68,8 @@ export class ManageNewsletterFormComponent {
       alert('Geolocation is not supported by this browser.');
     }
   }
+
+  
+
+
 }

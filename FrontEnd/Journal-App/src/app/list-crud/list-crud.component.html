@@ -1,12 +1,16 @@
 <div class="container mt-4">
-  <h2>Article Management</h2>
-  <button class="btn btn-primary mb-3" routerLink="/manage-articles">Add an Article</button>
-  <table class="table table-striped">
+  <h2>{{titre}}</h2>
+  <button class="btn btn-primary mb-3" 
+  [routerLink]="titretable === 'articles' ? '/manage-articles' : titretable === 'newsletters' ? '/manage-newsletter-form' : '/manage-default'">
+{{ titretable === 'articles' ? 'Add an Article' : titretable === 'newsletters' ? 'Add a Newsletter' : 'Add an Item' }}
+</button>  
+<table class="table table-striped">
     <thead>
       <tr>
         <th>#</th>
         <th>Title</th>
-        <th>Category</th>
+        <th *ngIf="titretable==='articles'">Category</th>
+        <th *ngIf="titretable==='newsletters'">Creation Date</th>
         <th>Actions</th>
       </tr>
     </thead>

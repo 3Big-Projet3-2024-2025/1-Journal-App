@@ -73,15 +73,15 @@
             </a>
            </div>
          <!-- <div routerLink="/manage-articles" class="button-like">Manage Articles </div>-->
-           <div routerLink="/crud" class="button-like">Manage Articles </div> 
-          <div routerLink="/manage-newsletters" class="button-like">Manage Newsletters</div>
+           <div routerLink="/crud/articles" class="button-like">Manage Articles </div> 
+          <div routerLink="/crud/newsletters" class="button-like">Manage Newsletters</div>
           <div class="button-like">Manage RGPD</div>
       </div>
 
       <div  class="offcanvas-title" id="offcanvasExampleLabel" *ngIf="isAuthenticated && (userRole === 'ADMIN' ||  userRole === 'EDITOR')">EDITOR<!-- if user EDITOR    -->
         <div class="button-like mt-3">Manage local news</div>
-        <div routerLink="/manage-articles" class="button-like">Manage Articles</div>
-        <div routerLink="/manage-newsletters" class="button-like">Manage Newsletters</div>
+        <div routerLink="/crud/articles"class="button-like">Manage Articles</div>
+        <div  routerLink="/crud/newsletters"class="button-like">Manage Newsletters</div>
       </div>
 
       <div  class="offcanvas-title" id="offcanvasExampleLabel" *ngIf="isAuthenticated && (userRole === 'ADMIN' || userRole === 'JOURNALIST' || userRole === 'EDITOR')">JOURNALIST<!-- if user JOURNALISTE -->

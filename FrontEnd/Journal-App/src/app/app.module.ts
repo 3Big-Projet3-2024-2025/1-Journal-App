@@ -17,6 +17,7 @@ import { ListCrudComponent } from './list-crud/list-crud.component';
 import { ManageNewsletterFormComponent } from './manage-newsletter-form/manage-newsletter-form.component';
 import { ManageRgpdFormComponent } from './manage-rgpd-form/manage-rgpd-form.component';
 
+
 // IMPORT DE L'INTERCEPTOR
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { FormsModule } from '@angular/forms';
@@ -33,7 +34,8 @@ import { FormsModule } from '@angular/forms';
     ManageNewsletterComponent,
     ListCrudComponent,
     ManageNewsletterFormComponent,
-    ManageRgpdFormComponent
+    ManageRgpdFormComponent,
+
   ],
   imports: [
     BrowserModule,
