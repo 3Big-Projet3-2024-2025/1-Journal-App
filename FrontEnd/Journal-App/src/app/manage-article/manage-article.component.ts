@@ -15,6 +15,7 @@ export class ManageArticleComponent implements OnInit {
 
   ngOnInit(): void {
     // Au chargement du composant, on récupère la liste des articles
+    this.getArticleDetails(1);
     this.articleService.getArticles().subscribe({
       next: (data) => {
         this.articles = data;
@@ -47,5 +48,20 @@ export class ManageArticleComponent implements OnInit {
 
     // Si tout est correct
     alert(`${files.length} file(s) selected successfully.`);
+  }
+  getArticleDetails(articleId: number): void {
+    this.articleService.getArticleById(articleId).subscribe(
+      (data: Article) => {
+        
+      },
+      (error) => {
+        if (error.status === 401) {
+          console.error('Erreur 401 : Non authentifié');
+
+        } else {
+          
+        }
+      }
+    );
   }
 }
