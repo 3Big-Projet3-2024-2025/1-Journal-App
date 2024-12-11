@@ -73,5 +73,14 @@ public class ImageController {
                 })
                 .orElse(ResponseEntity.notFound().build());
     }
+
+    @GetMapping("/article/{articleId}")
+    public ResponseEntity<List<Image>> getImagesByArticleId(@PathVariable Long articleId) {
+        List<Image> images = imageRepository.findByArticleArticleId(articleId);
+        if (images.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(images);
+    }
 }
 

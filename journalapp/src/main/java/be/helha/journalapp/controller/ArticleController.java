@@ -5,7 +5,9 @@ import be.helha.journalapp.repositories.ArticleRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -69,5 +71,48 @@ public class ArticleController {
             Article savedArticle = articleRepository.save(article);
             return ResponseEntity.ok(savedArticle);
         }).orElse(ResponseEntity.notFound().build());
+    }
+
+
+    @GetMapping("/{articleId}/newsletter-title")
+    public ResponseEntity<Map<String, String>> getNewsletterTitleByArticleId(@PathVariable Long articleId) {
+        Optional<Article> article = articleRepository.findById(articleId);
+        if (article.isPresent()) {
+            Map<String, String> response = new HashMap<>();
+            response.put("title", article.get().getNewsletter().getTitle());
+            return ResponseEntity.ok(response);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+
+    @GetMapping("/{articleId}/author-name")
+    public ResponseEntity<Map<String, String>> getAuthorNameByArticleId(@PathVariable Long articleId) {
+        Optional<Article> article = articleRepository.findById(articleId);
+        if (article.isPresent()) {
+            Map<String, String> response = new HashMap<>();
+            String fullName = article.get().getAuthor().getFirstName() + " " + article.get().getAuthor().getLastName();
+            response.put("name", fullName);
+            return ResponseEntity.ok(response);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/available")
+    public ResponseEntity<List<Article>> getAllAvailableArticles() {
+        List<Article> availableArticles = articleRepository.findByValidTrue();
+        if (availableArticles.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(availableArticles);
+    }
+
+    @GetMapping("/unavailable")
+    public ResponseEntity<List<Article>> getAllUnavailableArticles() {
+        List<Article> unavailableArticles = articleRepository.findByValidFalse();
+        if (unavailableArticles.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(unavailableArticles);
     }
 }

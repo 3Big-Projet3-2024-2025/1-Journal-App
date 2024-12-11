@@ -41,7 +41,7 @@ public class SecurityConfig {
                     auth.requestMatchers("/newsletters/**").hasAnyRole("ADMIN", "EDITOR");
 
                     // Articles (autres que /all) : ADMIN, EDITOR, JOURNALIST
-                    auth.requestMatchers("/articles/**").hasAnyRole("ADMIN", "EDITOR", "JOURNALIST");
+                    auth.requestMatchers("/articles/**").hasAnyRole("ADMIN", "EDITOR", "JOURNALIST" ,"READER");
 
                     // Users : uniquement ADMIN
                     auth.requestMatchers("/users/**").hasRole("ADMIN");
@@ -51,6 +51,8 @@ public class SecurityConfig {
 
                     // Images : ADMIN, EDITOR, JOURNALIST
                     auth.requestMatchers("/images/**").hasAnyRole("ADMIN", "EDITOR", "JOURNALIST");
+                    auth.requestMatchers("/swagger-ui/**", "/v3/api-docs").permitAll();
+
 
                     // Toute autre requête nécessite une authentification
                     auth.anyRequest().authenticated();

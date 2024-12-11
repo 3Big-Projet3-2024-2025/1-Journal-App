@@ -14,6 +14,7 @@ public class Article {
     private Long articleId;
 
     private String title;
+    @Column(length = 2000)
     private String content;
     private String publicationDate;
     private double longitude;
