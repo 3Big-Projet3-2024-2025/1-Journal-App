@@ -1,45 +1,84 @@
 <div class="form-section">
-    <div class="form-card">
-      <h2>Ajouter une Newsletter</h2>
-      <form action="#" method="POST">
-        <div class="form-group">
-          <label for="titre">Titre</label>
-          <input type="text" id="titre" name="titre" placeholder="Entrez le titre de la newsletter">
-        </div>
-  
-        <div class="form-group">
-          <label for="sousTitre">Sous-titre</label>
-          <input type="text" id="sousTitre" name="sousTitre" placeholder="Entrez le sous-titre">
-        </div>
-  
-        <div class="form-group">
-          <label for="Contenu">Contenu</label>
-          <textarea id="Contenu" name="Contenu" placeholder="Entrez le contenu de la newsletter"></textarea>
-        </div>
-  
-        <div class="form-group">
-          <label for="dateDePublication">Date de publication</label>
-          <input type="date" id="dateDePublication" name="dateDePublication">
-        </div>
-  
-        <!-- Section Géolocalisation -->
-        <div class="geo-group">
-          <button type="button" class="geo-btn">Géolocaliser</button>
-          <div class="coords">
-            <div class="form-group">
-              <label for="longitude">Longitude</label>
-              <input type="text" id="longitude" name="longitude" placeholder="Ex: 2.3522" readonly>
-            </div>
-  
-            <div class="form-group">
-              <label for="latitude">Latitude</label>
-              <input type="text" id="latitude" name="latitude" placeholder="Ex: 48.8566" readonly>
-            </div>
+  <div class="form-card">
+    <h2>Add a Newsletter</h2>
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input
+          type="text"
+          id="title"
+          [(ngModel)]="formData.title"
+          name="title"
+          placeholder="Enter the newsletter title"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="subtitle">Subtitle</label>
+        <input
+          type="text"
+          id="subtitle"
+          [(ngModel)]="formData.subtitle"
+          name="subtitle"
+          placeholder="Enter the newsletter subtitle"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="content">Content</label>
+        <textarea
+          id="content"
+          [(ngModel)]="formData.content"
+          name="content"
+          placeholder="Enter the newsletter content"
+          required
+        ></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="publicationDate">Publication Date</label>
+        <input
+          type="date"
+          id="publicationDate"
+          [(ngModel)]="formData.publicationDate"
+          name="publicationDate"
+          required
+        />
+      </div>
+
+      <!-- Section Géolocalisation -->
+      <div class="geo-group">
+        <button type="button" class="geo-btn" (click)="geolocalize()">Geolocate</button>
+        <div class="coords">
+          <div class="form-group">
+            <label for="longitude">Longitude</label>
+            <input
+              type="text"
+              id="longitude"
+              [(ngModel)]="formData.longitude"
+              name="longitude"
+              placeholder="Ex: 2.3522"
+              readonly
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="latitude">Latitude</label>
+            <input
+              type="text"
+              id="latitude"
+              [(ngModel)]="formData.latitude"
+              name="latitude"
+              placeholder="Ex: 48.8566"
+              readonly
+            />
           </div>
         </div>
-  
-        <button type="submit">Enregistrer</button>
-      </form>
-    </div>
+      </div>
+
+      <button type="submit">Save</button>
+    </form>
   </div>
-  
+</div>
