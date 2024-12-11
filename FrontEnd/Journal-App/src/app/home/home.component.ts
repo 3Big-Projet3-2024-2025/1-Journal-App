@@ -1,35 +1,52 @@
-import { Component } from '@angular/core';
-import { AuthService } from '../services/auth.service';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 import { ArticleService } from '../services/article.service';
 import { Article } from '../models/article';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+  styleUrls: ['./home.component.css']
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
+  allArticles: Article[] = [];
+  searchResults: Article[] = []; 
+  searchTerm: string = ''; 
 
-  constructor(private authService: AuthService, private router: Router,private articleService: ArticleService) {}
-
-  articles: Article[] = [];
+  constructor(private articleService: ArticleService, private router: Router) {}
 
   ngOnInit(): void {
-    // Au chargement du composant, on récupère la liste des articles
-    this.articleService.getArticles().subscribe({
-      next: (data) => {
-        this.articles = data;
-        console.log("Articles loaded:", this.articles);
-      },
-      error: (err) => {
-        console.error("Erreur lors du chargement des articles", err);
-      }
-    });
+    this.loadAllArticles();
   }
 
- 
+  loadAllArticles(): void {
+    this.articleService.getAvailableArticles().subscribe(
+      (data: Article[]) => {
+        this.allArticles = data; 
+      },
+      (error) => {
+        console.error('Erreur lors du chargement des articles:', error);
+      }
+    );
+  }
 
+  onSearchChange(term: string): void {
+    if (term.trim()) {
+      // Rechercher les articles correspondants
+      this.articleService.searchValidArticles(term).subscribe(
+        (data: Article[]) => {
+          this.searchResults = data; 
+        },
+        (error) => {
+          console.error('Erreur lors de la recherche des articles:', error);
+        }
+      );
+    } else {
+      this.searchResults = [];
+    }
+  }
 
-
+  viewArticle(id: number): void {
+    this.router.navigate(['/articles', id]);
+  }
 }

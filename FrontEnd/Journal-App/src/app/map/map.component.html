@@ -1,7 +1,7 @@
 <br>
     <!-- Message d'authentification -->
     <div *ngIf="authMessageVisible" class="auth-message">
-        <p>You need to authenticate to continue.</p>
+        <p>You need to log in to continue. Please login and try again.</p>
         <button (click)="authMessageVisible = false">Close</button><br>
     </div>
 
@@ -23,6 +23,7 @@
         <img src="https://via.placeholder.com/300x150" alt="Article Image" class="article-image" />
         <p>{{ selectedArticle?.content }}</p>
         <p><strong>Author: </strong> {{ authorName }}</p>
+        Publish on: {{ selectedArticle?.publicationDate }}  
         </div>
         <div class="card-footer">
         <button (click)="toggleDetails()" class="btn btn-primary">
