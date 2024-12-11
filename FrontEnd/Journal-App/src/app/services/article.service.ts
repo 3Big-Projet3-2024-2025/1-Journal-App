@@ -65,4 +65,9 @@ export class ArticleService {
     const url = `${this.apiUrl}/unavailable`;
     return this.http.get<Article[]>(url);
   }
+
+  searchValidArticles(query: string): Observable<Article[]> {
+    const url = `${this.apiUrl}/search?query=${encodeURIComponent(query)}`;
+    return this.http.get<Article[]>(url);
+  }
 }
