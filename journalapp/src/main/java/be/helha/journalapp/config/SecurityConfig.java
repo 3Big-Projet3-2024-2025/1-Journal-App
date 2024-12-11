@@ -22,7 +22,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/articles/all").permitAll();
+                    auth.requestMatchers("/articles/available").permitAll();
                     auth.requestMatchers("/newsletters/all").permitAll();
 
                     // Lecture des commentaires accessible à tous
