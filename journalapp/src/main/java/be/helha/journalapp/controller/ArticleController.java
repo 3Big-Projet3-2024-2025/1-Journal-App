@@ -115,4 +115,14 @@ public class ArticleController {
         }
         return ResponseEntity.ok(unavailableArticles);
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Article>> searchArticles(
+            @RequestParam("query") String query) {
+        List<Article> articles = articleRepository.searchValidArticles(query);
+        if (articles.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(articles);
+    }
 }

@@ -17,4 +17,10 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     List<Article> findByAuthorId(@Param("userId") Long userId);
     List<Article> findByValidTrue();
     List<Article> findByValidFalse();
+
+    @Query("SELECT a FROM Article a WHERE a.valid = true AND " +
+            "LOWER(a.title) LIKE LOWER(CONCAT('%', :term, '%'))")
+    List<Article> searchValidArticles(@Param("term") String term);
+
+
 }

@@ -24,6 +24,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/articles/available").permitAll();
                     auth.requestMatchers("/newsletters/all").permitAll();
+                    auth.requestMatchers("/articles/search").permitAll();
+
 
                     // Lecture des commentaires accessible à tous
                     auth.requestMatchers(HttpMethod.GET, "/comments/**").permitAll();
