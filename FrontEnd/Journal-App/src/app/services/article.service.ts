@@ -3,6 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { Router } from "@angular/router";
 import { Observable } from "rxjs";
 import { Article } from "../models/article";
+import { map } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -41,5 +42,27 @@ export class ArticleService {
   validateArticle(id: number): Observable<Article> {
     const url = `${this.apiUrl}/${id}/validate`;
     return this.http.patch<Article>(url, {});
+  }
+
+  getNewsletterTitleByArticleId(articleId: number): Observable<string> {
+    const url = `${this.apiUrl}/${articleId}/newsletter-title`;
+    return this.http.get<{ title: string }>(url).pipe(map(response => response.title));
+  }
+
+  getAuthorNameByArticleId(articleId: number): Observable<string> {
+    const url = `${this.apiUrl}/${articleId}/author-name`;
+    return this.http.get<{ name: string }>(url).pipe(map(response => response.name));
+  }
+
+
+   getAvailableArticles(): Observable<Article[]> {
+    const url = `${this.apiUrl}/available`;
+    return this.http.get<Article[]>(url);
+  }
+
+ 
+  getUnavailableArticles(): Observable<Article[]> {
+    const url = `${this.apiUrl}/unavailable`;
+    return this.http.get<Article[]>(url);
   }
 }

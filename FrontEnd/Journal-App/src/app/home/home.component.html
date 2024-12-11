@@ -8,68 +8,10 @@
         </div>
     </section>
   
+    <app-map></app-map>
 
-  <section class="topics">
-    <div class="card">
-      <div class="card-header">
-        <h3>Article sur le Web Design</h3>
-        <span class="badge">14</span>
-      </div>
-      <div class="card-body">
-        <img src="https://via.placeholder.com/300x150" alt="Web Design">
-      </div>
-      <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Corrupti ipsam numquam aliquam. Quidem temporibus nostrum laudantium magni obcaecati fugit incidunt commodi debitis, totam error ratione beatae modi! Vel, repellat provident.</p>
-      <div class="card-footer">
-        <button>Learn More</button>
-      </div>
-    </div>
   
-    <div class="card">
-      <div class="card-header">
-        <h3>Article sur la Finance</h3>
-        <span class="badge">25</span>
-      </div>
-      <div class="card-body">
-        <img src="https://via.placeholder.com/300x150" alt="Finance">
-      </div>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim impedit itaque praesentium, deleniti tempora quae veritatis provident corrupti dolorum culpa a quidem? Sequi, optio doloremque rem aperiam quaerat vel explicabo.</p>
-      <div class="card-footer">
-        <button>Learn More</button>
-      </div>
-    </div>
   
-    <div class="card">
-      <div class="card-header">
-        <h3>Alert</h3>
-        <span class="badge">25</span>
-      </div>
-      <div class="card-body">
-        <img src="https://via.placeholder.com/300x150" alt="Alert">
-      </div>
-      <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptatem sunt impedit eveniet tempore soluta, nam nostrum suscipit assumenda fugiat omnis nemo nulla id iste magni maiores voluptatum quibusdam, ab ratione!</p>
-      <div class="card-footer">
-        <button>Learn More</button>
-      </div>
-    </div>
-
-
-  </section>
-  
-  <app-map></app-map>
   <br>
-
-  <br><br><br>
-<!-- Affichage de la liste des articles existants -->
-<div *ngIf="articles && articles.length > 0">
-  <h2>Existing Articles</h2>
-  <ul>
-    <li *ngFor="let article of articles">
-      <strong>{{ article.title }}</strong> - {{ article.content }}
-    </li>
-  </ul>
-</div>
-<div *ngIf="articles && articles.length === 0">
-  <p>No articles available.</p>
-</div>
 
 
