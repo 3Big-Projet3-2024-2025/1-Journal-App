@@ -30,7 +30,12 @@
         <td>{{ article.title }}</td>
         <td>{{ article.publicationDate }}</td>
         <td>
-          <button routerLink="/update-article" class="btn btn-warning btn-sm">Edit</button>
+          <button
+          class="btn btn-warning btn-sm"
+          [routerLink]="['/update-article', article.articleId]"
+        >
+          Edit
+        </button>
           <button class="btn btn-danger btn-sm">Delete</button>
         </td>
       </tr>
@@ -55,7 +60,12 @@
         <td>{{ article.title }}</td>
         <td>{{ article.publicationDate }}</td>
         <td>
-          <button class="btn btn-warning btn-sm"  routerLink="/update-article">Edit</button>
+          <button
+          class="btn btn-warning btn-sm"
+          [routerLink]="['/update-article', article.articleId]"
+        >
+          Edit
+        </button>
           <button class="btn btn-danger btn-sm">Delete</button>
           <!-- Button to Validate the article -->
           <button class="btn btn-success btn-sm" (click)="validateArticle(article)">Validate</button>
