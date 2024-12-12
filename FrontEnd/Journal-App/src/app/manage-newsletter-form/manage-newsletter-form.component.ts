@@ -1,4 +1,8 @@
 import { Component } from '@angular/core';
+import { Newsletter } from '../models/newsletter';
+import { User } from '../models/user';
+import { AuthService } from '../services/auth.service';
+import { ManageNewsletterService } from '../services/manage-newsletter.service';
 
 @Component({
   selector: 'app-manage-newsletter-form',
@@ -6,6 +10,24 @@ import { Component } from '@angular/core';
   styleUrl: './manage-newsletter-form.component.css'
 })
 export class ManageNewsletterFormComponent {
+
+  userInfo: any;
+
+  constructor(private auth:AuthService,
+    private ManageNewsletterService:ManageNewsletterService){
+
+  }
+
+  ngOnInit(): void {
+    this.auth.getUserProfile().then(profile => {
+      this.userInfo = profile;  // Stocker les informations dans la variable userInfo
+      console.log(profile)
+      
+    }).catch(error => {
+      console.error('Erreur lors du chargement des informations utilisateur', error);
+    });
+
+  }
 
   formData = {
     title: '',
@@ -16,8 +38,9 @@ export class ManageNewsletterFormComponent {
     latitude: ''
   };
 
+
   onSubmit() {
-    const { title, subtitle, content, publicationDate, longitude, latitude } = this.formData;
+    const { title, subtitle, content, publicationDate} = this.formData;
 
     // Validation des champs
     if (!title || title.trim().length < 2) {
@@ -40,34 +63,33 @@ export class ManageNewsletterFormComponent {
       return;
     }
 
-    if (!longitude || !latitude) {
-      alert('Please provide geolocation data.');
-      return;
-    }
-
     // Si tout est valide
     alert('Newsletter successfully submitted!');
     console.log('Submitted data:', this.formData);
-    // Envoyer les données au backend ici...
+    // Envoyer les données au backend ici... 
+
+  
+    
+    const newsletter: Newsletter={
+      newsletterId: 0,
+      title: '',
+      subtitle: '',
+      publicationDate: '',
+      creator: '',
+      articles:[]
+    }
+    
+    this.ManageNewsletterService.Addnewsletter(newsletter).subscribe({
+      next(value) {
+        console.log(value)
+      },
+    })
+
   }
 
-  geolocalize() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          this.formData.longitude = position.coords.longitude.toFixed(6);
-          this.formData.latitude = position.coords.latitude.toFixed(6);
-          alert('Geolocation retrieved successfully!');
-        },
-        (error) => {
-          alert('Unable to retrieve your location.');
-          console.error(error);
-        }
-      );
-    } else {
-      alert('Geolocation is not supported by this browser.');
-    }
-  }
+ 
+
+  
 
   
 
