@@ -6,6 +6,7 @@ import { ManageNewsletterService } from '../services/manage-newsletter.service';
 import { Newsletter } from '../models/newsletter';
 import { KeycloakService } from 'keycloak-angular';
 import { UsersService } from '../services/users.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-article',
@@ -18,13 +19,15 @@ export class AddArticleComponent implements OnInit {
     private articleService: ArticleService, 
     private newsletterService: ManageNewsletterService,
     private keycloakService: KeycloakService,
-    private userService: UsersService
+    private userService: UsersService,
+    private router: Router
   ) {}
   
   ngOnInit(): void {
-    this.getUserLocation();
-    this.loadNewsletters();
-    this.getUserId();
+    this.getUserId().then(() => {
+      this.getUserLocation();
+      this.loadNewsletters();
+    });
   }
 
   articleToAdd: Article = {
@@ -158,7 +161,7 @@ export class AddArticleComponent implements OnInit {
       return;
     }
 
-    console.log('Données envoyées :', this.articleToAdd);
+    //console.log('Données envoyées :', this.articleToAdd);
     // Envoi de l'article
     this.articleService.addArticle(this.articleToAdd).subscribe(
       async (newArticle) => {
@@ -183,11 +186,12 @@ export class AddArticleComponent implements OnInit {
         };
         this.selectedFiles = [];
         this.selectedNewsletterId = null;
+        this.router.navigate(['/crud/articles']);
        
       },
       (error) => {
         console.error('Erreur lors de l\'ajout de l\'article:', error);
-        console.log('Données envoyées :', this.articleToAdd);
+       // console.log('Données envoyées :', this.articleToAdd);
       }
     );
   }

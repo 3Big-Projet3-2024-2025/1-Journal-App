@@ -11,7 +11,6 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { MapComponent } from './map/map.component';
-import { ManageArticleComponent } from './manage-article/manage-article.component';
 import { ManageNewsletterComponent } from './manage-newsletter/manage-newsletter.component';
 import { ListCrudComponent } from './list-crud/list-crud.component';
 import { ManageNewsletterFormComponent } from './manage-newsletter-form/manage-newsletter-form.component';
@@ -32,7 +31,6 @@ import { UpdateArticleComponent } from './update-article/update-article.componen
     HomeComponent,
     AuthComponent,
     MapComponent,
-    ManageArticleComponent,
     ManageNewsletterComponent,
     ListCrudComponent,
     ManageNewsletterFormComponent,
