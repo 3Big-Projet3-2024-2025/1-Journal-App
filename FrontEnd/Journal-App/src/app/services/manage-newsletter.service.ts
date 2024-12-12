@@ -7,7 +7,7 @@ import { Newsletter } from '../models/newsletter';
   providedIn: 'root'
 })
 export class ManageNewsletterService {
-  private apiUrl = 'http://localhost:8080/newsletter';
+  private apiUrl = 'http://localhost:8080/newsletters'; 
   constructor(
     private http: HttpClient
   ) { }

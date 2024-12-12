@@ -21,6 +21,8 @@ import { ManageRgpdFormComponent } from './manage-rgpd-form/manage-rgpd-form.com
 // IMPORT DE L'INTERCEPTOR
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { FormsModule } from '@angular/forms';
+import { AddArticleComponent } from './add-article/add-article.component';
+import { UpdateArticleComponent } from './update-article/update-article.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +37,8 @@ import { FormsModule } from '@angular/forms';
     ListCrudComponent,
     ManageNewsletterFormComponent,
     ManageRgpdFormComponent,
+    AddArticleComponent,
+    UpdateArticleComponent,
 
   ],
   imports: [

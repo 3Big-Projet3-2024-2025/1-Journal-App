@@ -5,6 +5,8 @@ import { ManageArticleComponent } from './manage-article/manage-article.componen
 import { ManageNewsletterComponent } from './manage-newsletter/manage-newsletter.component';
 import { ManageNewsletterFormComponent } from './manage-newsletter-form/manage-newsletter-form.component';
 import { ListCrudComponent } from './list-crud/list-crud.component';
+import { AddArticleComponent } from './add-article/add-article.component';
+import { UpdateArticleComponent } from './update-article/update-article.component';
 
 
 const routes: Routes = [
@@ -20,14 +22,18 @@ const routes: Routes = [
     path:'crud/:type',component:ListCrudComponent
   },
   {
-    path: 'manage-articles', component: ManageArticleComponent
-  },
-  {
     path: 'manage-newsletters', component: ManageNewsletterComponent
   },
   {
     path: 'manage-newsletter-form', component:ManageNewsletterFormComponent
+  },
+  {
+    path: 'add-article', component:AddArticleComponent
+  },
+  {
+    path: 'update-article', component:UpdateArticleComponent
   }
+
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

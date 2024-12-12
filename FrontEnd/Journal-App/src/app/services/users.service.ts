@@ -11,14 +11,18 @@ import { User } from "../models/user";
 })
 export class UsersService {
 
-    //private apiUrl = 'http://localhost:8080/api/User-controller';
-    private apiUrl = 'http://localhost:8080/users';
+    
+    private apiUrl = 'http://localhost:8080';
 
 
 
     constructor(private http: HttpClient, private router: Router, private cookieService: CookieService) {}
 
    
+
+    getUserByKeycloakId(keycloakId: string): Observable<User> {
+        return this.http.get<User>(`${this.apiUrl}/users/keycloak/${keycloakId}`);
+      }
 
     getUserById(id: number): Observable<any> {
         const url = `${this.apiUrl}/${id}`;
@@ -60,12 +64,7 @@ export class UsersService {
         });
     }
 
-    getUserByKeycloakId(keycloakId: string): Observable<User> {
-        const url = `${this.apiUrl}/keycloak/${keycloakId}`;  // L'URL correcte pour la requête
-        const headers = this.getAuthHeaders();  // Récupère les en-têtes avec le token JWT
-        console.log("En-têtes envoyés:", headers);  // Affiche les en-têtes dans la console
-        return this.http.get<User>(url, { headers });  // Envoie la requête HTTP
-    }
+   
     
 
  

@@ -1,21 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { ArticleService } from '../services/article.service';
-import { Article } from '../models/article';
+import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-manage-article',
-  templateUrl: './manage-article.component.html',
-  styleUrls: ['./manage-article.component.css']
+  selector: 'app-update-article',
+  templateUrl: './update-article.component.html',
+  styleUrl: './update-article.component.css'
 })
-export class ManageArticleComponent implements OnInit {
-  
-  articles: Article[] = [];
-
-  constructor(private articleService: ArticleService) {}
-
-  ngOnInit(): void {
-   
-  }
+export class UpdateArticleComponent {
 
   validateFileCount(event: any): void {
     const files = event.target.files;
@@ -39,5 +29,5 @@ export class ManageArticleComponent implements OnInit {
     // Si tout est correct
     alert(`${files.length} file(s) selected successfully.`);
   }
- 
+
 }

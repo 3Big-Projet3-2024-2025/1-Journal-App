@@ -4,7 +4,7 @@
     class="btn btn-primary mb-3"
     [routerLink]="
       titretable === 'articles'
-        ? '/manage-articles'
+        ? '/add-article'
         : titretable === 'newsletters'
         ? '/manage-newsletter-form'
         : '/manage-default'
@@ -30,7 +30,7 @@
         <td>{{ article.title }}</td>
         <td>{{ article.publicationDate }}</td>
         <td>
-          <button class="btn btn-warning btn-sm">Edit</button>
+          <button routerLink="/update-article" class="btn btn-warning btn-sm">Edit</button>
           <button class="btn btn-danger btn-sm">Delete</button>
         </td>
       </tr>
@@ -55,7 +55,7 @@
         <td>{{ article.title }}</td>
         <td>{{ article.publicationDate }}</td>
         <td>
-          <button class="btn btn-warning btn-sm">Edit</button>
+          <button class="btn btn-warning btn-sm"  routerLink="/update-article">Edit</button>
           <button class="btn btn-danger btn-sm">Delete</button>
           <!-- Button to Validate the article -->
           <button class="btn btn-success btn-sm" (click)="validateArticle(article)">Validate</button>

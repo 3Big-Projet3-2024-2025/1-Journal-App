@@ -1,0 +1,40 @@
+<br><br>
+
+<!-- Formulaire de mise à jour d'article -->
+<div class="form-container">
+    <h1>Update Article Form</h1>
+    <p>Please update the information and modify the pictures if necessary.</p>
+    <form>
+      <!-- Champ pour le titre de l'article -->
+      <input type="text" name="title" placeholder="Title of article" value="Existing Article Title" required>
+  
+      <!-- Zone de texte pour le contenu -->
+      <textarea name="content" placeholder="Enter your text here (max 500 characters)" maxlength="500" rows="4" required>
+  Existing article content goes here...
+      </textarea>
+  
+      <!-- Upload des images -->
+      <div class="file-upload">
+        <label>Upload new images (optional)</label>
+        <p>You can upload up to 3 images (JPEG, PNG, GIF).</p>
+        <input type="file" name="images" accept="image/*" multiple (change)="validateFileCount($event)">
+      </div>
+  
+      <!-- Champ pour valider l'article -->
+      <div class="valid">
+        <label>Is the article valid?</label>
+        <div>
+          <input type="radio" id="valid-true-update" name="isValidUpdate" value="true" checked required>
+          <label for="valid-true-update">True</label>
+        </div>
+        <div>
+          <input type="radio" id="valid-false-update" name="isValidUpdate" value="false" required>
+          <label for="valid-false-update">False</label>
+        </div>
+      </div>
+  
+      <!-- Bouton de mise à jour -->
+      <button type="submit">Update Article</button>
+    </form>
+  </div>
+  

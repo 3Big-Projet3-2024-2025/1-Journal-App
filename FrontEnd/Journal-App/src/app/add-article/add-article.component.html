@@ -1,0 +1,78 @@
+<br><br>
+<div class="form-container">
+    <h1>Add Article Form</h1>
+    <p>Please fill in the information and upload your pictures.</p>
+  
+    <form (ngSubmit)="addArticle()" #articleForm="ngForm">
+      <input
+        type="text"
+        name="title"
+        [(ngModel)]="articleToAdd.title"
+        placeholder="Title of article"
+        required
+      />
+  
+      <textarea
+        name="content"
+        [(ngModel)]="articleToAdd.content"
+        placeholder="Enter your text here (max 2000 characters)"
+        maxlength="2000"
+        rows="4"
+        required
+      ></textarea>
+  
+      <div class="newsletter-select">
+        <label for="newsletter">Select a Newsletter</label>
+        <select
+          id="newsletter"
+          [(ngModel)]="selectedNewsletterId"
+          name="newsletter"
+          required
+        >
+          <option *ngFor="let newsletter of newsletters" [value]="newsletter.newsletterId">
+            {{ newsletter.title }}
+          </option>
+        </select>
+      </div>
+  
+      <div class="file-upload">
+        <label>Upload your images</label>
+        <input
+          type="file"
+          name="images"
+          accept="image/*"
+          multiple
+          (change)="validateFileCount($event)"
+        />
+      </div>
+  
+      <div class="valid">
+        <label>Is the article valid?</label>
+        <div>
+          <input
+            type="radio"
+            id="valid-true-add"
+            name="valid"
+            [(ngModel)]="articleToAdd.valid"
+            [value]="true"
+            required
+          />
+          <label for="valid-true-add">True</label>
+        </div>
+        <div>
+          <input
+            type="radio"
+            id="valid-false-add"
+            name="valid"
+            [(ngModel)]="articleToAdd.valid"
+            [value]="false"
+            required
+          />
+          <label for="valid-false-add">False</label>
+        </div>
+      </div>
+  
+      <button type="submit" [disabled]="!articleForm.form.valid">Submit</button>
+    </form>
+  </div><br>
+  

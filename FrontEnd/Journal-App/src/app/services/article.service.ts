@@ -4,6 +4,7 @@ import { Router } from "@angular/router";
 import { Observable } from "rxjs";
 import { Article } from "../models/article";
 import { map } from "rxjs";
+import { Image } from "../models/image";
 
 @Injectable({
   providedIn: 'root'
@@ -11,12 +12,17 @@ import { map } from "rxjs";
 export class ArticleService {
 
   private apiUrl = 'http://localhost:8080/articles'; // URL de base, sans /api/article-controller
+   private apiUrlImage = 'http://localhost:8080/images'
 
   constructor(private http: HttpClient) {}
 
   getArticleById(id: number): Observable<Article> {
     const url = `${this.apiUrl}/${id}`;
     return this.http.get<Article>(url);
+  }
+
+  addImage(image: Image): Observable<Image> {
+    return this.http.post<Image>(this.apiUrlImage, image);
   }
 
   addArticle(newArticle: Article): Observable<Article> {
