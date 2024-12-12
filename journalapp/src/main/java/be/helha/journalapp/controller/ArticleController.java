@@ -1,7 +1,11 @@
 package be.helha.journalapp.controller;
 
 import be.helha.journalapp.model.Article;
+import be.helha.journalapp.model.Newsletter;
+import be.helha.journalapp.model.User;
 import be.helha.journalapp.repositories.ArticleRepository;
+import be.helha.journalapp.repositories.NewsletterRepository;
+import be.helha.journalapp.repositories.UserRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,17 +18,44 @@ import java.util.Optional;
 @RequestMapping("/articles")
 public class ArticleController {
 
-    private final ArticleRepository articleRepository;
 
-    public ArticleController(ArticleRepository articleRepository) {
+    private final ArticleRepository articleRepository;
+    private final UserRepository userRepository;
+    private final NewsletterRepository newsletterRepository;
+
+    public ArticleController(ArticleRepository articleRepository, UserRepository userRepository, NewsletterRepository newsletterRepository) {
         this.articleRepository = articleRepository;
+        this.userRepository = userRepository;
+        this.newsletterRepository = newsletterRepository;
     }
+
 
     @PostMapping
-    public ResponseEntity<Article> addArticle(@RequestBody Article newArticle) {
-        Article savedArticle = articleRepository.save(newArticle);
+    public ResponseEntity<Article> addArticle(@RequestBody Map<String, Object> articleData) {
+        Article article = new Article();
+        article.setTitle((String) articleData.get("title"));
+        article.setContent((String) articleData.get("content"));
+        article.setPublicationDate((String) articleData.get("publicationDate"));
+        article.setLongitude((Double) articleData.get("longitude"));
+        article.setLatitude((Double) articleData.get("latitude"));
+        article.setValid((Boolean) articleData.get("valid"));
+
+        // Convertir les IDs en entités
+        Long newsletterId = ((Number) articleData.get("newsletter_id")).longValue();
+        Long userId = ((Number) articleData.get("user_id")).longValue();
+
+        Newsletter newsletter = newsletterRepository.findById(newsletterId)
+                .orElseThrow(() -> new RuntimeException("Newsletter not found"));
+        User author = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        article.setNewsletter(newsletter);
+        article.setAuthor(author);
+
+        Article savedArticle = articleRepository.save(article);
         return ResponseEntity.ok(savedArticle);
     }
+
 
     @GetMapping("/all")
     public ResponseEntity<List<Article>> getAllArticles() {

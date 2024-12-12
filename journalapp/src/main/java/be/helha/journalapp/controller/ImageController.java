@@ -1,30 +1,50 @@
 package be.helha.journalapp.controller;
 
+import be.helha.journalapp.model.Article;
 import be.helha.journalapp.model.Image;
+import be.helha.journalapp.repositories.ArticleRepository;
 import be.helha.journalapp.repositories.ImageRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Base64;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/images")
 public class ImageController {
 
     private final ImageRepository imageRepository;
+    private final ArticleRepository articleRepository;
 
     // Constructor Injection
-    public ImageController(ImageRepository imageRepository) {
+    public ImageController(ImageRepository imageRepository ,ArticleRepository articleRepository) {
         this.imageRepository = imageRepository;
+        this.articleRepository = articleRepository;
     }
 
     // CREATE: Ajouter une nouvelle image
     @PostMapping
-    public ResponseEntity<Image> addImage(@RequestBody Image newImage) {
-        Image savedImage = imageRepository.save(newImage);
+    public ResponseEntity<Image> addImage(@RequestBody Map<String, Object> imageData) {
+        Image image = new Image();
+
+        // Décoder l'image Base64 en tableau d'octets
+        String base64Image = (String) imageData.get("imagePath");
+        byte[] decodedImage = Base64.getDecoder().decode(base64Image);
+        image.setImagePath(decodedImage);
+
+        // Associer l'article en utilisant l'ID
+        Long articleId = ((Number) imageData.get("articleId")).longValue();
+        Article article = new Article(); // Crée un article simplifié pour l'association
+        article.setArticleId(articleId);
+        image.setArticle(article);
+
+        // Sauvegarde de l'image
+        Image savedImage = imageRepository.save(image);
         return ResponseEntity.ok(savedImage);
     }
+
 
     // READ: Récupérer toutes les images
     @GetMapping
@@ -41,17 +61,47 @@ public class ImageController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // UPDATE: Mettre à jour une image existante
     @PutMapping("/{id}")
-    public ResponseEntity<Image> updateImage(@PathVariable Long id, @RequestBody Image updatedImage) {
-        return imageRepository.findById(id)
-                .map(existingImage -> {
-                    existingImage.setImagePath(updatedImage.getImagePath()); // Mise à jour des données de l'image
-                    Image savedImage = imageRepository.save(existingImage);
-                    return ResponseEntity.ok(savedImage);
-                })
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<Article> updateArticle(@PathVariable Long id, @RequestBody Article updatedArticle) {
+        // Charger l'article existant
+        Article existingArticle = articleRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Article not found"));
+
+        // Mettre à jour les champs simples
+        existingArticle.setTitle(updatedArticle.getTitle());
+        existingArticle.setContent(updatedArticle.getContent());
+        existingArticle.setPublicationDate(updatedArticle.getPublicationDate());
+        existingArticle.setLongitude(updatedArticle.getLongitude());
+        existingArticle.setLatitude(updatedArticle.getLatitude());
+        existingArticle.setValid(updatedArticle.isValid());
+
+        // Synchroniser les images
+        // Supprimer les images qui ne sont plus présentes dans updatedArticle
+        existingArticle.getImages().removeIf(image ->
+                updatedArticle.getImages().stream()
+                        .noneMatch(updatedImage -> updatedImage.getImageId().equals(image.getImageId()))
+        );
+
+        // Ajouter ou mettre à jour les images
+        for (Image updatedImage : updatedArticle.getImages()) {
+            if (updatedImage.getImageId() == null || updatedImage.getImageId() == 0) {
+                // Nouvelle image
+                existingArticle.addImage(updatedImage);
+            } else {
+                // Image existante : mettre à jour ses champs
+                existingArticle.getImages().stream()
+                        .filter(image -> image.getImageId().equals(updatedImage.getImageId()))
+                        .findFirst()
+                        .ifPresent(image -> image.setImagePath(updatedImage.getImagePath()));
+            }
+        }
+
+        // Sauvegarder l'article mis à jour
+        Article savedArticle = articleRepository.save(existingArticle);
+        return ResponseEntity.ok(savedArticle);
     }
+
+
 
     // DELETE: Supprimer une image par son ID
     @DeleteMapping("/{id}")

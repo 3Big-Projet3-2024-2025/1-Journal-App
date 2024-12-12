@@ -25,6 +25,7 @@ public class SecurityConfig {
                     auth.requestMatchers("/articles/available").permitAll();
                     auth.requestMatchers("/newsletters/all").permitAll();
                     auth.requestMatchers("/articles/search").permitAll();
+                    auth.requestMatchers("/images/article/").permitAll();
 
 
                     // Lecture des commentaires accessible à tous

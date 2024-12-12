@@ -5,24 +5,55 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="af164164-7e97-4c69-ba83-7b02461781e2" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/763ac68a-3ba3-42db-a7d6-2859e19b7cc5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/763ac68a-3ba3-42db-a7d6-2859e19b7cc5.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/763ac68a-3ba3-42db-a7d6-2859e19b7cc5/storage_v2/_src_/database/journalapp.imvDOQ/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/763ac68a-3ba3-42db-a7d6-2859e19b7cc5/storage_v2/_src_/database/journalapp.imvDOQ/schema/public.abK9xQ.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/763ac68a-3ba3-42db-a7d6-2859e19b7cc5/storage_v2/_src_/database/keycloak.0WATHg/schema/keycloak.0WATHg.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/763ac68a-3ba3-42db-a7d6-2859e19b7cc5/storage_v2/_src_/database/keycloak.0WATHg/schema/keycloak.0WATHg.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/763ac68a-3ba3-42db-a7d6-2859e19b7cc5/storage_v2/_src_/database/keycloak.0WATHg/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/763ac68a-3ba3-42db-a7d6-2859e19b7cc5/storage_v2/_src_/database/keycloak.0WATHg/schema/public.abK9xQ.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/journalapp.main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/journalapp.main.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/journalapp.test.iml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16384/1259" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16384/1259" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16384/2613" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16384/2613" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16384/2619" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16384/2619" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16384/26530" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16384/26530" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16384/26531" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16384/26531" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16384/26536" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16384/26536" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16384/26546" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16384/26546" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16384/26547" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16384/26547" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16384/26550" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16384/26550" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16384/26553" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16384/26553" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16384/26567" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16384/26567" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16384/2683" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16384/2683" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16384/2696" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16384/2696" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16384/2995" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16384/2995" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16384/2996" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16384/2996" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16384/pg_internal.init" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16384/pg_internal.init" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/1259" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/1259" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/16443" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/16443" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17242" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17242" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17242_fsm" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17242_fsm" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17242_vm" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17242_vm" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17247" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17247" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17247_fsm" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17247_fsm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17247_vm" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17247_vm" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17252" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17252" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17794" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17794" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17990" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17990" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/18025" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/18025" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/18026" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/18026" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/2619" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/2619" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/pg_internal.init" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/pg_internal.init" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/global/pg_control" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/global/pg_control" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/global/pg_internal.init" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/global/pg_internal.init" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/pg_wal/000000010000000000000003" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/pg_wal/000000010000000000000003" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/pg_xact/0000" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/pg_xact/0000" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/postmaster.opts" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/postmaster.opts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/postmaster.pid" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/postmaster.pid" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/config/SecurityConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/controller/ArticleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/controller/ArticleController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/repositories/ArticleRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/repositories/ArticleRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/controller/ImageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/controller/ImageController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/model/Article.java" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/model/Article.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,17 +73,7 @@
         </task>
         <projects_view>
           <tree_state>
-            <expand>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="journalapp" type="f1a62948:ProjectNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="journalapp" type="f1a62948:ProjectNode" />
-                <item name="Dependencies" type="6de06a37:ExternalSystemViewDefaultContributor$MyDependenciesNode" />
-              </path>
-            </expand>
+            <expand />
             <select />
           </tree_state>
         </projects_view>
@@ -119,7 +140,7 @@
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;Spring Boot.JournalappApplication.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Authentification&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;#3 on Authentification&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Workspace/BAC3/SpringBoot/intro&quot;,
@@ -269,6 +290,8 @@
       <workItem from="1733834926083" duration="1835000" />
       <workItem from="1733853082097" duration="12543000" />
       <workItem from="1733928264370" duration="17210000" />
+      <workItem from="1733969026808" duration="6836000" />
+      <workItem from="1734011618436" duration="5657000" />
     </task>
     <servers />
   </component>

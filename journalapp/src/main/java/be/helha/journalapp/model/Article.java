@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -33,6 +34,18 @@ public class Article {
 
     // One-to-Many relationship with Image (an article can have multiple images)
     @JsonIgnore
-    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Image> images;
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL /*, orphanRemoval = true*/)
+    private List<Image> images = new ArrayList<>();
+
+
+    // Méthode utilitaire pour gérer la collection
+    public void addImage(Image image) {
+        images.add(image);
+        image.setArticle(this);
+    }
+
+    public void removeImage(Image image) {
+        images.remove(image);
+        image.setArticle(null);
+    }
 }
