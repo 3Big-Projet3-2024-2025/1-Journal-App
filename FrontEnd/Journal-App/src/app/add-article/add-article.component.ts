@@ -26,6 +26,7 @@ export class AddArticleComponent implements OnInit {
     this.loadNewsletters();
     this.getUserId();
   }
+
   articleToAdd: Article = {
     articleId: 0,
     title: '',
@@ -42,34 +43,28 @@ export class AddArticleComponent implements OnInit {
   newsletters: Newsletter[] = []; 
   selectedNewsletterId: number | null = null; 
 
-  
-
-
- // Récupérer l'ID de l'utilisateur connecté via Keycloak
-getUserId(): Promise<void> {
-  return new Promise((resolve, reject) => {
-    const keycloakId = this.keycloakService.getKeycloakInstance().tokenParsed?.sub;
-    if (keycloakId) {
-      this.userService.getUserByKeycloakId(keycloakId).subscribe(
-        (user) => {
-          // Assigner l'ID de l'utilisateur au `user_id` de l'article
-          this.articleToAdd.user_id = user.userId;
-          console.log('Utilisateur connecté:', user);
-          resolve();
-        },
-        (error) => {
-          console.error('Erreur lors de la récupération de l\'utilisateur:', error);
-          reject(error);
-        }
-      );
-    } else {
-      reject('Keycloak ID non trouvé');
-    }
-  });
-}
-
-
-
+  // Récupérer l'ID de l'utilisateur connecté via Keycloak
+  getUserId(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const keycloakId = this.keycloakService.getKeycloakInstance().tokenParsed?.sub;
+      if (keycloakId) {
+        this.userService.getUserByKeycloakId(keycloakId).subscribe(
+          (user) => {
+            // Assigner l'ID de l'utilisateur au `user_id` de l'article
+            this.articleToAdd.user_id = user.userId;
+            //console.log('Utilisateur connecté:', user);
+            resolve();
+          },
+          (error) => {
+            console.error('Erreur lors de la récupération de l\'utilisateur:', error);
+            reject(error);
+          }
+        );
+      } else {
+        reject('Keycloak ID non trouvé');
+      }
+    });
+  }
 
   // Récupérer la localisation de l'utilisateur
   getUserLocation(): void {
@@ -78,7 +73,7 @@ getUserId(): Promise<void> {
         (position) => {
           this.articleToAdd.latitude = position.coords.latitude;
           this.articleToAdd.longitude = position.coords.longitude;
-          console.log('Localisation obtenue:', this.articleToAdd.latitude, this.articleToAdd.longitude);
+         // console.log('Localisation obtenue:', this.articleToAdd.latitude, this.articleToAdd.longitude);
         },
         (error) => {
           console.error('Erreur de géolocalisation:', error);
@@ -100,7 +95,7 @@ getUserId(): Promise<void> {
       (data: Newsletter[]) => {
         this.newsletters = data;
   
-        // Sélectionner une newsletter par défaut, en s'assurant que c'est un nombre
+       //default newsletter
         if (this.newsletters.length > 0) {
           this.selectedNewsletterId = Number(this.newsletters[0].newsletterId);
         }
@@ -110,7 +105,6 @@ getUserId(): Promise<void> {
       }
     );
   }
-  
 
   // Validation du nombre de fichiers et type de fichiers
   validateFileCount(event: any): void {
@@ -138,21 +132,23 @@ getUserId(): Promise<void> {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result as string);
+      reader.onload = () => {
+        const base64String = (reader.result as string).split(',')[1]; // Supprimer le préfixe "data:image/...;base64,"
+        resolve(base64String);
+      };
       reader.onerror = (error) => reject(error);
     });
   }
 
-
   addArticle(): void {
-    // Vérification et conversion de `newsletter_id` en nombre si nécessaire
+    this.getUserId();
     if (this.selectedNewsletterId !== null) {
-      this.articleToAdd.newsletter_id = Number(this.selectedNewsletterId); // Conversion en nombre
+      this.articleToAdd.newsletter_id = Number(this.selectedNewsletterId); 
     }
   
-    // Vérification de la validité de `user_id`
+  
     if (this.articleToAdd.user_id === 0) {
-      console.error('L\'ID de l\'utilisateur est manquant');
+      console.error('user id missing');
       return;
     }
   
@@ -161,7 +157,8 @@ getUserId(): Promise<void> {
       console.error('L\'ID de la newsletter est manquant');
       return;
     }
-  
+
+    console.log('Données envoyées :', this.articleToAdd);
     // Envoi de l'article
     this.articleService.addArticle(this.articleToAdd).subscribe(
       async (newArticle) => {
@@ -186,28 +183,27 @@ getUserId(): Promise<void> {
         };
         this.selectedFiles = [];
         this.selectedNewsletterId = null;
+       
       },
       (error) => {
         console.error('Erreur lors de l\'ajout de l\'article:', error);
+        console.log('Données envoyées :', this.articleToAdd);
       }
     );
   }
-  
 
-
-  // Téléverser les images de l'article
   async uploadImages(articleId: number): Promise<void> {
     for (const file of this.selectedFiles) {
       const base64Image = await this.convertToBase64(file);
       const imageToAdd: Image = {
-        imageId: 0,
-        imagePath: base64Image,
-        articleId: articleId
+        imageId: 0, // Valeur par défaut pour l'ID de l'image
+        imagePath: base64Image, // Contenu encodé en Base64 (sans préfixe)
+        articleId: articleId    // ID de l'article
       };
-
+  
       this.articleService.addImage(imageToAdd).subscribe(
         (imageSaved) => {
-          console.log('Image ajoutée avec succès:', imageSaved);
+          //console.log('Image ajoutée avec succès:', imageSaved);
         },
         (error) => {
           console.error('Erreur lors de l\'ajout de l\'image:', error);
