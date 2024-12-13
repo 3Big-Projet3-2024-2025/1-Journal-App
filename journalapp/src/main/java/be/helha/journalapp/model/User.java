@@ -13,10 +13,8 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
-
     private String lastName;
     private String firstName;
-    private String dateOfBirth;
     private String email;
     private boolean isAuthorized;
     private boolean isRoleChange;
@@ -31,9 +29,6 @@ public class User {
     @ApiModelProperty(hidden = true)
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     private List<Article> articles;
-
-
-
 
     // A user can create multiple newsletters
     @JsonIgnore

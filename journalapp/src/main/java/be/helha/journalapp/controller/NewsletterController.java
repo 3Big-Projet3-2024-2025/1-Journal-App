@@ -1,7 +1,12 @@
 package be.helha.journalapp.controller;
 
+
+import be.helha.journalapp.Dto.NewsletterCreationDTO;
 import be.helha.journalapp.model.Newsletter;
+import be.helha.journalapp.model.User;
 import be.helha.journalapp.repositories.NewsletterRepository;
+import be.helha.journalapp.repositories.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,16 +17,32 @@ import java.util.List;
 public class NewsletterController {
 
     private final NewsletterRepository newsletterRepository;
+    private final UserRepository userRepository;
 
-    // Injection du repository via le constructeur
-    public NewsletterController(NewsletterRepository newsletterRepository) {
+    // Injection via le constructeur
+    public NewsletterController(NewsletterRepository newsletterRepository, UserRepository userRepository) {
         this.newsletterRepository = newsletterRepository;
+        this.userRepository = userRepository;
     }
 
-    // CREATE: Ajouter une nouvelle newsletter
+    // CREATE: Ajouter une nouvelle newsletter avec un DTO
     @PostMapping
-    public ResponseEntity<Newsletter> addNewsletter(@RequestBody Newsletter newNewsletter) {
-        Newsletter savedNewsletter = newsletterRepository.save(newNewsletter);
+    public ResponseEntity<Newsletter> addNewsletter(@RequestBody NewsletterCreationDTO dto) {
+        // Récupérer le User existant à partir de l'ID fourni
+        System.out.println(dto.getCreatorId());
+        User creator = userRepository.findById(dto.getCreatorId())
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+
+        // Créer la newsletter et l’associer au créateur
+        Newsletter newsletter = new Newsletter();
+        newsletter.setTitle(dto.getTitle());
+        newsletter.setSubtitle(dto.getSubtitle());
+        newsletter.setPublicationDate(dto.getPublicationDate());
+        newsletter.setRead(false);
+        newsletter.setCreator(creator);
+
+        // Sauvegarder
+        Newsletter savedNewsletter = newsletterRepository.save(newsletter);
         return ResponseEntity.ok(savedNewsletter);
     }
 
@@ -40,7 +61,7 @@ public class NewsletterController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // Mise à jour de la méthode updateNewsletter
+    // UPDATE: Mettre à jour une newsletter existante par son ID
     @PutMapping("/{id}")
     public ResponseEntity<Newsletter> updateNewsletter(@PathVariable Long id, @RequestBody Newsletter updatedNewsletter) {
         return newsletterRepository.findById(id)
@@ -48,13 +69,12 @@ public class NewsletterController {
                     existingNewsletter.setTitle(updatedNewsletter.getTitle());
                     existingNewsletter.setSubtitle(updatedNewsletter.getSubtitle());
                     existingNewsletter.setPublicationDate(updatedNewsletter.getPublicationDate());
-                    existingNewsletter.setRead(updatedNewsletter.isRead()); // Utilisation correcte
+                    existingNewsletter.setRead(updatedNewsletter.isRead());
                     Newsletter savedNewsletter = newsletterRepository.save(existingNewsletter);
                     return ResponseEntity.ok(savedNewsletter);
                 })
                 .orElse(ResponseEntity.notFound().build());
     }
-
 
     // DELETE: Supprimer une newsletter par son ID
     @DeleteMapping("/{id}")
@@ -66,12 +86,12 @@ public class NewsletterController {
         return ResponseEntity.notFound().build();
     }
 
-    // Exemple pour la méthode markAsRead
+    // PATCH: Marquer une newsletter comme lue
     @PatchMapping("/{id}/read")
     public ResponseEntity<Newsletter> markAsRead(@PathVariable Long id) {
         return newsletterRepository.findById(id)
                 .map(existingNewsletter -> {
-                    existingNewsletter.setRead(true); // Utilisation correcte
+                    existingNewsletter.setRead(true);
                     Newsletter updatedNewsletter = newsletterRepository.save(existingNewsletter);
                     return ResponseEntity.ok(updatedNewsletter);
                 })
