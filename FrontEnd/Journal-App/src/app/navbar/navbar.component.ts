@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-navbar',
@@ -15,15 +16,34 @@ export class NavbarComponent implements OnInit {
 
   private roleHierarchy: string[] = ['ADMIN', 'EDITOR', 'JOURNALIST', 'READER'];
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService,private cook:CookieService) {}
 
   ngOnInit(): void {
     this.authService.isAuthenticated$.subscribe(authenticated => {
       this.isAuthenticated = authenticated; // Mettre à jour l'état d'authentification
+      //localStorage.setItem('newsletter', '0');
+      //console.log('Newsletter variable set to 0 in localStorage');
       if (authenticated) {
         this.loadUserInfo();  // Charger les informations utilisateur si authentifié
       }
     });
+  }
+  setNewsletterInLocalStorage() {
+    if(localStorage.getItem('newsletter') !== '0'){
+      window.location.reload()
+    }
+    localStorage.setItem('newsletter', '1');
+    console.log('Newsletter variable set to 1 in localStorage');
+    
+    
+  }
+  setArticleInLocalStorage() {
+    if(localStorage.getItem('newsletter') !== '0'){
+      window.location.reload()
+    }
+    localStorage.setItem('newsletter', '2');
+    console.log('Article variable set to 1 in localStorage');
+    
   }
 
   login() {

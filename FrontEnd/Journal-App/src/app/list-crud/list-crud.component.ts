@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ManageNewsletterService } from '../services/manage-newsletter.service';
 import { ArticleService } from '../services/article.service';
 import { Article } from '../models/article';
+import { Newsletter } from '../models/newsletter';
 
 @Component({
   selector: 'app-list-crud',
@@ -15,19 +16,38 @@ export class ListCrudComponent {
   titretable: string = '';
   validArticles: Article[] = [];
   nonValidArticles: Article[] = [];
+  newsletters: Newsletter[]=[];
 
   constructor(
     private route: ActivatedRoute,
     private Managenewsletter: ManageNewsletterService,
-    private articleService: ArticleService
+    private articleService: ArticleService,
+    private manageNewsletter : ManageNewsletterService
   ) {}
 
   ngOnInit(): void {
-    this.route.params.subscribe((params) => {
-      this.type = params['type']; 
-      this.loadDataBasedOnType(); 
+    // Vérifier la variable 'newsletter' dans le localStorage
+     const isNewsletter = localStorage.getItem('newsletter') === '1'
+
+    //alert(isNewsletter)
+    if (isNewsletter) {
+      this.type = 'newsletters';
+      this.loadDataBasedOnType();
+    } else {
+      this.type = 'articles';
+      this.loadDataBasedOnType();
+    }
+  }
+
+
+  loadDataBasedOnType() {
+    if (this.type === 'articles') {
+      console.log('Charger les articles');
+      this.titre = 'Management of the articles';
+      this.titretable = 'articles';
+
       this.articleService.getArticles().subscribe(
-        (data: Article[]) => {
+        (data) => {
           // Séparer les articles validés et non validés
           this.validArticles = data.filter(article => article.valid);
           this.nonValidArticles = data.filter(article => !article.valid);
@@ -36,34 +56,28 @@ export class ListCrudComponent {
           console.error('Erreur lors de la récupération des articles: ', error);
         }
       );
-    });
-  }
-
-  loadDataBasedOnType() {
-    if (this.type === 'articles') {
-      console.log('Charger les articles');
-      this.titre = 'Management of the articles';
-      this.titretable = 'articles';
-     
     } else if (this.type === 'newsletters') {
       console.log('Charger les newsletters');
       this.titre = 'Management of the Newsletter';
       this.titretable = 'newsletters';
 
-      this.Managenewsletter.GetALlnewsletter().subscribe({
-        next: (data) => {
+      this.manageNewsletter.GetALlnewsletter().subscribe(
+        (data) => {
+          this.newsletters = data; // Stocker les newsletters récupérées
           console.log(data);
         },
-      });
-
+        (error) => {
+          console.error('Erreur lors de la récupération des newsletters: ', error);
+        }
+      );
     } else {
       console.error('Type invalide');
     }
   }
 
-  // Méthode pour valider l'article
+
   validateArticle(article: Article) {
-    article.valid = true;  // Mettre à jour l'article en le validant
+    article.valid = true;  
     this.articleService.updateArticle(article.articleId,article).subscribe(
       (updatedArticle) => {
         console.log('Article validé', updatedArticle);

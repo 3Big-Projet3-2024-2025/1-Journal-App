@@ -37,6 +37,7 @@ export class ManageNewsletterFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    localStorage.setItem('newsletter', '0');
     this.auth.getUserProfile().then(profile => {
       this.userInfo = profile;
       this.getUserId();
