@@ -1,7 +1,8 @@
 package be.helha.journalapp.controller;
 
 
-import be.helha.journalapp.Dto.NewsletterCreationDTO;
+
+import be.helha.journalapp.DTONEWS.Newsletterdto;
 import be.helha.journalapp.model.Newsletter;
 import be.helha.journalapp.model.User;
 import be.helha.journalapp.repositories.NewsletterRepository;
@@ -27,9 +28,9 @@ public class NewsletterController {
 
     // CREATE: Ajouter une nouvelle newsletter avec un DTO
     @PostMapping
-    public ResponseEntity<Newsletter> addNewsletter(@RequestBody NewsletterCreationDTO dto) {
+    public ResponseEntity<Newsletter> addNewsletter(@RequestBody Newsletterdto dto) {
         // Récupérer le User existant à partir de l'ID fourni
-        System.out.println(dto.getCreatorId());
+
         User creator = userRepository.findById(dto.getCreatorId())
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
