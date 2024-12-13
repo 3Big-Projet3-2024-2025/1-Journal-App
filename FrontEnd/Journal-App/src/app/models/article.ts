@@ -2,7 +2,7 @@ export interface Article {
     articleId : number;
     title : string;
     content : string;
-    publicationDate : Date;
+    publicationDate ?: Date;
     longitude : number;
     latitude : number ;
     user_id : number ;

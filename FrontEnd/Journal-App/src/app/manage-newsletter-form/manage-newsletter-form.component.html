@@ -25,32 +25,6 @@
           required
         />
       </div>
-
-      <div class="form-group">
-        <label for="content">Sélectionnez un article</label>
-        <textarea
-        id="content"
-        [(ngModel)]="formData.content"
-        name="content"
-        placeholder="Enter the newsletter content"
-        required
-      ></textarea>
-        <!-- <select
-          id="content"
-          [(ngModel)]="formData.content"
-          name="content"
-          required
-        >
-        <!--une liste qui sera garnie par les article qui viendront du back-->
-          <!-- <option *ngFor="let article of articles" [value]="article.id">
-            {{ article.title }}
-          </option>
-
-
-        </select>  -->
-      </div>
-      
-
       <div class="form-group">
         <label for="publicationDate">Creation Date</label>
         <input

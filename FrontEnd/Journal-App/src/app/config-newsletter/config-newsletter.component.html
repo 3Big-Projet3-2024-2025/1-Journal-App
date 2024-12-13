@@ -1,0 +1,98 @@
+<!-- <div class="conf-newsletter-container" [ngStyle]="{'background-color': newsletter.backgroundColor, 'font-family': newsletter.font}">
+    <mat-toolbar color="primary">
+      <span>Configurer votre Newsletter</span>
+    </mat-toolbar>
+  
+    <!-- Formulaire de Configuration 
+    <form [formGroup]="newsletterForm" (ngSubmit)="updateNewsletter()" class="config-form">
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Titre</mat-label>
+        <input matInput formControlName="title" placeholder="Entrez le titre de la newsletter">
+        <mat-error *ngIf="newsletterForm.get('title')?.invalid && newsletterForm.get('title')?.touched">
+          Le titre est requis et doit contenir au moins 2 caractères.
+        </mat-error>
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Sous-titre</mat-label>
+        <input matInput formControlName="subtitle" placeholder="Entrez le sous-titre de la newsletter">
+        <mat-error *ngIf="newsletterForm.get('subtitle')?.invalid && newsletterForm.get('subtitle')?.touched">
+          Le sous-titre est requis et doit contenir au moins 2 caractères.
+        </mat-error>
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Couleur de Fond</mat-label>
+        <input matInput type="color" formControlName="backgroundColor">
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Police</mat-label>
+        <mat-select formControlName="font">
+          <mat-option *ngFor="let font of availableFonts" [value]="font">{{ font }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <button mat-raised-button color="primary" type="submit" [disabled]="newsletterForm.invalid">Enregistrer les Modifications</button>
+      <button mat-raised-button color="warn" type="button" (click)="resetNewsletter()">Réinitialiser</button>
+    </form>
+  
+    <hr>
+  
+    <!-- Formulaire d'Ajout d'Article 
+    <h3>Ajouter un Article</h3>
+    <div class="article-form">
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Titre de l'Article</mat-label>
+        <input matInput formControlName="articleTitle" placeholder="Titre de l'article">
+        <mat-error *ngIf="newsletterForm.get('articleTitle')?.invalid && newsletterForm.get('articleTitle')?.touched">
+          Le titre de l'article est requis et doit contenir au moins 2 caractères.
+        </mat-error>
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Contenu de l'Article</mat-label>
+        <textarea matInput formControlName="articleContent" placeholder="Contenu de l'article" rows="4"></textarea>
+        <mat-error *ngIf="newsletterForm.get('articleContent')?.invalid && newsletterForm.get('articleContent')?.touched">
+          Le contenu de l'article est requis et doit contenir au moins 5 caractères.
+        </mat-error>
+      </mat-form-field>
+  
+      <button mat-raised-button color="accent" type="button" (click)="addArticle()">Ajouter l'Article</button>
+    </div>
+  
+    <hr>
+  
+    <!-- Liste des Articles avec Drag-and-Drop 
+    <h3>Vos Articles</h3>
+    <div cdkDropList (cdkDropListDropped)="drop($event)" class="articles-list">
+      <div *ngFor="let article of newsletter.articles; let i = index" cdkDrag class="article-item">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>{{ article.title }}</mat-card-title>
+            <button mat-icon-button color="warn" (click)="deleteArticle(i)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-card-header>
+          <mat-card-content>
+            <p>{{ article.content }}</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  
+    <hr>
+
+    <h3>Aperçu de la Newsletter</h3>
+    <div class="newsletter-preview" [ngStyle]="{'background-color': newsletter.backgroundColor, 'font-family': newsletter.font, 'padding': '20px', 'border': '1px solid #ccc', 'border-radius': '8px'}">
+      <h1>{{ newsletter.title }}</h1>
+      <h3>{{ newsletter.subtitle }}</h3>
+      <div cdkDropList [cdkDropListData]="newsletter.articles" class="articles-list-preview">
+        <div *ngFor="let article of newsletter.articles" class="article-item-preview">
+          <h4>{{ article.title }}</h4>
+          <p>{{ article.content }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+   -->
