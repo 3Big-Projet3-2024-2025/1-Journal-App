@@ -29,8 +29,9 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { FormsModule } from '@angular/forms';
 import { AddArticleComponent } from './add-article/add-article.component';
 import { UpdateArticleComponent } from './update-article/update-article.component';
-import { ConfNewsletterComponent } from './config-newsletter/config-newsletter.component';
+
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { ViewnewsletterComponent } from './viewnewsletter/viewnewsletter.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     ManageRgpdFormComponent,
     AddArticleComponent,
     UpdateArticleComponent,
-    ConfNewsletterComponent,
+    ViewnewsletterComponent,
+    
    
 
   ],

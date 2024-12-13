@@ -21,10 +21,11 @@ export class ManageNewsletterService {
   
     return this.http.post<Newsletter>(this.apiUrl,newsletter)
   }
-  Updatenewsletter(id : number,newsletter:Newsletter):Observable<Newsletter>{
-    const urlApi= `$http://localhost:8080/newsletters/${id}`;
-    return this.http.put<Newsletter>(urlApi,newsletter)
-  }
+    // Méthode pour mettre à jour une newsletter
+    Updatenewsletter(newsletterId: number, newsletter: Newsletter): Observable<Newsletter> {
+      const url = `${this.apiUrl}/${newsletterId}`;
+      return this.http.put<Newsletter>(url, newsletter);
+    }
 
   deletenewsletter(id : number): Observable<void>{
     const url = `${this.apiUrl}/${id}`;
@@ -33,7 +34,9 @@ export class ManageNewsletterService {
 
    getnewsletterById(id: number): Observable<Newsletter> {
       const url = `${this.apiUrl}/${id}`;
-      return this.http.get<Newsletter>(url);
+      
+        return this.http.get<Newsletter>(`${this.apiUrl}/${id}`);
+    
     }
 
 }

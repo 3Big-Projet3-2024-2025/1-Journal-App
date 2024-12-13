@@ -6,6 +6,7 @@ import { ManageNewsletterFormComponent } from './manage-newsletter-form/manage-n
 import { ListCrudComponent } from './list-crud/list-crud.component';
 import { AddArticleComponent } from './add-article/add-article.component';
 import { UpdateArticleComponent } from './update-article/update-article.component';
+import { ViewnewsletterComponent } from './viewnewsletter/viewnewsletter.component';
 
 
 const routes: Routes = [
@@ -33,6 +34,9 @@ const routes: Routes = [
     path: 'update-article', component:UpdateArticleComponent
   },
   { path: 'update-article/:id', component: UpdateArticleComponent },
+  {
+    path:'viewNewsletter',component: ViewnewsletterComponent
+  }
 
 ];
 @NgModule({

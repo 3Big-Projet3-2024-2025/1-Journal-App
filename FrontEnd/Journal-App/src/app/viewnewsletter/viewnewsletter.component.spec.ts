@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ConfNewsletterComponent } from './config-newsletter.component';
+import { ViewnewsletterComponent } from './viewnewsletter.component';
 
-describe('ConfigNewsletterComponent', () => {
-  let component: ConfNewsletterComponent;
-  let fixture: ComponentFixture<ConfNewsletterComponent>;
+describe('ViewnewsletterComponent', () => {
+  let component: ViewnewsletterComponent;
+  let fixture: ComponentFixture<ViewnewsletterComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ConfNewsletterComponent]
+      declarations: [ViewnewsletterComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ConfNewsletterComponent);
+    fixture = TestBed.createComponent(ViewnewsletterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

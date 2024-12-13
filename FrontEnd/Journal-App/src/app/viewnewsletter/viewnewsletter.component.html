@@ -1,0 +1,24 @@
+<div *ngIf="newsletter; else loading">
+    <!-- Affichage de la newsletter avec personnalisation -->
+    <div [style.background-color]="newsletter.backgroundColor" [style.text-align]="newsletter.textAlign">
+      <h1 [style.font-family]="newsletter.titleFont" [style.font-size.px]="newsletter.titleFontSize" 
+          [style.color]="newsletter.titleColor" [style.font-weight]="newsletter.titleBold ? 'bold' : 'normal'" 
+          [style.text-decoration]="newsletter.titleUnderline ? 'underline' : 'none'">
+        {{ newsletter.title }}
+      </h1>
+      <h2 [style.font-family]="newsletter.subtitleFont" [style.font-size.px]="newsletter.subtitleFontSize" 
+          [style.color]="newsletter.subtitleColor" [style.font-weight]="newsletter.subtitleBold ? 'bold' : 'normal'" 
+          [style.font-style]="newsletter.subtitleItalic ? 'italic' : 'normal'">
+        {{ newsletter.subtitle }}
+      </h2>
+      <p>Publication Date: {{ newsletter.publicationDate }}</p>
+      
+      <!-- Ajouter un bouton pour ajouter un article -->
+      <button (click)="addArticle()">Ajouter un article</button>
+    </div>
+  </div>
+  
+  <ng-template #loading>
+    <p>Loading...</p>
+  </ng-template>
+  

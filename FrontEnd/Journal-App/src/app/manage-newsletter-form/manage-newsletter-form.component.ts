@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Newsletter } from '../models/newsletter';
-import { User } from '../models/user';
 import { AuthService } from '../services/auth.service';
 import { ManageNewsletterService } from '../services/manage-newsletter.service';
 import { UsersService } from '../services/users.service';
@@ -8,12 +7,28 @@ import { UsersService } from '../services/users.service';
 @Component({
   selector: 'app-manage-newsletter-form',
   templateUrl: './manage-newsletter-form.component.html',
-  styleUrl: './manage-newsletter-form.component.css'
+  styleUrls: ['./manage-newsletter-form.component.css']
 })
-export class ManageNewsletterFormComponent {
+export class ManageNewsletterFormComponent implements OnInit {
+  userInfo: any = null;
+  useridbykey: number | null = null;
 
-  userInfo: any;
-  useridbykey: any;
+  formData = {
+    title: '',
+    subtitle: '',
+    backgroundColor: '#ffffff',
+    titleFont: 'Arial',
+    titleFontSize: 24,
+    titleColor: '#000000',
+    titleBold: false,
+    titleUnderline: false,
+    subtitleFont: 'Arial',
+    subtitleFontSize: 18,
+    subtitleColor: '#000000',
+    subtitleBold: false,
+    subtitleItalic: false,
+    textAlign: ''
+  };
 
   constructor(
     private auth: AuthService,
@@ -23,106 +38,131 @@ export class ManageNewsletterFormComponent {
 
   ngOnInit(): void {
     this.auth.getUserProfile().then(profile => {
-      this.userInfo = profile; // Stocker les informations dans la variable userInfo
-      console.log(profile);
-      this.getid();
+      this.userInfo = profile;
+      this.getUserId();
     }).catch(error => {
-      console.error('Erreur lors du chargement des informations utilisateur', error);
+      console.error('Error while loading user information', error);
     });
   }
 
-  formData = {
-    title: '',
-    subtitle: '',
-    content: '',
-    publicationDate: '',
-  };
+  private getUserId(): void {
+    if (!this.userInfo?.id) {
+      console.error('User ID not found.');
+      return;
+    }
 
-  getid() {
     this.userservice.getUserByKeycloakId(this.userInfo.id).subscribe({
       next: (data) => {
         this.useridbykey = data.userId;
       },
       error: (err) => {
-        console.error('Erreur lors de la récupération de l\'ID utilisateur', err);
+        console.error('Error while retrieving user ID', err);
       }
     });
   }
 
-  onSubmit() {
-    const { title, subtitle, content, publicationDate } = this.formData;
-
-    // Validation des champs
-    if (!title || title.trim().length < 2) {
-      alert('Title is required and must be at least 2 characters.');
+  onSubmit(): void {
+    if (!this.isFormValid()) {
       return;
     }
 
-    if (!subtitle || subtitle.trim().length < 2) {
-      alert('Subtitle is required and must be at least 2 characters.');
-      return;
-    }
-
-    if (!publicationDate) {
-      alert('Publication date is required.');
-      return;
-    }
-
-    // Création de l'objet newsletter
     const newsletter: Newsletter = {
       newsletterId: 0,
-      title: title,
-      subtitle: subtitle,
-      publicationDate: publicationDate,
-      creator: this.useridbykey,
-      backgroundColor: '',
-      font: '',
-      articles: []
+      title: this.formData.title,
+      subtitle: this.formData.subtitle,
+      publicationDate: new Date(),
+      creator: this.useridbykey || 0,
+      backgroundColor: this.formData.backgroundColor,
+      titleFont: this.formData.titleFont,
+      titleFontSize: this.formData.titleFontSize,
+      titleColor: this.formData.titleColor,
+      titleBold: this.formData.titleBold,
+      titleUnderline: this.formData.titleUnderline,
+      subtitleFont: this.formData.subtitleFont,
+      subtitleFontSize: this.formData.subtitleFontSize,
+      subtitleColor: this.formData.subtitleColor,
+      subtitleBold: this.formData.subtitleBold,
+      subtitleItalic: this.formData.subtitleItalic,
+      textAlign: this.formData.textAlign
     };
 
-    // Appel au service pour ajouter une newsletter
     this.manageNewsletterService.Addnewsletter(newsletter).subscribe({
       next: (value) => {
-        console.log('Newsletter ajoutée avec succès', value);
+        console.log('Newsletter successfully added', value);
+        alert('Newsletter successfully added!');
       },
       error: (err) => {
-        console.error('Erreur lors de l\'ajout de la newsletter', err);
+        console.error('Error while adding the newsletter', err);
+        alert('Error while adding the newsletter.');
       }
     });
   }
 
-  updateNewsletter(newsletterId: number) {
+  updateNewsletter(newsletterId: number): void {
+    if (!this.isFormValid()) {
+      return;
+    }
+
     const updatedNewsletter: Newsletter = {
-      newsletterId: newsletterId,
+      newsletterId:1,
       title: this.formData.title,
       subtitle: this.formData.subtitle,
-      publicationDate: this.formData.publicationDate,
-      creator: this.useridbykey,
-      backgroundColor: '',
-      font: '',
-      articles: []
+      publicationDate: new Date(),
+     
+      backgroundColor: this.formData.backgroundColor,
+      titleFont: this.formData.titleFont,
+      titleFontSize: this.formData.titleFontSize,
+      titleColor: this.formData.titleColor,
+      titleBold: this.formData.titleBold,
+      titleUnderline: this.formData.titleUnderline,
+      subtitleFont: this.formData.subtitleFont,
+      subtitleFontSize: this.formData.subtitleFontSize,
+      subtitleColor: this.formData.subtitleColor,
+      subtitleBold: this.formData.subtitleBold,
+      subtitleItalic: this.formData.subtitleItalic,
+      textAlign: this.formData.textAlign
     };
 
     this.manageNewsletterService.Updatenewsletter(newsletterId, updatedNewsletter).subscribe({
       next: (value) => {
-        console.log('Newsletter mise à jour avec succès', value);
+        console.log('Newsletter successfully updated', value);
+        alert('Newsletter successfully updated!');
       },
       error: (err) => {
-        console.error('Erreur lors de la mise à jour de la newsletter', err);
+        console.error('Error while updating the newsletter', err);
+        alert('Error while updating the newsletter.');
       }
     });
   }
 
-  deleteNewsletter(newsletterId: number) {
-    if (confirm('Êtes-vous sûr de vouloir supprimer cette newsletter ?')) {
+  deleteNewsletter(newsletterId: number): void {
+    if (confirm('Are you sure you want to delete this newsletter?')) {
       this.manageNewsletterService.deletenewsletter(newsletterId).subscribe({
         next: () => {
-          console.log('Newsletter supprimée avec succès');
+          console.log('Newsletter successfully deleted');
+          alert('Newsletter successfully deleted.');
         },
         error: (err) => {
-          console.error('Erreur lors de la suppression de la newsletter', err);
+          console.error('Error while deleting the newsletter', err);
+          alert('Error while deleting the newsletter.');
         }
       });
     }
+  }
+
+  private isFormValid(): boolean {
+    const { title, subtitle } = this.formData;
+
+    if (!title || title.trim().length < 2) {
+      alert('Title is required and must be at least 2 characters.');
+      return false;
+    }
+
+    if (!subtitle || subtitle.trim().length < 2) {
+      alert('Subtitle is required and must be at least 2 characters.');
+      return false;
+    }
+
+    return true;
   }
 }

@@ -1,7 +1,8 @@
 <div class="form-section">
   <div class="form-card">
-    <h2>Add a Newsletter</h2>
+    <h2>Create a Custom Newsletter</h2>
     <form (ngSubmit)="onSubmit()">
+      <!-- Title Section -->
       <div class="form-group">
         <label for="title">Title</label>
         <input
@@ -12,8 +13,61 @@
           placeholder="Enter the newsletter title"
           required
         />
+        <div class="style-options">
+          <label for="titleFont">Font</label><br>
+          <select
+            id="titleFont"
+            [(ngModel)]="formData.titleFont"
+            name="titleFont"
+          >
+            <option value="Arial">Arial</option>
+            <option value="Times New Roman">Times New Roman</option>
+            <option value="Verdana">Verdana</option>
+            <option value="Georgia">Georgia</option>
+          </select>
+<br>
+          <label for="titleFontSize">Font Size</label><br>
+          <input
+            type="number"
+            id="titleFontSize"
+            [(ngModel)]="formData.titleFontSize"
+            name="titleFontSize"
+            placeholder="e.g., 24"
+          />
+          <br>
+
+          <label for="titleColor">Color</label>
+          <input
+            type="color"
+            id="titleColor"
+            [(ngModel)]="formData.titleColor"
+            name="titleColor"
+          />
+          <br>
+
+          <div class="checkbox-group">
+            <label>
+              <input
+                type="checkbox"
+                [(ngModel)]="formData.titleBold"
+                name="titleBold"
+              />
+              Bold
+            </label>
+            <br>
+            <label>
+              <input
+                type="checkbox"
+                [(ngModel)]="formData.titleUnderline"
+                name="titleUnderline"
+              />
+              Underline
+            </label>
+          </div>
+        </div>
       </div>
 
+      <!-- Subtitle Section -->
       <div class="form-group">
         <label for="subtitle">Subtitle</label>
         <input
@@ -24,20 +78,85 @@
           placeholder="Enter the newsletter subtitle"
           required
         />
+        <div class="style-options">
+          <label for="subtitleFont">Font</label>
+          <br>
+          <select
+            id="subtitleFont"
+            [(ngModel)]="formData.subtitleFont"
+            name="subtitleFont"
+          >
+            <option value="Arial">Arial</option>
+            <option value="Times New Roman">Times New Roman</option>
+            <option value="Verdana">Verdana</option>
+            <option value="Georgia">Georgia</option>
+          </select>
+          <br>
+
+          <label for="subtitleFontSize">Font Size</label><br>
+          <input
+            type="number"
+            id="subtitleFontSize"
+            [(ngModel)]="formData.subtitleFontSize"
+            name="subtitleFontSize"
+            placeholder="e.g., 18"
+          />
+          <br>
+
+          <label for="subtitleColor">Color</label>
+          <input
+            type="color"
+            id="subtitleColor"
+            [(ngModel)]="formData.subtitleColor"
+            name="subtitleColor"
+          />
+
+          <div class="checkbox-group">
+            <label>
+              <input
+                type="checkbox"
+                [(ngModel)]="formData.subtitleBold"
+                name="subtitleBold"
+              />
+              Bold
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                [(ngModel)]="formData.subtitleItalic"
+                name="subtitleItalic"
+              />
+              Italic
+            </label>
+          </div>
+        </div>
       </div>
+
+      <!-- Background and Layout -->
       <div class="form-group">
-        <label for="publicationDate">Creation Date</label>
+        <label for="backgroundColor">Background Color</label>
         <input
-          type="date"
-          id="publicationDate"
-          [(ngModel)]="formData.publicationDate"
-          name="publicationDate"
-          required
+          type="color"
+          id="backgroundColor"
+          [(ngModel)]="formData.backgroundColor"
+          name="backgroundColor"
         />
+
+        <label for="textAlign">Text Alignment</label>
+        <select
+          id="textAlign"
+          [(ngModel)]="formData.textAlign"
+          name="textAlign"
+        >
+          <option value="left">Left</option>
+          <option value="center">Center</option>
+          <option value="right">Right</option>
+        </select>
       </div>
 
 
-      <button type="submit">Save</button>
+
+      <button type="submit">Save Newsletter</button>
     </form>
   </div>
 </div>
