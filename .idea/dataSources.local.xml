@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="dataSourceStorageLocal" created-in="IU-243.21565.193">
-    <data-source name="journalapp@localhost " uuid="763ac68a-3ba3-42db-a7d6-2859e19b7cc5">
+    <data-source name="journalapp@localhost" uuid="e46c26bf-8df7-45d5-b77b-5ab65298d11d">
       <database-info product="PostgreSQL" version="17.2 (Debian 17.2-1.pgdg120+1)" jdbc-version="4.2" driver-name="PostgreSQL JDBC Driver" driver-version="42.7.3" dbms="POSTGRES" exact-version="17.2" exact-driver-version="42.7">
         <identifier-quote-string>&quot;</identifier-quote-string>
       </database-info>
@@ -18,12 +18,6 @@
               <node kind="schema">
                 <name qname="keycloak" />
                 <name qname="public" />
-              </node>
-            </node>
-            <node kind="database" qname="postgres">
-              <node kind="schema">
-                <name qname="public" />
-                <name qname="keycloak" />
               </node>
             </node>
           </node>
