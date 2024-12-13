@@ -27,11 +27,27 @@ public class NewsletterController {
     @PostMapping
     public ResponseEntity<Newsletter> addNewsletter(@RequestBody Map<String, Object> newsletterData) {
         System.out.println("Données reçues : " + newsletterData);
+
         // Créer une instance de Newsletter
         Newsletter newsletter = new Newsletter();
         newsletter.setTitle((String) newsletterData.get("title"));
         newsletter.setSubtitle((String) newsletterData.get("subtitle"));
         newsletter.setPublicationDate((String) newsletterData.get("publicationDate"));
+
+        // Gestion des nouvelles propriétés
+        newsletter.setBackgroundColor((String) newsletterData.get("backgroundColor"));
+        newsletter.setTitleFont((String) newsletterData.get("titleFont"));
+        newsletter.setTitleFontSize((Integer) newsletterData.get("titleFontSize"));
+        newsletter.setTitleColor((String) newsletterData.get("titleColor"));
+        newsletter.setTitleBold((Boolean) newsletterData.get("titleBold"));
+        newsletter.setTitleUnderline((Boolean) newsletterData.get("titleUnderline"));
+        newsletter.setSubtitleFont((String) newsletterData.get("subtitleFont"));
+        newsletter.setSubtitleFontSize((Integer) newsletterData.get("subtitleFontSize"));
+        newsletter.setSubtitleColor((String) newsletterData.get("subtitleColor"));
+        newsletter.setSubtitleBold((Boolean) newsletterData.get("subtitleBold"));
+        newsletter.setSubtitleItalic((Boolean) newsletterData.get("subtitleItalic"));
+        newsletter.setTextAlign((String) newsletterData.get("textAlign"));
+
         // Vérifie que l'ID du créateur est présent
         if (!newsletterData.containsKey("creator")) {
             throw new RuntimeException("Creator ID is missing from request.");
@@ -42,7 +58,7 @@ public class NewsletterController {
                 .orElseThrow(() -> new RuntimeException("User with ID " + creatorId + " not found."));
         // Associe l'utilisateur comme créateur
         newsletter.setCreator(creator);
-        newsletter.setRead(false); // Exemple : initialisation par défaut
+
         // Sauvegarde de la newsletter
         Newsletter savedNewsletter = newsletterRepository.save(newsletter);
         return ResponseEntity.ok(savedNewsletter);
@@ -63,7 +79,7 @@ public class NewsletterController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // Mise à jour de la méthode updateNewsletter
+    // Mise à jour d'une newsletter
     @PutMapping("/{id}")
     public ResponseEntity<Newsletter> updateNewsletter(@PathVariable Long id, @RequestBody Newsletter updatedNewsletter) {
         return newsletterRepository.findById(id)
@@ -71,13 +87,27 @@ public class NewsletterController {
                     existingNewsletter.setTitle(updatedNewsletter.getTitle());
                     existingNewsletter.setSubtitle(updatedNewsletter.getSubtitle());
                     existingNewsletter.setPublicationDate(updatedNewsletter.getPublicationDate());
-                    existingNewsletter.setRead(updatedNewsletter.isRead()); // Utilisation correcte
-                    Newsletter savedNewsletter = newsletterRepository.save(existingNewsletter);
-                    return ResponseEntity.ok(savedNewsletter);
-                })
-                .orElse(ResponseEntity.notFound().build());
-    }
 
+                    // Mise à jour des nouvelles propriétés
+                    existingNewsletter.setBackgroundColor(updatedNewsletter.getBackgroundColor());
+                    existingNewsletter.setTitleFont(updatedNewsletter.getTitleFont());
+                    existingNewsletter.setTitleFontSize(updatedNewsletter.getTitleFontSize());
+                    existingNewsletter.setTitleColor(updatedNewsletter.getTitleColor());
+                    existingNewsletter.setTitleBold(updatedNewsletter.isTitleBold());
+                    existingNewsletter.setTitleUnderline(updatedNewsletter.isTitleUnderline());
+                    existingNewsletter.setSubtitleFont(updatedNewsletter.getSubtitleFont());
+                    existingNewsletter.setSubtitleFontSize(updatedNewsletter.getSubtitleFontSize());
+                    existingNewsletter.setSubtitleColor(updatedNewsletter.getSubtitleColor());
+                    existingNewsletter.setSubtitleBold(updatedNewsletter.isSubtitleBold());
+                    existingNewsletter.setSubtitleItalic(updatedNewsletter.isSubtitleItalic());
+                    existingNewsletter.setTextAlign(updatedNewsletter.getTextAlign());
+
+                    // Sauvegarde la newsletter mise à jour
+                    Newsletter savedNewsletter = newsletterRepository.save(existingNewsletter);
+                    return ResponseEntity.ok(savedNewsletter);  // Retourne la newsletter mise à jour
+                })
+                .orElse(ResponseEntity.notFound().build());  // Si la newsletter n'existe pas, retourne not found
+    }
 
     // DELETE: Supprimer une newsletter par son ID
     @DeleteMapping("/{id}")
@@ -87,17 +117,5 @@ public class NewsletterController {
             return ResponseEntity.ok("Newsletter deleted successfully");
         }
         return ResponseEntity.notFound().build();
-    }
-
-    // Exemple pour la méthode markAsRead
-    @PatchMapping("/{id}/read")
-    public ResponseEntity<Newsletter> markAsRead(@PathVariable Long id) {
-        return newsletterRepository.findById(id)
-                .map(existingNewsletter -> {
-                    existingNewsletter.setRead(true); // Utilisation correcte
-                    Newsletter updatedNewsletter = newsletterRepository.save(existingNewsletter);
-                    return ResponseEntity.ok(updatedNewsletter);
-                })
-                .orElse(ResponseEntity.notFound().build());
     }
 }

@@ -126,7 +126,7 @@ public class UserController {
                     if (newsletter == null) {
                         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Newsletter not found for this user");
                     }
-                    newsletter.setRead(true);
+
                     userRepository.save(user);
                     return ResponseEntity.ok("Newsletter marked as read successfully");
                 })
