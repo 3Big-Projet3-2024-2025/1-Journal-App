@@ -20,6 +20,7 @@ export class HomeComponent implements OnInit {
   }
 
   loadAllArticles(): void {
+    localStorage.setItem('newsletter', '0');
     this.articleService.getAvailableArticles().subscribe(
       (data: Article[]) => {
         this.allArticles = data; 

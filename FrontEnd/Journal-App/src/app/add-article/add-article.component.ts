@@ -24,6 +24,7 @@ export class AddArticleComponent implements OnInit {
   ) {}
   
   ngOnInit(): void {
+    localStorage.setItem('newsletter', '0');
     this.getUserId().then(() => {
       this.getUserLocation();
       this.loadNewsletters();

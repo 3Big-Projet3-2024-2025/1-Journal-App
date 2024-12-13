@@ -22,6 +22,7 @@ export class ManageNewsletterFormComponent {
   ) {}
 
   ngOnInit(): void {
+    localStorage.setItem('newsletter', '0');
     this.auth.getUserProfile().then(profile => {
       this.userInfo = profile; // Stocker les informations dans la variable userInfo
       console.log(profile);

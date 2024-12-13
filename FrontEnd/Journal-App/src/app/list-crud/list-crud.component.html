@@ -11,11 +11,12 @@
     "
   >
     {{ titretable === 'articles' ? 'Add an Article' : titretable === 'newsletters' ? 'Add a Newsletter' : 'Add an Item' }}
+    
   </button>
 
   <!-- Table for Valid Articles -->
-  <h3>Valid Articles</h3>
-  <table class="table table-striped" *ngIf="validArticles.length > 0">
+  <h3 *ngIf="titretable === 'articles'">Valid Articles</h3>
+  <table class="table table-striped" *ngIf="titretable === 'articles' && validArticles.length > 0">
     <thead>
       <tr>
         <th>#</th>
@@ -31,21 +32,21 @@
         <td>{{ article.publicationDate }}</td>
         <td>
           <button
-          class="btn btn-warning btn-sm"
-          [routerLink]="['/update-article', article.articleId]"
-        >
-          Edit
-        </button>
+            class="btn btn-warning btn-sm"
+            [routerLink]="['/update-article', article.articleId]"
+          >
+            Edit
+          </button>
           <button class="btn btn-danger btn-sm">Delete</button>
         </td>
       </tr>
     </tbody>
   </table>
-  <p *ngIf="validArticles.length === 0">No valid articles available.</p>
+  <p *ngIf="titretable === 'articles' && validArticles.length === 0">No valid articles available.</p>
 
   <!-- Table for Non-Valid Articles -->
-  <h3>Non-Valid Articles</h3>
-  <table class="table table-striped" *ngIf="nonValidArticles.length > 0">
+  <h3 *ngIf="titretable === 'articles'">Non-Valid Articles</h3>
+  <table class="table table-striped" *ngIf="titretable === 'articles' && nonValidArticles.length > 0">
     <thead>
       <tr>
         <th>#</th>
@@ -61,11 +62,11 @@
         <td>{{ article.publicationDate }}</td>
         <td>
           <button
-          class="btn btn-warning btn-sm"
-          [routerLink]="['/update-article', article.articleId]"
-        >
-          Edit
-        </button>
+            class="btn btn-warning btn-sm"
+            [routerLink]="['/update-article', article.articleId]"
+          >
+            Edit
+          </button>
           <button class="btn btn-danger btn-sm">Delete</button>
           <!-- Button to Validate the article -->
           <button class="btn btn-success btn-sm" (click)="validateArticle(article)">Validate</button>
@@ -73,5 +74,35 @@
       </tr>
     </tbody>
   </table>
-  <p *ngIf="nonValidArticles.length === 0">No non-valid articles available.</p>
+  <p *ngIf="titretable === 'articles' && nonValidArticles.length === 0">No non-valid articles available.</p>
+
+  <!-- Table for Newsletters -->
+  <h3 *ngIf="titretable === 'newsletters'">Newsletters</h3>
+  <table class="table table-striped" *ngIf="titretable === 'newsletters' && newsletters.length > 0">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Title</th>
+        <th>Content</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let newsletter of newsletters; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ newsletter.title }}</td>
+        <td>{{ newsletter.publicationDate }}</td>
+        <td>
+          <button
+            class="btn btn-warning btn-sm"
+            [routerLink]="['/update-newsletter', newsletter.newsletterId]"
+          >
+            Edit
+          </button>
+          <button class="btn btn-danger btn-sm">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <p *ngIf="titretable === 'newsletters' && newsletters.length === 0">No newsletters available.</p>
 </div>
