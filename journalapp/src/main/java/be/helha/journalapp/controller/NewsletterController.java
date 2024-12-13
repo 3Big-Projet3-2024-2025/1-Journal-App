@@ -1,29 +1,59 @@
 package be.helha.journalapp.controller;
 
 import be.helha.journalapp.model.Newsletter;
+import be.helha.journalapp.model.User;
 import be.helha.journalapp.repositories.NewsletterRepository;
+import be.helha.journalapp.repositories.UserRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/newsletters")
 public class NewsletterController {
 
     private final NewsletterRepository newsletterRepository;
+    private final UserRepository userRepository;
 
     // Injection du repository via le constructeur
-    public NewsletterController(NewsletterRepository newsletterRepository) {
-        this.newsletterRepository = newsletterRepository;
-    }
+    public NewsletterController(NewsletterRepository newsletterRepository,UserRepository userRepository) {
 
-    // CREATE: Ajouter une nouvelle newsletter
+        this.newsletterRepository = newsletterRepository;
+        this.userRepository = userRepository;
+    }
     @PostMapping
-    public ResponseEntity<Newsletter> addNewsletter(@RequestBody Newsletter newNewsletter) {
-        Newsletter savedNewsletter = newsletterRepository.save(newNewsletter);
+    public ResponseEntity<Newsletter> addNewsletter(@RequestBody Map<String, Object> newsletterData) {
+        System.out.println("Données reçues : " + newsletterData);
+
+        // Créer une instance de Newsletter
+        Newsletter newsletter = new Newsletter();
+        newsletter.setTitle((String) newsletterData.get("title"));
+        newsletter.setSubtitle((String) newsletterData.get("subtitle"));
+        newsletter.setPublicationDate((String) newsletterData.get("publicationDate"));
+
+        // Vérifie que l'ID du créateur est présent
+        if (!newsletterData.containsKey("creator")) {
+            throw new RuntimeException("Creator ID is missing from request.");
+        }
+
+        Long creatorId = ((Number) newsletterData.get("creator")).longValue();
+
+        // Recherche de l'utilisateur
+        User creator = userRepository.findById(creatorId)
+                .orElseThrow(() -> new RuntimeException("User with ID " + creatorId + " not found."));
+
+        // Associe l'utilisateur comme créateur
+        newsletter.setCreator(creator);
+        newsletter.setRead(false); // Exemple : initialisation par défaut
+
+        // Sauvegarde de la newsletter
+        Newsletter savedNewsletter = newsletterRepository.save(newsletter);
         return ResponseEntity.ok(savedNewsletter);
     }
+
+
 
     // READ: Récupérer toutes les newsletters
     @GetMapping("/all")
