@@ -4,6 +4,7 @@ import { ManageNewsletterService } from '../services/manage-newsletter.service';
 import { ArticleService } from '../services/article.service';
 import { Article } from '../models/article';
 import { Newsletter } from '../models/newsletter';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-list-crud',
@@ -16,13 +17,17 @@ export class ListCrudComponent {
   titretable: string = '';
   validArticles: Article[] = [];
   nonValidArticles: Article[] = [];
+  articles:Article[]=[]
   newsletters: Newsletter[]=[];
+  data!: string;
+  
 
   constructor(
     private route: ActivatedRoute,
     private Managenewsletter: ManageNewsletterService,
     private articleService: ArticleService,
-    private manageNewsletter : ManageNewsletterService
+    private manageNewsletter : ManageNewsletterService,
+    private cook:CookieService
   ) {}
 
   ngOnInit(): void {
@@ -45,17 +50,30 @@ export class ListCrudComponent {
       console.log('Charger les articles');
       this.titre = 'Management of the articles';
       this.titretable = 'articles';
+      const rawData = localStorage.getItem('allArticles'); // Récupère une chaîne JSON
+      
+    console.log('Raw Data from cook:', rawData);
 
-      this.articleService.getArticles().subscribe(
-        (data) => {
-          // Séparer les articles validés et non validés
-          this.validArticles = data.filter(article => article.valid);
-          this.nonValidArticles = data.filter(article => !article.valid);
-        },
-        (error) => {
-          console.error('Erreur lors de la récupération des articles: ', error);
-        }
-      );
+    try {
+      // Convertir la chaîne JSON en tableau d'articles
+      this.data = rawData ? JSON.parse(rawData) : [];
+      
+      // Vérifiez que c'est bien un tableau
+      if (Array.isArray(this.data)) {
+        // Séparer les articles validés et non validés
+        this.validArticles = this.data.filter((article: any) => article.valid);
+        this.nonValidArticles = this.data.filter((article: any) => !article.valid);
+        
+      } else {
+        console.error('Les données ne sont pas un tableau:', this.data);
+        this.validArticles = [];
+        this.nonValidArticles = [];
+      }
+    } catch (error) {
+      console.error('Erreur lors de la conversion JSON:', error);
+      this.validArticles = [];
+      this.nonValidArticles = [];
+    }
     } else if (this.type === 'newsletters') {
       console.log('Charger les newsletters');
       this.titre = 'Management of the Newsletter';

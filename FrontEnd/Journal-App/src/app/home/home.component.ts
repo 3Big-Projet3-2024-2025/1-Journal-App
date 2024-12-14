@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ArticleService } from '../services/article.service';
 import { Article } from '../models/article';
 import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-home',
@@ -13,7 +14,7 @@ export class HomeComponent implements OnInit {
   searchResults: Article[] = []; 
   searchTerm: string = ''; 
 
-  constructor(private articleService: ArticleService, private router: Router) {}
+  constructor(private articleService: ArticleService, private router: Router,private cook:CookieService) {}
 
   ngOnInit(): void {
     this.loadAllArticles();
@@ -24,6 +25,10 @@ export class HomeComponent implements OnInit {
     this.articleService.getAvailableArticles().subscribe(
       (data: Article[]) => {
         this.allArticles = data; 
+        const test = JSON.stringify(this.allArticles)
+        //alert(test)
+        localStorage.setItem('allArticles', test);
+        //this.cook.set('allArticle', 'j');
       },
       (error) => {
         console.error('Erreur lors du chargement des articles:', error);
