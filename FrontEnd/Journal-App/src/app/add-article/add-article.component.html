@@ -15,8 +15,8 @@
       <textarea
         name="content"
         [(ngModel)]="articleToAdd.content"
-        placeholder="Enter your text here (max 2000 characters)"
-        maxlength="2000"
+        placeholder="Enter your text here (max 5000 characters)"
+        maxlength="5000"
         rows="4"
         required
       ></textarea>
@@ -40,7 +40,7 @@
         <input
           type="file"
           name="images"
-          accept="image/*"
+          accept="image/png"
           multiple
           (change)="validateFileCount($event)"
         />

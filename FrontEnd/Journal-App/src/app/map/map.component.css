@@ -41,6 +41,19 @@
 
 
 
+.article-image {
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  margin: 10px 0;
+}
+
+.image-container {
+  display: inline-block;
+  margin: 10px;
+}
+
+
 
 
 /* card detail article */
@@ -113,10 +126,11 @@
 }
 
 /* Footer of the card */
+/* Footer of the card */
 .card-footer {
   width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: space-between; /* Espacement égal entre les boutons */
   padding-top: 10px;
   border-top: 1px solid #ddd;
 }
@@ -133,7 +147,7 @@
 }
 
 .card-footer button:hover {
-  background-color: #164b8a;
+  background-color: #28a745;
 }
 
 

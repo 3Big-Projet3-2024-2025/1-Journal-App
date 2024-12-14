@@ -4,6 +4,8 @@ import { ArticleService } from '../services/article.service';
 import { Article } from '../models/article';
 import 'leaflet.markercluster';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Image } from '../models/image';
+import { ImageService } from '../services/image.service';
 
 @Component({
   selector: 'app-map',
@@ -25,7 +27,9 @@ export class MapComponent implements OnInit, OnChanges {
   newsletterTitle: string | null = null;
   authorName: string | null = null;
 
-  constructor(private articleService: ArticleService) {}
+  images: Image[] = []; // Images associées à l'article sélectionné
+
+  constructor(private articleService: ArticleService, private imageService: ImageService) {}
 
   ngOnInit(): void {
     this.initializeMap();
@@ -150,6 +154,17 @@ export class MapComponent implements OnInit, OnChanges {
 
         this.getNewsletterTitle(articleId);
         this.getAuthorName(articleId);
+
+        // Charger les images associées à cet article
+        this.imageService.getImagesByArticleId(articleId).subscribe(
+          (images: Image[]) => {
+            this.images = images;
+          },
+          (error: HttpErrorResponse) => {
+            console.error('Erreur lors de la récupération des images:', error);
+            this.images = [];
+          }
+        );
       },
       (error) => {
         if (error.status === 401) {
