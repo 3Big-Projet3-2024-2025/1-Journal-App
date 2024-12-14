@@ -4,12 +4,15 @@ import be.helha.journalapp.model.Article;
 import be.helha.journalapp.model.Image;
 import be.helha.journalapp.repositories.ArticleRepository;
 import be.helha.journalapp.repositories.ImageRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/images")
@@ -125,12 +128,26 @@ public class ImageController {
     }
 
     @GetMapping("/article/{articleId}")
-    public ResponseEntity<List<Image>> getImagesByArticleId(@PathVariable Long articleId) {
+    @Transactional
+    public ResponseEntity<List<Map<String, Object>>> getImagesByArticleId(@PathVariable Long articleId) {
         List<Image> images = imageRepository.findByArticleArticleId(articleId);
         if (images.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(images);
+
+        // Transformez les données pour inclure les images en Base64
+        List<Map<String, Object>> response = images.stream().map(image -> {
+            Map<String, Object> imageData = new HashMap<>();
+            imageData.put("imageId", image.getImageId());
+            imageData.put("imagePath", Base64.getEncoder().encodeToString(image.getImagePath()));
+            imageData.put("articleId", image.getArticle().getArticleId());
+            return imageData;
+        }).collect(Collectors.toList());
+
+        return ResponseEntity.ok(response);
     }
+
+
+
 }
 
