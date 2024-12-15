@@ -1,0 +1,138 @@
+<changelist name="Uncommitted_changes_before_Update_at_11-12-24_23_27_[Changes]" date="1733956065230" recycled="false" toDelete="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11-12-24_23_27_[Changes]/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Update at 11-12-24 23:27 [Changes]" />
+  <binary>
+    <option name="BEFORE_PATH" value="journalapp/data/postgresql/data/base/16441/17247" />
+    <option name="AFTER_PATH" value="journalapp/data/postgresql/data/base/16441/17247" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11-12-24_23_27_[Changes]/17247" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="journalapp/.gradle/8.5/checksums/sha1-checksums.bin" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11-12-24_23_27_[Changes]/sha1-checksums.bin" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="journalapp/.gradle/8.5/fileHashes/fileHashes.bin" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11-12-24_23_27_[Changes]/fileHashes.bin" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="journalapp/.gradle/buildOutputCleanup/buildOutputCleanup.lock" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11-12-24_23_27_[Changes]/buildOutputCleanup.lock" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="journalapp/.gradle/8.5/dependencies-accessors/dependencies-accessors.lock" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11-12-24_23_27_[Changes]/dependencies-accessors.lock" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="journalapp/data/postgresql/data/pg_stat/pgstat.stat" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11-12-24_23_27_[Changes]/pgstat.stat" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="journalapp/data/postgresql/data/base/16384/26536" />
+    <option name="AFTER_PATH" value="journalapp/data/postgresql/data/base/16384/26536" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11-12-24_23_27_[Changes]/26536" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="journalapp/data/postgresql/data/pg_wal/000000010000000000000003" />
+    <option name="AFTER_PATH" value="journalapp/data/postgresql/data/pg_wal/000000010000000000000003" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11-12-24_23_27_[Changes]/000000010000000000000003" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="journalapp/data/postgresql/data/base/16384/26567" />
+    <option name="AFTER_PATH" value="journalapp/data/postgresql/data/base/16384/26567" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11-12-24_23_27_[Changes]/26567" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="journalapp/.gradle/8.10.2/executionHistory/executionHistory.lock" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11-12-24_23_27_[Changes]/executionHistory.lock" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="journalapp/data/postgresql/data/base/16441/17242" />
+    <option name="AFTER_PATH" value="journalapp/data/postgresql/data/base/16441/17242" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11-12-24_23_27_[Changes]/17242" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="journalapp/data/postgresql/data/global/pg_control" />
+    <option name="AFTER_PATH" value="journalapp/data/postgresql/data/global/pg_control" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11-12-24_23_27_[Changes]/pg_control" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="journalapp/data/postgresql/data/pg_xact/0000" />
+    <option name="AFTER_PATH" value="journalapp/data/postgresql/data/pg_xact/0000" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11-12-24_23_27_[Changes]/0000" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="journalapp/data/postgresql/data/base/16384/26530" />
+    <option name="AFTER_PATH" value="journalapp/data/postgresql/data/base/16384/26530" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11-12-24_23_27_[Changes]/26530" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="journalapp/.gradle/8.5/executionHistory/executionHistory.bin" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11-12-24_23_27_[Changes]/executionHistory.bin" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="journalapp/.gradle/8.5/fileChanges/last-build.bin" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11-12-24_23_27_[Changes]/last-build.bin" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="journalapp/data/postgresql/data/base/16441/18025" />
+    <option name="AFTER_PATH" value="journalapp/data/postgresql/data/base/16441/18025" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11-12-24_23_27_[Changes]/18025" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="journalapp/.gradle/8.10.2/fileChanges/last-build.bin" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11-12-24_23_27_[Changes]/last-build1.bin" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="journalapp/.gradle/8.10.2/checksums/checksums.lock" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11-12-24_23_27_[Changes]/checksums.lock" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="journalapp/data/postgresql/data/base/16441/17990" />
+    <option name="AFTER_PATH" value="journalapp/data/postgresql/data/base/16441/17990" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11-12-24_23_27_[Changes]/17990" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="journalapp/.gradle/8.10.2/fileHashes/fileHashes.bin" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11-12-24_23_27_[Changes]/fileHashes1.bin" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="journalapp/.gradle/8.5/checksums/md5-checksums.bin" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11-12-24_23_27_[Changes]/md5-checksums.bin" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="journalapp/.gradle/8.5/executionHistory/executionHistory.lock" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11-12-24_23_27_[Changes]/executionHistory1.lock" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="journalapp/.gradle/8.5/checksums/checksums.lock" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11-12-24_23_27_[Changes]/checksums1.lock" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="journalapp/data/postgresql/data/base/16384/26531" />
+    <option name="AFTER_PATH" value="journalapp/data/postgresql/data/base/16384/26531" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11-12-24_23_27_[Changes]/26531" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="journalapp/data/postgresql/data/base/16384/26553" />
+    <option name="AFTER_PATH" value="journalapp/data/postgresql/data/base/16384/26553" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11-12-24_23_27_[Changes]/26553" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="journalapp/.gradle/8.5/fileHashes/fileHashes.lock" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11-12-24_23_27_[Changes]/fileHashes.lock" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="journalapp/data/postgresql/data/base/16441/17252" />
+    <option name="AFTER_PATH" value="journalapp/data/postgresql/data/base/16441/17252" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11-12-24_23_27_[Changes]/17252" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="journalapp/data/postgresql/data/base/16441/18026" />
+    <option name="AFTER_PATH" value="journalapp/data/postgresql/data/base/16441/18026" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11-12-24_23_27_[Changes]/18026" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="journalapp/.gradle/8.10.2/fileHashes/fileHashes.lock" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11-12-24_23_27_[Changes]/fileHashes1.lock" />
+  </binary>
+</changelist>

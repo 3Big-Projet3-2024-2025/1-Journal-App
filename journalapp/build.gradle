@@ -24,16 +24,70 @@ repositories {
 }
 
 dependencies {
+	// Web et API REST
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-web-services'
-	implementation 'org.springframework.boot:spring-boot-starter-webflux'
-	implementation 'mysql:mysql-connector-java:8.0.28' // Dépendance pour MySQL
+
+	// Si tu n'utilises pas WebFlux (reactif), retire ce starter :
+	// implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+	// Si tu n'utilises pas SOAP Web Services, retire le starter Web Services :
+	// implementation 'org.springframework.boot:spring-boot-starter-web-services'
+
+	// JPA et Base de données
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	// jakarta.persistence-api est déjà inclus par spring-boot-starter-data-jpa, pas besoin de l'ajouter séparément
+	// implementation 'jakarta.persistence:jakarta.persistence-api:3.1.0'
+
+	// Lombok
+	implementation 'org.projectlombok:lombok:1.18.28'
+	annotationProcessor 'org.projectlombok:lombok:1.18.28'
+
+	// MySQL non utilisé si tu es sur PostgreSQL, retire-le
+	// implementation 'mysql:mysql-connector-java:8.0.33'
+
+	// Sécurité : On utilise OAuth2 Resource Server, pas besoin du starter security de base :
+	// implementation 'org.springframework.boot:spring-boot-starter-security'
+	// testImplementation 'org.springframework.security:spring-security-test' (à garder si tu en as besoin pour des tests)
+
+	implementation 'io.swagger:swagger-annotations:1.6.3'
+	// OpenAPI/Swagger UI si tu en as besoin
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0'
+
+	// Email support (garde si tu en as besoin)
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+	// Jackson pour JSON est déjà inclus par spring-boot-starter-web
+	// implementation 'com.fasterxml.jackson.core:jackson-databind'
+	// Swagger annotations si nécessaire
+
+
+	// Outils de développement
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+	// Tests
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'io.projectreactor:reactor-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	// testImplementation 'io.projectreactor:reactor-test'
+	// testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	// OAuth2 Resource Server pour la validation JWT
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+
+	// Plus besoin de jjwt si on ne fait pas de validation interne de token JWT
+	// implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+	// runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+	// runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
+	// spring-security-config n'est pas nécessaire si tu n'utilises pas de config avancée distincte
+	// implementation 'org.springframework.security:spring-security-config:6.3.3'
+
+	// Adaptateur Keycloak pour Spring Boot non nécessaire si on utilise seulement Resource Server :
+	// implementation 'org.keycloak:keycloak-spring-boot-starter:24.0.0'
+
+	// Driver PostgreSQL
+	implementation 'org.postgresql:postgresql:42.7.4'
 }
+
+
 
 tasks.named('test') {
 	useJUnitPlatform()

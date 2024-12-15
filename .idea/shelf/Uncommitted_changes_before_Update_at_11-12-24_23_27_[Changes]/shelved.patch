@@ -1,0 +1,304 @@
+Index: journalapp/.gitignore
+===================================================================
+diff --git a/journalapp/.gitignore b/journalapp/.gitignore
+deleted file mode 100644
+--- a/journalapp/.gitignore	(revision fc8ce2e4f0f3c29d61c8cdc52a0236976ad17c46)
++++ /dev/null	(revision fc8ce2e4f0f3c29d61c8cdc52a0236976ad17c46)
+@@ -1,37 +0,0 @@
+-HELP.md
+-.gradle
+-build/
+-!gradle/wrapper/gradle-wrapper.jar
+-!**/src/main/**/build/
+-!**/src/test/**/build/
+-
+-### STS ###
+-.apt_generated
+-.classpath
+-.factorypath
+-.project
+-.settings
+-.springBeans
+-.sts4-cache
+-bin/
+-!**/src/main/**/bin/
+-!**/src/test/**/bin/
+-
+-### IntelliJ IDEA ###
+-.idea
+-*.iws
+-*.iml
+-*.ipr
+-out/
+-!**/src/main/**/out/
+-!**/src/test/**/out/
+-
+-### NetBeans ###
+-/nbproject/private/
+-/nbbuild/
+-/dist/
+-/nbdist/
+-/.nb-gradle/
+-
+-### VS Code ###
+-.vscode/
+Index: journalapp/.idea/compiler.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/journalapp/.idea/compiler.xml b/journalapp/.idea/compiler.xml
+new file mode 100644
+--- /dev/null	(date 1733955953528)
++++ b/journalapp/.idea/compiler.xml	(date 1733955953528)
+@@ -0,0 +1,15 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="CompilerConfiguration">
++    <annotationProcessing>
++      <profile name="Gradle Imported" enabled="true">
++        <outputRelativeToContentRoot value="true" />
++        <processorPath useClasspath="false">
++          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-configuration-processor/3.3.5/33b9d3f722281e8f9dbbd284135ee8b9909c42cf/spring-boot-configuration-processor-3.3.5.jar" />
++        </processorPath>
++        <module name="journalapp.main" />
++      </profile>
++    </annotationProcessing>
++    <bytecodeTargetLevel target="17" />
++  </component>
++</project>
+\ No newline at end of file
+Index: journalapp/.idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/journalapp/.idea/workspace.xml b/journalapp/.idea/workspace.xml
+new file mode 100644
+--- /dev/null	(date 1733955953529)
++++ b/journalapp/.idea/workspace.xml	(date 1733955953529)
+@@ -0,0 +1,133 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="AutoImportSettings">
++    <option name="autoReloadType" value="SELECTIVE" />
++  </component>
++  <component name="ChangeListManager">
++    <list default="true" id="f48c5d67-9f9e-423f-8da5-d85584d9c730" name="Changes" comment="" />
++    <option name="SHOW_DIALOG" value="false" />
++    <option name="HIGHLIGHT_CONFLICTS" value="true" />
++    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
++    <option name="LAST_RESOLUTION" value="IGNORE" />
++  </component>
++  <component name="ExternalProjectsData">
++    <projectState path="$PROJECT_DIR$">
++      <ProjectState />
++    </projectState>
++  </component>
++  <component name="Git.Settings">
++    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
++  </component>
++  <component name="KubernetesApiPersistence">{}</component>
++  <component name="KubernetesApiProvider">{
++  &quot;isMigrated&quot;: true
++}</component>
++  <component name="ProjectColorInfo">{
++  &quot;customColor&quot;: &quot;&quot;,
++  &quot;associatedIndex&quot;: 6
++}</component>
++  <component name="ProjectId" id="2q1M1d2GpmZWjABeLyPDBLoavPu" />
++  <component name="ProjectViewState">
++    <option name="hideEmptyMiddlePackages" value="true" />
++    <option name="showLibraryContents" value="true" />
++  </component>
++  <component name="PropertiesComponent"><![CDATA[{
++  "keyToString": {
++    "Docker.docker-compose.yaml.keycloak: Compose Deployment.executor": "Run",
++    "Docker.docker-compose.yaml.postgresql: Compose Deployment.executor": "Run",
++    "Gradle.Build journalapp.executor": "Run",
++    "RequestMappingsPanelOrder0": "0",
++    "RequestMappingsPanelOrder1": "1",
++    "RequestMappingsPanelWidth0": "75",
++    "RequestMappingsPanelWidth1": "75",
++    "RunOnceActivity.ShowReadmeOnStart": "true",
++    "Spring Boot.JournalappApplication.executor": "Run",
++    "git-widget-placeholder": "main",
++    "kotlin-language-version-configured": "true",
++    "last_opened_file_path": "C:/xampp/htdocs",
++    "node.js.detected.package.eslint": "true",
++    "node.js.detected.package.tslint": "true",
++    "node.js.selected.package.eslint": "(autodetect)",
++    "node.js.selected.package.tslint": "(autodetect)",
++    "nodejs_package_manager_path": "npm",
++    "vue.rearranger.settings.migration": "true"
++  },
++  "keyToStringList": {
++    "DatabaseDriversLRU": [
++      "postgresql"
++    ]
++  }
++}]]></component>
++  <component name="RunManager" selected="Docker.docker-compose.yaml.keycloak: Compose Deployment">
++    <configuration name="JournalappApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
++      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
++      <module name="journalapp.main" />
++      <option name="SPRING_BOOT_MAIN_CLASS" value="be.helha.journalapp.JournalappApplication" />
++      <method v="2">
++        <option name="Make" enabled="true" />
++      </method>
++    </configuration>
++    <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
++      <deployment type="docker-compose.yml">
++        <settings />
++      </deployment>
++      <method v="2" />
++    </configuration>
++    <configuration name="docker-compose.yaml.keycloak: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
++      <deployment type="docker-compose.yml">
++        <settings>
++          <option name="services">
++            <list>
++              <option value="keycloak" />
++            </list>
++          </option>
++          <option name="sourceFilePath" value="docker-compose.yaml" />
++        </settings>
++      </deployment>
++      <method v="2" />
++    </configuration>
++    <configuration name="docker-compose.yaml.postgresql: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
++      <deployment type="docker-compose.yml">
++        <settings>
++          <option name="services">
++            <list>
++              <option value="postgresql" />
++            </list>
++          </option>
++          <option name="sourceFilePath" value="docker-compose.yaml" />
++        </settings>
++      </deployment>
++      <method v="2" />
++    </configuration>
++    <recent_temporary>
++      <list>
++        <item itemvalue="Docker.docker-compose.yaml.keycloak: Compose Deployment" />
++        <item itemvalue="Docker.docker-compose.yaml.postgresql: Compose Deployment" />
++      </list>
++    </recent_temporary>
++  </component>
++  <component name="SharedIndexes">
++    <attachedChunks>
++      <set>
++        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.15989.150" />
++        <option value="bundled-js-predefined-1d06a55b98c1-91d5c284f522-JavaScript-IU-241.15989.150" />
++      </set>
++    </attachedChunks>
++  </component>
++  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
++  <component name="TaskManager">
++    <task active="true" id="Default" summary="Default task">
++      <changelist id="f48c5d67-9f9e-423f-8da5-d85584d9c730" name="Changes" comment="" />
++      <created>1733825422032</created>
++      <option name="number" value="Default" />
++      <option name="presentableId" value="Default" />
++      <updated>1733825422032</updated>
++      <workItem from="1733825428146" duration="1196000" />
++      <workItem from="1733944970587" duration="910000" />
++    </task>
++    <servers />
++  </component>
++  <component name="TypeScriptGeneratedFilesManager">
++    <option name="version" value="3" />
++  </component>
++</project>
+\ No newline at end of file
+Index: journalapp/.idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/journalapp/.idea/misc.xml b/journalapp/.idea/misc.xml
+new file mode 100644
+--- /dev/null	(date 1733955953528)
++++ b/journalapp/.idea/misc.xml	(date 1733955953528)
+@@ -0,0 +1,8 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="ExternalStorageConfigurationManager" enabled="true" />
++  <component name="FrameworkDetectionExcludesConfiguration">
++    <file type="web" url="file://$PROJECT_DIR$" />
++  </component>
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="17" project-jdk-type="JavaSDK" />
++</project>
+\ No newline at end of file
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"af164164-7e97-4c69-ba83-7b02461781e2\" name=\"Changes\" comment=\"\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/1259\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/1259\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17242\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17242\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17242_fsm\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17242_fsm\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17242_vm\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17242_vm\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17247\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17247\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17252\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17252\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17794\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17794\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17990\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17990\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/18025\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/18025\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/18026\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/18026\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/2619\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/2619\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/journalapp/data/postgresql/data/global/pg_control\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/journalapp/data/postgresql/data/global/pg_control\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/journalapp/data/postgresql/data/pg_wal/000000010000000000000003\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/journalapp/data/postgresql/data/pg_wal/000000010000000000000003\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/journalapp/data/postgresql/data/pg_xact/0000\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/journalapp/data/postgresql/data/pg_xact/0000\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/config/SecurityConfig.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/config/SecurityConfig.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/controller/ArticleController.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/controller/ArticleController.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/repositories/ArticleRepository.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/repositories/ArticleRepository.java\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"ExternalProjectsData\">\r\n    <projectState path=\"$PROJECT_DIR$/journalapp\">\r\n      <ProjectState />\r\n    </projectState>\r\n  </component>\r\n  <component name=\"ExternalProjectsManager\">\r\n    <system id=\"GRADLE\">\r\n      <state>\r\n        <task path=\"$PROJECT_DIR$/journalapp\">\r\n          <activation />\r\n        </task>\r\n        <projects_view>\r\n          <tree_state>\r\n            <expand>\r\n              <path>\r\n                <item name=\"\" type=\"6a2764b6:ExternalProjectsStructure$RootNode\" />\r\n                <item name=\"journalapp\" type=\"f1a62948:ProjectNode\" />\r\n              </path>\r\n              <path>\r\n                <item name=\"\" type=\"6a2764b6:ExternalProjectsStructure$RootNode\" />\r\n                <item name=\"journalapp\" type=\"f1a62948:ProjectNode\" />\r\n                <item name=\"Dependencies\" type=\"6de06a37:ExternalSystemViewDefaultContributor$MyDependenciesNode\" />\r\n              </path>\r\n            </expand>\r\n            <select />\r\n          </tree_state>\r\n        </projects_view>\r\n      </state>\r\n    </system>\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Interface\" />\r\n        <option value=\"Class\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\r\n      <map>\r\n        <entry key=\"$PROJECT_DIR$\" value=\"main\" />\r\n      </map>\r\n    </option>\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"GitHubPullRequestSearchHistory\">{\r\n  &quot;lastFilter&quot;: {\r\n    &quot;state&quot;: &quot;OPEN&quot;,\r\n    &quot;assignee&quot;: &quot;DarrylSeshie&quot;\r\n  }\r\n}</component>\r\n  <component name=\"GithubPullRequestsUISettings\">{\r\n  &quot;selectedUrlAndAccountId&quot;: {\r\n    &quot;url&quot;: &quot;https://github.com/3Big-Projet3-2024-2025/1-Journal-App.git&quot;,\r\n    &quot;accountId&quot;: &quot;9abd7991-9d45-4f2e-b569-b7bf7ebb17b2&quot;\r\n  }\r\n}</component>\r\n  <component name=\"KubernetesApiPersistence\">{}</component>\r\n  <component name=\"KubernetesApiProvider\">{\r\n  &quot;isMigrated&quot;: true\r\n}</component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;associatedIndex&quot;: 8\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"2p2ETBpAczQeufE9WkozepmAysY\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">{\r\n  &quot;keyToString&quot;: {\r\n    &quot;Docker.journalapp/docker-compose.yaml.keycloak: Compose Deployment.executor&quot;: &quot;Run&quot;,\r\n    &quot;Docker.journalapp/docker-compose.yaml.postgresql: Compose Deployment.executor&quot;: &quot;Run&quot;,\r\n    &quot;Docker.journalapp/docker-compose.yaml: Compose Deployment.executor&quot;: &quot;Run&quot;,\r\n    &quot;Gradle.Build journalapp.executor&quot;: &quot;Run&quot;,\r\n    &quot;Gradle.C:/Workspace/Projet3/1-Journal-App/journalapp/build.gradle.executor&quot;: &quot;Run&quot;,\r\n    &quot;Gradle.Download Sources.executor&quot;: &quot;Run&quot;,\r\n    &quot;Gradle.journalapp.executor&quot;: &quot;Run&quot;,\r\n    &quot;HTTP Request.generated-requests | #1.executor&quot;: &quot;Run&quot;,\r\n    &quot;HTTP Request.generated-requests | #2.executor&quot;: &quot;Run&quot;,\r\n    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,\r\n    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,\r\n    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,\r\n    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,\r\n    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,\r\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\r\n    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,\r\n    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,\r\n    &quot;Spring Boot.JournalappApplication.executor&quot;: &quot;Run&quot;,\r\n    &quot;git-widget-placeholder&quot;: &quot;Authentification&quot;,\r\n    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,\r\n    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,\r\n    &quot;last_opened_file_path&quot;: &quot;C:/Workspace/BAC3/SpringBoot/intro&quot;,\r\n    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,\r\n    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,\r\n    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,\r\n    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,\r\n    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,\r\n    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.DirectoryMappings&quot;,\r\n    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;\r\n  },\r\n  &quot;keyToStringList&quot;: {\r\n    &quot;DatabaseDriversLRU&quot;: [\r\n      &quot;mysql&quot;,\r\n      &quot;postgresql&quot;\r\n    ]\r\n  }\r\n}</component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"MoveFile.RECENT_KEYS\">\r\n      <recent name=\"C:\\Workspace\\BAC3\\SpringBoot\\Projet3\\1-Journal-App\\journalapp\\src\\main\\resources\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"RunManager\" selected=\"Spring Boot.JournalappApplication\">\r\n    <configuration name=\"generated-requests | #1\" type=\"HttpClient.HttpRequestRunConfigurationType\" factoryName=\"HTTP Request\" temporary=\"true\" nameIsGenerated=\"true\" path=\"$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http\" executionIdentifier=\"#1\" runType=\"Run single request\">\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"generated-requests | #2\" type=\"HttpClient.HttpRequestRunConfigurationType\" factoryName=\"HTTP Request\" temporary=\"true\" nameIsGenerated=\"true\" path=\"$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http\" executionIdentifier=\"#2\" index=\"2\" runType=\"Run single request\">\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"JournalappApplication\" type=\"SpringBootApplicationConfigurationType\" factoryName=\"Spring Boot\" nameIsGenerated=\"true\">\r\n      <option name=\"FRAME_DEACTIVATION_UPDATE_POLICY\" value=\"UpdateClassesAndResources\" />\r\n      <module name=\"journalapp.main\" />\r\n      <option name=\"SPRING_BOOT_MAIN_CLASS\" value=\"be.helha.journalapp.JournalappApplication\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration default=\"true\" type=\"docker-deploy\" factoryName=\"docker-compose.yml\" temporary=\"true\">\r\n      <deployment type=\"docker-compose.yml\">\r\n        <settings />\r\n      </deployment>\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"journalapp/docker-compose.yaml: Compose Deployment\" type=\"docker-deploy\" factoryName=\"docker-compose.yml\" temporary=\"true\" server-name=\"Docker\">\r\n      <deployment type=\"docker-compose.yml\">\r\n        <settings>\r\n          <option name=\"sourceFilePath\" value=\"journalapp/docker-compose.yaml\" />\r\n        </settings>\r\n      </deployment>\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"journalapp/docker-compose.yaml.keycloak: Compose Deployment\" type=\"docker-deploy\" factoryName=\"docker-compose.yml\" temporary=\"true\" server-name=\"Docker\">\r\n      <deployment type=\"docker-compose.yml\">\r\n        <settings>\r\n          <option name=\"services\">\r\n            <list>\r\n              <option value=\"keycloak\" />\r\n            </list>\r\n          </option>\r\n          <option name=\"sourceFilePath\" value=\"journalapp/docker-compose.yaml\" />\r\n        </settings>\r\n      </deployment>\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"journalapp/docker-compose.yaml.postgresql: Compose Deployment\" type=\"docker-deploy\" factoryName=\"docker-compose.yml\" temporary=\"true\" server-name=\"Docker\">\r\n      <deployment type=\"docker-compose.yml\">\r\n        <settings>\r\n          <option name=\"services\">\r\n            <list>\r\n              <option value=\"postgresql\" />\r\n            </list>\r\n          </option>\r\n          <option name=\"sourceFilePath\" value=\"journalapp/docker-compose.yaml\" />\r\n        </settings>\r\n      </deployment>\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\"Docker.journalapp/docker-compose.yaml: Compose Deployment\" />\r\n        <item itemvalue=\"Docker.journalapp/docker-compose.yaml.keycloak: Compose Deployment\" />\r\n        <item itemvalue=\"HTTP Request.generated-requests | #2\" />\r\n        <item itemvalue=\"HTTP Request.generated-requests | #1\" />\r\n        <item itemvalue=\"Docker.journalapp/docker-compose.yaml.postgresql: Compose Deployment\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SharedIndexes\">\r\n    <attachedChunks>\r\n      <set>\r\n        <option value=\"bundled-jdk-9823dce3aa75-fdfe4dae3a2d-intellij.indexing.shared.core-IU-243.21565.193\" />\r\n        <option value=\"bundled-js-predefined-d6986cc7102b-e768b9ed790e-JavaScript-IU-243.21565.193\" />\r\n      </set>\r\n    </attachedChunks>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"SwiftWorkspaceSettings\">\r\n    <option name=\"detectedToolchain\" value=\"true\" />\r\n  </component>\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"af164164-7e97-4c69-ba83-7b02461781e2\" name=\"Changes\" comment=\"\" />\r\n      <created>1731955775336</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1731955775336</updated>\r\n      <workItem from=\"1731955776457\" duration=\"251000\" />\r\n      <workItem from=\"1732038842038\" duration=\"59000\" />\r\n      <workItem from=\"1732144566406\" duration=\"6198000\" />\r\n      <workItem from=\"1732150993055\" duration=\"2371000\" />\r\n      <workItem from=\"1732153423231\" duration=\"889000\" />\r\n      <workItem from=\"1732154330572\" duration=\"1650000\" />\r\n      <workItem from=\"1732156079792\" duration=\"1137000\" />\r\n      <workItem from=\"1732194045473\" duration=\"1263000\" />\r\n      <workItem from=\"1732198689963\" duration=\"798000\" />\r\n      <workItem from=\"1732199516273\" duration=\"1424000\" />\r\n      <workItem from=\"1732200990763\" duration=\"1495000\" />\r\n      <workItem from=\"1732204732292\" duration=\"4979000\" />\r\n      <workItem from=\"1732209905450\" duration=\"5911000\" />\r\n      <workItem from=\"1732381777473\" duration=\"392000\" />\r\n      <workItem from=\"1732382750116\" duration=\"4690000\" />\r\n      <workItem from=\"1732821651341\" duration=\"72000\" />\r\n      <workItem from=\"1732822231829\" duration=\"4264000\" />\r\n      <workItem from=\"1732827489350\" duration=\"1199000\" />\r\n      <workItem from=\"1732976912873\" duration=\"2633000\" />\r\n      <workItem from=\"1733129587376\" duration=\"2362000\" />\r\n      <workItem from=\"1733151183483\" duration=\"24000\" />\r\n      <workItem from=\"1733153643344\" duration=\"310000\" />\r\n      <workItem from=\"1733154472805\" duration=\"1207000\" />\r\n      <workItem from=\"1733156062176\" duration=\"1441000\" />\r\n      <workItem from=\"1733159132077\" duration=\"375000\" />\r\n      <workItem from=\"1733160057603\" duration=\"4073000\" />\r\n      <workItem from=\"1733218244617\" duration=\"12889000\" />\r\n      <workItem from=\"1733249744982\" duration=\"7632000\" />\r\n      <workItem from=\"1733307339708\" duration=\"7679000\" />\r\n      <workItem from=\"1733333833826\" duration=\"521000\" />\r\n      <workItem from=\"1733334411620\" duration=\"2384000\" />\r\n      <workItem from=\"1733353039026\" duration=\"1985000\" />\r\n      <workItem from=\"1733408700856\" duration=\"4715000\" />\r\n      <workItem from=\"1733424856025\" duration=\"53000\" />\r\n      <workItem from=\"1733424979999\" duration=\"402000\" />\r\n      <workItem from=\"1733731249120\" duration=\"20000\" />\r\n      <workItem from=\"1733735669710\" duration=\"2597000\" />\r\n      <workItem from=\"1733739236642\" duration=\"1854000\" />\r\n      <workItem from=\"1733754000630\" duration=\"16957000\" />\r\n      <workItem from=\"1733834926083\" duration=\"1835000\" />\r\n      <workItem from=\"1733853082097\" duration=\"12543000\" />\r\n      <workItem from=\"1733928264370\" duration=\"17210000\" />\r\n    </task>\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State />\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision fc8ce2e4f0f3c29d61c8cdc52a0236976ad17c46)
++++ b/.idea/workspace.xml	(date 1733955960127)
+@@ -5,24 +5,20 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="af164164-7e97-4c69-ba83-7b02461781e2" name="Changes" comment="">
+-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/1259" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/1259" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16384/26530" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16384/26530" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16384/26531" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16384/26531" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16384/26536" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16384/26536" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16384/26553" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16384/26553" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16384/26567" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16384/26567" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17242" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17242" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17242_fsm" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17242_fsm" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17242_vm" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17242_vm" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17247" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17247" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17252" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17252" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17794" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17794" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17990" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/17990" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/18025" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/18025" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/18026" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/18026" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/2619" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/base/16441/2619" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/global/pg_control" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/global/pg_control" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/pg_wal/000000010000000000000003" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/pg_wal/000000010000000000000003" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/journalapp/data/postgresql/data/pg_xact/0000" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/data/postgresql/data/pg_xact/0000" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/config/SecurityConfig.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/controller/ArticleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/controller/ArticleController.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/repositories/ArticleRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/journalapp/src/main/java/be/helha/journalapp/repositories/ArticleRepository.java" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -268,7 +264,7 @@
+       <workItem from="1733754000630" duration="16957000" />
+       <workItem from="1733834926083" duration="1835000" />
+       <workItem from="1733853082097" duration="12543000" />
+-      <workItem from="1733928264370" duration="17210000" />
++      <workItem from="1733928264370" duration="17559000" />
+     </task>
+     <servers />
+   </component>
+Index: journalapp/.gradle/buildOutputCleanup/cache.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/journalapp/.gradle/buildOutputCleanup/cache.properties b/journalapp/.gradle/buildOutputCleanup/cache.properties
+new file mode 100644
+--- /dev/null	(date 1733955953527)
++++ b/journalapp/.gradle/buildOutputCleanup/cache.properties	(date 1733955953527)
+@@ -0,0 +1,2 @@
++#Wed Dec 11 20:54:47 CET 2024
++gradle.version=8.10.2
+diff --git a/journalapp/.gradle/8.5/dependencies-accessors/gc.properties b/journalapp/.gradle/8.5/dependencies-accessors/gc.properties
+new file mode 100644
+diff --git a/journalapp/.gradle/8.10.2/dependencies-accessors/gc.properties b/journalapp/.gradle/8.10.2/dependencies-accessors/gc.properties
+new file mode 100644
+diff --git a/journalapp/.gradle/8.10.2/gc.properties b/journalapp/.gradle/8.10.2/gc.properties
+new file mode 100644
+diff --git a/journalapp/.gradle/vcs-1/gc.properties b/journalapp/.gradle/vcs-1/gc.properties
+new file mode 100644
+diff --git a/journalapp/.gradle/8.5/gc.properties b/journalapp/.gradle/8.5/gc.properties
+new file mode 100644

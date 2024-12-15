@@ -1,10 +1,15 @@
 HELP.md
 .gradle
+<<<<<<< HEAD
 target/
+=======
+build/
+>>>>>>> Authentification
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
 
+<<<<<<< HEAD
 ### IDEs ###
 .idea/
 *.iws
@@ -13,11 +18,28 @@ target/
 .project
 .classpath
 .settings/
+=======
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+>>>>>>> Authentification
 .springBeans
 .sts4-cache
 bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
+<<<<<<< HEAD
+=======
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+>>>>>>> Authentification
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
@@ -30,6 +52,7 @@ out/
 /.nb-gradle/
 
 ### VS Code ###
+<<<<<<< HEAD
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
@@ -63,3 +86,6 @@ target/
 # Miscellaneous
 .DS_Store
 Thumbs.db
+=======
+.vscode/
+>>>>>>> Authentification

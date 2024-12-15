@@ -1,0 +1,38 @@
+POST http://localhost:8080/roles
+Content-Type: application/json
+Content-Length: 39
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=B3F8689661FF02E1F304077213EB5B9E
+
+{
+  "roleId": 0,
+  "roleName": "User"
+}
+
+###
+
+GET http://localhost:8080/roles
+Content-Type: application/json
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=B3F8689661FF02E1F304077213EB5B9E
+content-length: 39
+
+{
+  "roleId": 0,
+  "roleName": "User"
+}
+
+###
+
+POST http://localhost:8080/roles
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 0
+
+###
+
