@@ -20,7 +20,7 @@ export class ViewnewsletterComponent implements OnInit {
 
   ngOnInit(): void {
     // Récupère l'ID de la newsletter à partir de l'URL
-    const id = 1;
+    const id =+localStorage.getItem('seeidnewsletter')! ;
     
     // Appel au service pour récupérer la newsletter
     this.newsletterService.getnewsletterById(id).subscribe(

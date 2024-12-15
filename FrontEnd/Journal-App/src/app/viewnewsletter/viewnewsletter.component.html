@@ -1,4 +1,6 @@
 <div *ngIf="newsletter; else loading">
+  <!-- Carte contenant la newsletter -->
+  <div class="card">
     <!-- Affichage de la newsletter avec personnalisation -->
     <div [style.background-color]="newsletter.backgroundColor" [style.text-align]="newsletter.textAlign">
       <h1 [style.font-family]="newsletter.titleFont" [style.font-size.px]="newsletter.titleFontSize" 
@@ -17,8 +19,11 @@
       <button (click)="addArticle()">Ajouter un article</button>
     </div>
   </div>
-  
-  <ng-template #loading>
+</div>
+
+<ng-template #loading>
+  <!-- Carte pour l'état de chargement -->
+  <div class="card">
     <p>Loading...</p>
-  </ng-template>
-  
+  </div>
+</ng-template>

@@ -32,6 +32,7 @@ export class NavbarComponent implements OnInit {
     if(localStorage.getItem('newsletter') !== '0'){
       window.location.reload()
     }
+    localStorage.setItem("put","")
     localStorage.setItem('newsletter', '1');
     console.log('Newsletter variable set to 1 in localStorage');
     

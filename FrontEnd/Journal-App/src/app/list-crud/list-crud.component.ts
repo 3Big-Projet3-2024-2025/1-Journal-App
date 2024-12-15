@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ManageNewsletterService } from '../services/manage-newsletter.service';
 import { ArticleService } from '../services/article.service';
 import { Article } from '../models/article';
@@ -27,7 +27,8 @@ export class ListCrudComponent {
     private Managenewsletter: ManageNewsletterService,
     private articleService: ArticleService,
     private manageNewsletter : ManageNewsletterService,
-    private cook:CookieService
+    private cook:CookieService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -92,6 +93,22 @@ export class ListCrudComponent {
       console.error('Type invalide');
     }
   }
+
+  click(id: number): void {
+    this.router.navigate(["/update-newsletter"]);
+  
+    localStorage.setItem("put", "edit");
+  
+    localStorage.setItem("idnewsletter", id.toString());
+  }
+  clickvoir(id: number): void {
+    this.router.navigate(["/see-newsletter"]);
+  
+    localStorage.setItem("see", "look");
+  
+    localStorage.setItem("seeidnewsletter", id.toString());
+  }
+
 
 
   validateArticle(article: Article) {

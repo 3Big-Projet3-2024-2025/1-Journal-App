@@ -35,8 +35,9 @@ const routes: Routes = [
   },
   { path: 'update-article/:id', component: UpdateArticleComponent },
   {
-    path:'viewNewsletter',component: ViewnewsletterComponent
-  }
+    path:'see-newsletter',component: ViewnewsletterComponent
+  },
+  { path: 'update-newsletter', component: ManageNewsletterFormComponent },
 
 ];
 @NgModule({
