@@ -1,0 +1,60 @@
+<div class="form-section">
+  <div class="form-card">
+    <h2>Exercise Your GDPR Rights</h2>
+    <p>Please fill out this form to make a request regarding your personal data.</p>
+    <form (submit)="onSubmit()">
+      <div class="form-group">
+        <label for="fullName">Full Name</label>
+        <input
+          type="text"
+          id="fullName"
+          [(ngModel)]="formData.fullName"
+          name="fullName"
+          placeholder="Enter your full name"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          [(ngModel)]="formData.email"
+          name="email"
+          placeholder="Enter your email"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="requestType">Request Type</label>
+        <select
+          id="requestType"
+          [(ngModel)]="formData.requestType"
+          name="requestType"
+          required
+        >
+          <option value="" disabled selected>Please select...</option>
+          <option value="access">Access my data</option>
+          <option value="rectification">Rectify my data</option>
+          <option value="deletion">Delete my data</option>
+          <option value="objection">Object to processing</option>
+          <option value="portability">Data portability</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="requestDetails">Request Details (optional)</label>
+        <textarea
+          id="requestDetails"
+          [(ngModel)]="formData.requestDetails"
+          name="requestDetails"
+          placeholder="Provide details or additional information (optional)"
+        ></textarea>
+      </div>
+
+      <button type="submit">Submit Request</button>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,115 @@
+<div class="container mt-4">
+  <h2>{{ titre }}</h2>
+  <button
+    class="btn btn-primary mb-3"
+    [routerLink]="
+      titretable === 'articles'
+        ? '/add-article'
+        : titretable === 'newsletters'
+        ? '/manage-newsletter-form'
+        : '/manage-default'
+    "
+  >
+    {{ titretable === 'articles' ? 'Add an Article' : titretable === 'newsletters' ? 'Add a Newsletter' : 'Add an Item' }}
+    
+  </button>
+
+  <!-- Table for Valid Articles -->
+  <h3 *ngIf="titretable === 'articles'">Valid Articles</h3>
+  <table class="table table-striped" *ngIf="titretable === 'articles' && validArticles.length > 0">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Title</th>
+        <th>Publication Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let article of validArticles; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ article.title }}</td>
+        <td>{{ article.publicationDate }}</td>
+        <td>
+          <button
+            class="btn btn-warning btn-sm"
+            [routerLink]="['/update-article', article.articleId]"
+          >
+            Edit
+          </button>
+          <button class="btn btn-danger btn-sm">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <p *ngIf="titretable === 'articles' && validArticles.length === 0">No valid articles available.</p>
+
+  <!-- Table for Non-Valid Articles -->
+  <h3 *ngIf="titretable === 'articles'">Non-Valid Articles</h3>
+  <table class="table table-striped" *ngIf="titretable === 'articles' && nonValidArticles.length > 0">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Title</th>
+        <th>Publication Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let article of nonValidArticles; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ article.title }}</td>
+        <td>{{ article.publicationDate }}</td>
+        <td>
+          <button
+            class="btn btn-warning btn-sm"
+            [routerLink]="['/update-article', article.articleId]"
+          >
+            Edit
+          </button>
+          <button class="btn btn-danger btn-sm">Delete</button>
+          <!-- Button to Validate the article -->
+          <button class="btn btn-success btn-sm" (click)="validateArticle(article)">Validate</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <p *ngIf="titretable === 'articles' && nonValidArticles.length === 0">No non-valid articles available.</p>
+
+  <!-- Table for Newsletters -->
+  <h3 *ngIf="titretable === 'newsletters'">Newsletters</h3>
+  <table class="table table-striped" *ngIf="titretable === 'newsletters' && newsletters.length > 0">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Title</th>
+        <th>Content</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let newsletter of newsletters; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ newsletter.title }}</td>
+        <td>{{ newsletter.publicationDate }}</td>
+        <td>
+          <button
+            class="btn btn-warning btn-sm"
+            (click)="click( newsletter.newsletterId)"
+          >
+            Edit
+          </button>
+          <button class="btn btn-danger btn-sm">Delete</button>
+          <button
+          class="btn btn-info btn-sm"
+          (click)="clickvoir( newsletter.newsletterId)"
+
+        >
+          Voir
+        </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <p *ngIf="titretable === 'newsletters' && newsletters.length === 0">No newsletters available.</p>
+</div>

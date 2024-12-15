@@ -1,0 +1,67 @@
+<br> <br>
+<div class="form-container">
+  <h1>Update Article</h1>
+  <form (ngSubmit)="updateArticle()">
+    <div>
+      <label for="title">Title</label>
+      <input
+        type="text"
+        id="title"
+        name="title"
+        [(ngModel)]="articleToUpdate.title"
+        placeholder="Title"
+        required
+      />
+    </div>
+
+    <div>
+      <label for="content">Content</label>
+      <textarea
+        id="content"
+        name="content"
+        [(ngModel)]="articleToUpdate.content"
+        placeholder="Content"
+        maxlength="500"
+        required
+      ></textarea>
+    </div>
+
+    <div>
+      <label for="images">Upload New Images</label>
+      <input
+        type="file"
+        id="images"
+        name="images"
+        accept="image/*"
+        multiple
+        (change)="validateFileCount($event)"
+      />
+    </div>
+
+    <div>
+      <label>Is the article valid?</label>
+      <div>
+        <label>
+          <input
+            type="radio"
+            name="valid"
+            [(ngModel)]="articleToUpdate.valid"
+            [value]="true"
+          />
+          Yes
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="valid"
+            [(ngModel)]="articleToUpdate.valid"
+            [value]="false"
+          />
+          No
+        </label>
+      </div>
+    </div>
+
+    <button type="submit">Update</button>
+  </form>
+</div>

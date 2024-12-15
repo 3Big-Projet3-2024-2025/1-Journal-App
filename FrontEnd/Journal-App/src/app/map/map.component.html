@@ -1,0 +1,59 @@
+<br>
+    <!-- Message d'authentification -->
+    <div *ngIf="authMessageVisible" class="auth-message">
+        <p>You need to log in to continue. Please login and try again.</p>
+        <button (click)="authMessageVisible = false">Close</button><br>
+    </div>
+
+    <!-- MAP -->
+    <div *ngIf="isMapVisible" id="map" class="topics2"></div>
+
+
+
+    
+    <!-- Détails de l'article -->
+    <!-- Section pour les détails de l'article -->
+    <div *ngIf="isDetailsVisible" class="card article-details">
+        <div class="card-header">
+        <h3>{{ selectedArticle?.title }}</h3>
+        <strong><span class="badge">Newsletter {{ newsletterTitle }}</span></strong>
+        </div>
+        <div class="card-body">
+
+        
+          <!-- Emplacement pour les images -->
+          <div *ngIf="images.length > 0; else noImages">
+                <div *ngFor="let image of images" class="image-container">
+                    <img 
+                    [src]="'data:image/png;base64,' + image.imagePath" 
+                    [alt]="'Image for article ' + selectedArticle?.title" 
+                    class="article-image"
+                />
+                </div>
+          </div>
+          <ng-template #noImages>
+            <p>No images available for this article.</p>
+          </ng-template>
+
+       
+        <p>{{ selectedArticle?.content }}</p>
+        <p><strong>Author: </strong> {{ authorName }}</p>
+        Publish on: {{ selectedArticle?.publicationDate }}  
+        </div>
+        <div class="card-footer">
+        <button (click)="toggleDetails()" class="btn btn-primary">
+            {{ isDetailsVisible ? 'Return to Map' : 'Show Details' }}
+        </button>
+        <button class="btn btn-primary">Mark as Read</button>
+        <button class="btn btn-primary">Make a Comment</button>
+        </div>
+    </div>
+    
+
+ 
+      
+
+
+
+
+  
