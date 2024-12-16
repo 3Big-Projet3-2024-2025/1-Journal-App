@@ -1,7 +1,9 @@
 package be.helha.journalapp.controller;
 
+import be.helha.journalapp.model.Article;
 import be.helha.journalapp.model.Newsletter;
 import be.helha.journalapp.model.User;
+import be.helha.journalapp.repositories.ArticleRepository;
 import be.helha.journalapp.repositories.NewsletterRepository;
 import be.helha.journalapp.repositories.UserRepository;
 import org.springframework.http.ResponseEntity;
@@ -16,11 +18,13 @@ public class NewsletterController {
 
     private final NewsletterRepository newsletterRepository;
     private final UserRepository userRepository;
+    private final ArticleRepository articleRepository;
 
     // Injection du repository via le constructeur
-    public NewsletterController(NewsletterRepository newsletterRepository , UserRepository userRepository) {
+    public NewsletterController(NewsletterRepository newsletterRepository , UserRepository userRepository , ArticleRepository articleRepository) {
         this.newsletterRepository = newsletterRepository;
         this.userRepository = userRepository;
+        this.articleRepository = articleRepository;
     }
 
     // CREATE: Ajouter une nouvelle newsletter
@@ -79,16 +83,17 @@ public class NewsletterController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // Mise à jour d'une newsletter
     @PutMapping("/{id}")
     public ResponseEntity<Newsletter> updateNewsletter(@PathVariable Long id, @RequestBody Newsletter updatedNewsletter) {
         return newsletterRepository.findById(id)
                 .map(existingNewsletter -> {
+                    // Sauvegarde l'ancienne couleur de fond
+                    String oldBackgroundColor = existingNewsletter.getBackgroundColor();
+
+                    // Mise à jour des propriétés de la newsletter
                     existingNewsletter.setTitle(updatedNewsletter.getTitle());
                     existingNewsletter.setSubtitle(updatedNewsletter.getSubtitle());
                     existingNewsletter.setPublicationDate(updatedNewsletter.getPublicationDate());
-
-                    // Mise à jour des nouvelles propriétés
                     existingNewsletter.setBackgroundColor(updatedNewsletter.getBackgroundColor());
                     existingNewsletter.setTitleFont(updatedNewsletter.getTitleFont());
                     existingNewsletter.setTitleFontSize(updatedNewsletter.getTitleFontSize());
@@ -104,10 +109,25 @@ public class NewsletterController {
 
                     // Sauvegarde la newsletter mise à jour
                     Newsletter savedNewsletter = newsletterRepository.save(existingNewsletter);
-                    return ResponseEntity.ok(savedNewsletter);  // Retourne la newsletter mise à jour
+
+                    // Si la couleur de fond a changé, met à jour tous les articles associés
+                    if (!oldBackgroundColor.equals(updatedNewsletter.getBackgroundColor())) {
+                        updateArticlesBackgroundColor(savedNewsletter.getNewsletterId(), updatedNewsletter.getBackgroundColor());
+                    }
+
+                    return ResponseEntity.ok(savedNewsletter);
                 })
-                .orElse(ResponseEntity.notFound().build());  // Si la newsletter n'existe pas, retourne not found
+                .orElse(ResponseEntity.notFound().build());
     }
+
+    private void updateArticlesBackgroundColor(Long newsletterId, String newBackgroundColor) {
+        List<Article> articles = articleRepository.findByNewsletterNewsletterId(newsletterId);
+        for (Article article : articles) {
+            article.setBackgroundColor(newBackgroundColor);
+        }
+        articleRepository.saveAll(articles); // Sauvegarde en masse
+    }
+
 
     // DELETE: Supprimer une newsletter par son ID
     @DeleteMapping("/{id}")
