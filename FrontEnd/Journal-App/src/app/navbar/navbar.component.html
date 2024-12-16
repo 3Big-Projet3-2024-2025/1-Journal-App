@@ -77,8 +77,8 @@
 
       <div  class="offcanvas-title" id="offcanvasExampleLabel" *ngIf="isAuthenticated && (userRole === 'ADMIN' ||  userRole === 'EDITOR')">EDITOR<!-- if user EDITOR    -->
         
-        <div routerLink="/crud/articles"class="button-like mt-3"(click)="setArticleInLocalStorage()">Manage Articles</div>
-        <div  routerLink="/crud/newsletters"class="button-like"(click)="setNewsletterInLocalStorage()">Manage Newsletters</div>
+        <div class="button-like mt-3"(click)="setArticleInLocalStorage()">Manage Articles</div>
+        <div  class="button-like"(click)="setNewsletterInLocalStorage()">Manage Newsletters</div>
         <div class="button-like ">Manage Comments</div>
       </div>
 

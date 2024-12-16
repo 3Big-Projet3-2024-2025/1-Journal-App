@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { Newsletter } from '../models/newsletter';  // L'interface Newsletter
 import { ManageNewsletterService } from '../services/manage-newsletter.service';
@@ -16,6 +16,7 @@ export class ViewnewsletterComponent implements OnInit {
   constructor(
     private newsletterService:  ManageNewsletterService,
     private route: ActivatedRoute
+    ,private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -37,5 +38,11 @@ export class ViewnewsletterComponent implements OnInit {
   addArticle(): void {
     console.log('Bouton ajouter un article');
     // Vous pouvez rediriger l'utilisateur vers une page d'ajout d'article ou afficher un formulaire
+  }
+  goBack(): void {
+    // Redirige vers /crud/newsletter et réinitialise les données du localStorage
+    localStorage.setItem('put', '');
+    localStorage.setItem('idnewsletter', '');
+    this.router.navigate(['/crud/newsletter']);
   }
 }

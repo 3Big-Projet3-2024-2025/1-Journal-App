@@ -19,7 +19,10 @@ const routes: Routes = [
     path: 'home', component: HomeComponent
   },
   {
-    path:'crud/:type',component:ListCrudComponent
+    path:'crud/article',component:ListCrudComponent
+  },
+  {
+    path:'crud/newsletter',component:ListCrudComponent
   },
   {
     path: 'manage-newsletters', component: ManageNewsletterComponent

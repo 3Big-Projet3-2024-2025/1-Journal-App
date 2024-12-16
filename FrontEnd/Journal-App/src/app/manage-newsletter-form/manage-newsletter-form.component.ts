@@ -3,6 +3,7 @@ import { Newsletter } from '../models/newsletter';
 import { AuthService } from '../services/auth.service';
 import { ManageNewsletterService } from '../services/manage-newsletter.service';
 import { UsersService } from '../services/users.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-manage-newsletter-form',
@@ -33,7 +34,8 @@ export class ManageNewsletterFormComponent implements OnInit {
   constructor(
     private auth: AuthService,
     private manageNewsletterService: ManageNewsletterService,
-    private userservice: UsersService
+    private userservice: UsersService,
+    private route:Router
   ) {}
 
   ngOnInit(): void {
@@ -188,4 +190,12 @@ export class ManageNewsletterFormComponent implements OnInit {
 
     return true;
   }
+
+  goBack(): void {
+    // Redirige vers /crud/newsletter et réinitialise les données du localStorage
+    localStorage.setItem('put', '');
+    localStorage.setItem('idnewsletter', '');
+    this.route.navigate(['/crud/newsletter']);
+  }
+  
 }
