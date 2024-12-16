@@ -40,9 +40,9 @@ export class ArticleService {
     return this.http.put<Article>(url, updatedArticle);
   }
 
-  deleteArticle(id: number): Observable<void> {
+  deleteArticle(id: number): Observable<string> {
     const url = `${this.apiUrl}/${id}`;
-    return this.http.delete<void>(url);
+    return this.http.delete<string>(url);
   }
 
   validateArticle(id: number): Observable<Article> {
