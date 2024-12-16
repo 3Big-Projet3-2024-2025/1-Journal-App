@@ -76,4 +76,23 @@ export class ArticleService {
     const url = `${this.apiUrl}/search?query=${encodeURIComponent(query)}`;
     return this.http.get<Article[]>(url);
   }
+
+  markArticleAsRead(id: number): Observable<Article> {
+    const url = `${this.apiUrl}/${id}/mark-read`;
+    return this.http.patch<Article>(url, {});
+  }
+  
+  markArticleAsUnread(id: number): Observable<Article> {
+    const url = `${this.apiUrl}/${id}/mark-unread`;
+    return this.http.patch<Article>(url, {});
+  }
+  
+  getNewsletterBackgroundColor(newsletterId: number): Observable<string> {
+    const url = `${this.apiUrl}/${newsletterId}/background-color`;
+    return this.http.get<{ backgroundColor: string }>(url).pipe(
+      map(response => response.backgroundColor)
+    );
+  }
+  
+
 }

@@ -40,7 +40,9 @@ export class AddArticleComponent implements OnInit {
     latitude: 0.0,
     user_id: 0,
     newsletter_id: 0,
-    valid: false
+    valid: false,
+    backgroundColor : '#ffffff',
+    read : false
   };
 
   selectedFiles: File[] = []; 
@@ -164,35 +166,45 @@ export class AddArticleComponent implements OnInit {
 
     //console.log('Données envoyées :', this.articleToAdd);
     // Envoi de l'article
-    this.articleService.addArticle(this.articleToAdd).subscribe(
-      async (newArticle) => {
-        console.log('Article ajouté avec succès:', newArticle);
-  
-        // Envoi des images si présentes
-        if (this.selectedFiles.length > 0) {
-          await this.uploadImages(newArticle.articleId);
-        }
-  
-        // Réinitialisation du formulaire après l'ajout
-        this.articleToAdd = {
-          articleId: 0,
-          title: '',
-          content: '',
-          publicationDate: new Date(),
-          longitude: 0.0,
-          latitude: 0.0,
-          user_id: 0,
-          newsletter_id: 0,
-          valid: false
-        };
-        this.selectedFiles = [];
-        this.selectedNewsletterId = null;
-        this.router.navigate(['/crud/articles']);
-       
+    this.articleService.getNewsletterBackgroundColor(this.articleToAdd.newsletter_id).subscribe(
+      (backgroundColor: string) => {
+        this.articleToAdd.backgroundColor = backgroundColor; // Assigner la couleur récupérée
+    
+        // Envoi de l'article avec la couleur de fond définie
+        this.articleService.addArticle(this.articleToAdd).subscribe(
+          async (newArticle) => {
+            console.log('Article ajouté avec succès:', newArticle);
+    
+            // Envoi des images si présentes
+            if (this.selectedFiles.length > 0) {
+              await this.uploadImages(newArticle.articleId);
+            }
+    
+            // Réinitialisation du formulaire après l'ajout
+            this.articleToAdd = {
+              articleId: 0,
+              title: '',
+              content: '',
+              publicationDate: new Date(),
+              longitude: 0.0,
+              latitude: 0.0,
+              user_id: 0,
+              newsletter_id: 0,
+              valid: false,
+              backgroundColor: '#ffffff',
+              read: false,
+            };
+            this.selectedFiles = [];
+            this.selectedNewsletterId = null;
+            this.router.navigate(['/crud/articles']);
+          },
+          (error) => {
+            console.error('Erreur lors de l\'ajout de l\'article:', error);
+          }
+        );
       },
       (error) => {
-        console.error('Erreur lors de l\'ajout de l\'article:', error);
-       // console.log('Données envoyées :', this.articleToAdd);
+        console.error('Erreur lors de la récupération de la couleur de fond de la newsletter:', error);
       }
     );
   }
