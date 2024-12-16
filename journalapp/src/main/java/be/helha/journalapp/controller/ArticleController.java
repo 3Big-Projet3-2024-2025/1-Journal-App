@@ -3,10 +3,14 @@ package be.helha.journalapp.controller;
 import be.helha.journalapp.model.Article;
 import be.helha.journalapp.model.Newsletter;
 import be.helha.journalapp.model.User;
+import be.helha.journalapp.model.UserArticleRead;
 import be.helha.journalapp.repositories.ArticleRepository;
 import be.helha.journalapp.repositories.NewsletterRepository;
+import be.helha.journalapp.repositories.UserArticleReadRepository;
 import be.helha.journalapp.repositories.UserRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -22,11 +26,13 @@ public class ArticleController {
     private final ArticleRepository articleRepository;
     private final UserRepository userRepository;
     private final NewsletterRepository newsletterRepository;
+    private final UserArticleReadRepository userArticleReadRepository;
 
-    public ArticleController(ArticleRepository articleRepository, UserRepository userRepository, NewsletterRepository newsletterRepository) {
+    public ArticleController(ArticleRepository articleRepository, UserRepository userRepository, NewsletterRepository newsletterRepository, UserArticleReadRepository userArticleReadRepository) {
         this.articleRepository = articleRepository;
         this.userRepository = userRepository;
         this.newsletterRepository = newsletterRepository;
+        this.userArticleReadRepository = userArticleReadRepository;
     }
 
 
@@ -181,23 +187,118 @@ public class ArticleController {
         return ResponseEntity.ok(articles);
     }
 
-    @PatchMapping("/{id}/mark-read")
-    public ResponseEntity<Article> markArticleAsRead(@PathVariable Long id) {
-        return articleRepository.findById(id).map(article -> {
-            article.setRead(true); // Marquer l'article comme lu
-            Article updatedArticle = articleRepository.save(article);
-            return ResponseEntity.ok(updatedArticle);
-        }).orElse(ResponseEntity.notFound().build());
+    @PatchMapping("/{articleId}/mark-read")
+    public ResponseEntity<Map<String, String>> markAsRead(@PathVariable Long articleId, Authentication authentication) {
+        String keycloakId = authentication.getName(); // Récupérer le Keycloak ID
+        Optional<User> user = userRepository.findByKeycloakId(keycloakId);
+        Optional<Article> article = articleRepository.findById(articleId);
+
+        if (user.isEmpty() || article.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        UserArticleRead userArticleRead = userArticleReadRepository
+                .findByUserUserIdAndArticleArticleId(user.get().getUserId(), articleId)
+                .orElse(new UserArticleRead());
+
+        userArticleRead.setUser(user.get());
+        userArticleRead.setArticle(article.get());
+        userArticleRead.setRead(true);
+
+        userArticleReadRepository.save(userArticleRead);
+
+        // Retourner une réponse JSON valide
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Article marked as read.");
+        return ResponseEntity.ok(response);
     }
 
-    @PatchMapping("/{id}/mark-unread")
-    public ResponseEntity<Article> markArticleAsUnread(@PathVariable Long id) {
-        return articleRepository.findById(id).map(article -> {
-            article.setRead(false); // Marquer l'article comme non lu
-            Article updatedArticle = articleRepository.save(article);
-            return ResponseEntity.ok(updatedArticle);
-        }).orElse(ResponseEntity.notFound().build());
+
+    @PatchMapping("/{articleId}/mark-unread")
+    public ResponseEntity<Map<String, String>> markAsUnread(@PathVariable Long articleId, Authentication authentication) {
+        String keycloakId = authentication.getName(); // Récupérer le Keycloak ID
+        Optional<User> user = userRepository.findByKeycloakId(keycloakId);
+        Optional<Article> article = articleRepository.findById(articleId);
+
+        if (user.isEmpty() || article.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        UserArticleRead userArticleRead = userArticleReadRepository
+                .findByUserUserIdAndArticleArticleId(user.get().getUserId(), articleId)
+                .orElse(new UserArticleRead());
+
+        userArticleRead.setUser(user.get());
+        userArticleRead.setArticle(article.get());
+        userArticleRead.setRead(false); // Marquer comme non lu
+
+        userArticleReadRepository.save(userArticleRead);
+
+        // Retourner une réponse JSON valide
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Article marked as unread.");
+        return ResponseEntity.ok(response);
     }
+
+
+
+
+    @GetMapping("/{articleId}/status")
+    public ResponseEntity<Map<String, Boolean>> getArticleReadStatus(@PathVariable Long articleId, Authentication authentication) {
+        String keycloakId = authentication.getName(); // Récupérer l'ID Keycloak
+        Optional<User> user = userRepository.findByKeycloakId(keycloakId);
+        Optional<Article> article = articleRepository.findById(articleId);
+
+        if (user.isEmpty() || article.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Optional<UserArticleRead> userArticleRead = userArticleReadRepository
+                .findByUserUserIdAndArticleArticleId(user.get().getUserId(), articleId);
+
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("isRead", userArticleRead.map(UserArticleRead::isRead).orElse(false));
+        return ResponseEntity.ok(response);
+    }
+
+
+    @GetMapping("/read")
+    public ResponseEntity<List<Article>> getReadArticles(Authentication authentication) {
+        // Récupérer le Keycloak ID de l'utilisateur connecté
+        String keycloakId = authentication.getName();
+        System.out.println("Keycloak ID reçu : " + keycloakId);
+
+        // Trouver l'utilisateur correspondant
+        Optional<User> user = userRepository.findByKeycloakId(keycloakId);
+        if (user.isEmpty()) {
+            System.out.println("Aucun utilisateur trouvé pour Keycloak ID : " + keycloakId);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        // Rechercher les articles marqués comme lus par cet utilisateur
+        List<UserArticleRead> userArticleReads = userArticleReadRepository.findByUserUserIdAndIsReadTrue(user.get().getUserId());
+
+        // Si aucun article trouvé, renvoyer un statut HTTP 204 (No Content)
+        if (userArticleReads.isEmpty()) {
+            System.out.println("Aucun article lu trouvé pour l'utilisateur : " + user.get().getEmail());
+            return ResponseEntity.noContent().build();
+        }
+
+        // Extraire les articles depuis la liste UserArticleRead
+        List<Article> readArticles = userArticleReads.stream()
+                .map(UserArticleRead::getArticle)
+                .toList();
+
+        return ResponseEntity.ok(readArticles);
+    }
+
+
+
+
+
+
+
+
 
 
 }

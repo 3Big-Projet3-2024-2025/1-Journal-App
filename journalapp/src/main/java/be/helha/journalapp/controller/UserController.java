@@ -10,10 +10,12 @@ import jakarta.mail.MessagingException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
@@ -112,26 +114,7 @@ public class UserController {
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
-    // MARK NEWSLETTER AS READ
-    @PatchMapping("/{userId}/mark-newsletter-as-read/{newsletterId}")
-    public ResponseEntity<String> markNewsletterAsRead(
-            @PathVariable Long userId,
-            @PathVariable Long newsletterId) {
-        return userRepository.findById(userId)
-                .map(user -> {
-                    Newsletter newsletter = user.getNewsletters().stream()
-                            .filter(n -> n.getNewsletterId().equals(newsletterId))
-                            .findFirst()
-                            .orElse(null);
-                    if (newsletter == null) {
-                        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Newsletter not found for this user");
-                    }
 
-                    userRepository.save(user);
-                    return ResponseEntity.ok("Newsletter marked as read successfully");
-                })
-                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found"));
-    }
 
 
 
@@ -152,6 +135,19 @@ public class UserController {
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
+
+    @GetMapping("/current")
+    public ResponseEntity<User> getCurrentUser() {
+        // Récupérez l'ID utilisateur Keycloak à partir du contexte de sécurité
+        String keycloakId = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        // Recherchez l'utilisateur correspondant dans la base de données
+        Optional<User> user = userRepository.findByKeycloakId(keycloakId);
+        if (user.isPresent()) {
+            return ResponseEntity.ok(user.get());
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+    }
 
 
 

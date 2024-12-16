@@ -51,4 +51,8 @@ public class Article {
         images.remove(image);
         image.setArticle(null);
     }
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
+    private List<UserArticleRead> userReads;
 }

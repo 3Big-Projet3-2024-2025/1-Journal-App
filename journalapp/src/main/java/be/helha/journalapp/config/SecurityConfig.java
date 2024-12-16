@@ -30,6 +30,7 @@ public class SecurityConfig {
                     auth.requestMatchers("/images/article/").permitAll();
 
 
+
                     // Lecture des commentaires accessible à tous
                     auth.requestMatchers(HttpMethod.GET, "/comments/**").permitAll();
 

@@ -35,4 +35,8 @@ public class User {
     @ApiModelProperty(hidden = true)
     @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
     private List<Newsletter> newsletters;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<UserArticleRead> articleReads;
 }
