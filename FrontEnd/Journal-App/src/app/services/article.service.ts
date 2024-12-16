@@ -3,8 +3,9 @@ import { HttpClient } from "@angular/common/http";
 import { Router } from "@angular/router";
 import { Observable } from "rxjs";
 import { Article } from "../models/article";
-import { map } from "rxjs";
+import { map  } from "rxjs";
 import { Image } from "../models/image";
+import { tap } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -77,14 +78,18 @@ export class ArticleService {
     return this.http.get<Article[]>(url);
   }
 
-  markArticleAsRead(id: number): Observable<Article> {
-    const url = `${this.apiUrl}/${id}/mark-read`;
-    return this.http.patch<Article>(url, {});
+  markAsRead(articleId: number): Observable<void> {
+    return this.http.patch<void>(`${this.apiUrl}/${articleId}/mark-read`, {});
   }
   
-  markArticleAsUnread(id: number): Observable<Article> {
-    const url = `${this.apiUrl}/${id}/mark-unread`;
-    return this.http.patch<Article>(url, {});
+  markAsUnread(articleId: number): Observable<void> {
+    return this.http.patch<void>(`${this.apiUrl}/${articleId}/mark-unread`, {});
+  }
+  
+  getArticleReadStatus(articleId: number): Observable<boolean> {
+    return this.http.get<{ isRead: boolean }>(`${this.apiUrl}/${articleId}/status`).pipe(
+      map(response => response.isRead)
+    );
   }
   
   getNewsletterBackgroundColor(newsletterId: number): Observable<string> {
@@ -93,6 +98,10 @@ export class ArticleService {
       map(response => response.backgroundColor)
     );
   }
-  
+  getReadArticles(): Observable<Article[]> {
+    return this.http.get<Article[]>(`${this.apiUrl}/read`).pipe(
+      tap(() => console.log('Fetching read articles with token'))
+    );
+  }
 
 }

@@ -6,7 +6,15 @@
   border-radius: 10px; 
   box-shadow: 0px 4px 8px rgb(56, 185, 121); 
 }
+
+#map2{
+  height: 600px;  
+  width: 1400px;  
+  margin: 0 auto;
+  padding: 50px;
+ 
   
+}
 
 
 

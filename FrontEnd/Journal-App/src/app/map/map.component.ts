@@ -6,6 +6,8 @@ import 'leaflet.markercluster';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Image } from '../models/image';
 import { ImageService } from '../services/image.service';
+import { AuthService } from '../services/auth.service';
+
 
 @Component({
   selector: 'app-map',
@@ -14,6 +16,7 @@ import { ImageService } from '../services/image.service';
 })
 export class MapComponent implements OnInit, OnChanges {
   @Input() articles: Article[] = []; // Articles à afficher sur la carte
+  readArticles: Article[] = [];
 
   map!: L.Map;
   markersGroup!: L.MarkerClusterGroup;
@@ -29,10 +32,24 @@ export class MapComponent implements OnInit, OnChanges {
 
   images: Image[] = []; // Images associées à l'article sélectionné
 
-  constructor(private articleService: ArticleService, private imageService: ImageService) {}
+  isAuthenticated = false; 
+  userInfo: any;
+  userRole: string | null = null; 
+  private roleHierarchy: string[] = ['ADMIN', 'EDITOR', 'JOURNALIST', 'READER'];
+
+  constructor(private articleService: ArticleService, private imageService: ImageService,private authService: AuthService) {}
 
   ngOnInit(): void {
     this.initializeMap();
+    
+
+    this.authService.isAuthenticated$.subscribe(authenticated => {
+      this.isAuthenticated = authenticated; 
+      if (authenticated) {
+        this.loadUserInfo();  
+        this.loadReadArticles();
+      }
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -40,6 +57,7 @@ export class MapComponent implements OnInit, OnChanges {
       this.updateMarkers();
     }
   }
+  
 
   initializeMap(): void {
     if (navigator.geolocation) {
@@ -67,6 +85,18 @@ export class MapComponent implements OnInit, OnChanges {
       this.updateMarkers();
       this.isLoading = false;
     }
+  }
+
+  loadReadArticles(): void {
+    this.articleService.getReadArticles().subscribe(
+      (readArticles) => {
+        this.readArticles = readArticles;
+        console.log('Articles marqués comme lus:', this.readArticles);
+      },
+      (error: HttpErrorResponse) => {
+        console.error('Erreur lors du chargement des articles marqués comme lus:', error);
+      }
+    );
   }
 
   initializeFallbackMap(): void {
@@ -151,10 +181,13 @@ export class MapComponent implements OnInit, OnChanges {
         this.selectedArticle = data;
         this.isMapVisible = false;
         this.isDetailsVisible = true;
-
+  
+        // Récupérer le titre de la newsletter
         this.getNewsletterTitle(articleId);
+  
+        // Récupérer le nom de l'auteur
         this.getAuthorName(articleId);
-
+  
         // Charger les images associées à cet article
         this.imageService.getImagesByArticleId(articleId).subscribe(
           (images: Image[]) => {
@@ -163,6 +196,18 @@ export class MapComponent implements OnInit, OnChanges {
           (error: HttpErrorResponse) => {
             console.error('Erreur lors de la récupération des images:', error);
             this.images = [];
+          }
+        );
+  
+        // Récupérer l'état de lecture pour l'utilisateur connecté
+        this.articleService.getArticleReadStatus(articleId).subscribe(
+          (isRead: boolean) => {
+            if (this.selectedArticle) {
+              this.selectedArticle.read = isRead;
+            }
+          },
+          (error) => {
+            console.error('Erreur lors de la récupération de l\'état de lecture:', error);
           }
         );
       },
@@ -213,4 +258,43 @@ export class MapComponent implements OnInit, OnChanges {
       }
     );
   }
+
+  markArticleAsRead(articleId: number | undefined): void {
+    if (!articleId) return;
+    this.articleService.markAsRead(articleId).subscribe(() => {
+      if (this.selectedArticle) this.selectedArticle.read = true;
+      console.log(`Article ${articleId} marked as read.`);
+      this.loadReadArticles();
+    });
+  }
+  
+  markArticleAsUnread(articleId: number | undefined): void {
+    if (!articleId) return;
+    this.articleService.markAsUnread(articleId).subscribe(() => {
+      if (this.selectedArticle) this.selectedArticle.read = false;
+      console.log(`Article ${articleId} marked as unread.`);
+      this.loadReadArticles();
+    });
+  }
+  
+
+  loadUserInfo(): void {
+    this.authService.getUserProfile().then(profile => {
+      this.userInfo = profile;  // Stocker les informations dans la variable userInfo
+      this.setUserRole();  // Déterminer et afficher le rôle principal
+    }).catch(error => {
+      console.error('Erreur lors du chargement des informations utilisateur', error);
+    });
+  }
+
+  private setUserRole(): void {
+    const roles = this.authService.getRoles();  // Récupérer les rôles de l'utilisateur
+    for (let role of this.roleHierarchy) {
+      if (roles.includes(role)) {
+        this.userRole = role;  // Assigner le rôle principal
+        break;
+      }
+    }
+  }
+  
 }
