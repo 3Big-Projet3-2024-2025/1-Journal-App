@@ -11,24 +11,22 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class HomeComponent implements OnInit {
   allArticles: Article[] = [];
+  allArticles2: Article[] = [];
   searchResults: Article[] = []; 
   searchTerm: string = ''; 
 
   constructor(private articleService: ArticleService, private router: Router,private cook:CookieService) {}
 
   ngOnInit(): void {
-    this.loadAllArticles();
+    this.loadAllArticlesAvailable()
   }
 
-  loadAllArticles(): void {
+  loadAllArticlesAvailable(): void {
     localStorage.setItem('newsletter', '0');
     this.articleService.getAvailableArticles().subscribe(
       (data: Article[]) => {
         this.allArticles = data; 
-        const test = JSON.stringify(this.allArticles)
-        //alert(test)
-        localStorage.setItem('allArticles', test);
-        //this.cook.set('allArticle', 'j');
+
       },
       (error) => {
         console.error('Erreur lors du chargement des articles:', error);

@@ -23,6 +23,8 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/articles/available").permitAll();
+                    auth.requestMatchers("/articles/unavailable").permitAll();
+                    auth.requestMatchers("/articles/all").permitAll();
                     auth.requestMatchers("/newsletters/all").permitAll();
                     auth.requestMatchers("/articles/search").permitAll();
                     auth.requestMatchers("/images/article/").permitAll();

@@ -48,38 +48,31 @@ export class ListCrudComponent {
 
   loadDataBasedOnType() {
     if (this.type === 'articles') {
-      console.log('Charger les articles');
+      console.log('Charger les articles depuis le service');
       this.titre = 'Management of the articles';
       this.titretable = 'articles';
-      const rawData = localStorage.getItem('allArticles'); // Récupère une chaîne JSON
-      
-    console.log('Raw Data from cook:', rawData);
-
-    try {
-      // Convertir la chaîne JSON en tableau d'articles
-      this.data = rawData ? JSON.parse(rawData) : [];
-      
-      // Vérifiez que c'est bien un tableau
-      if (Array.isArray(this.data)) {
-        // Séparer les articles validés et non validés
-        this.validArticles = this.data.filter((article: any) => article.valid);
-        this.nonValidArticles = this.data.filter((article: any) => !article.valid);
-        
-      } else {
-        console.error('Les données ne sont pas un tableau:', this.data);
-        this.validArticles = [];
-        this.nonValidArticles = [];
-      }
-    } catch (error) {
-      console.error('Erreur lors de la conversion JSON:', error);
-      this.validArticles = [];
-      this.nonValidArticles = [];
-    }
+  
+      // Appel au service pour récupérer les articles
+      this.articleService.getArticles().subscribe(
+        (data) => {
+          this.articles = data; // Récupération des articles
+          console.log('Articles récupérés:', data);
+  
+          // Séparer les articles validés et non validés
+          this.validArticles = this.articles.filter((article: Article) => article.valid);
+          this.nonValidArticles = this.articles.filter((article: Article) => !article.valid);
+        },
+        (error) => {
+          console.error('Erreur lors de la récupération des articles:', error);
+          this.validArticles = [];
+          this.nonValidArticles = [];
+        }
+      );
     } else if (this.type === 'newsletters') {
       console.log('Charger les newsletters');
       this.titre = 'Management of the Newsletter';
       this.titretable = 'newsletters';
-
+  
       this.manageNewsletter.GetALlnewsletter().subscribe(
         (data) => {
           this.newsletters = data; // Stocker les newsletters récupérées
@@ -93,6 +86,7 @@ export class ListCrudComponent {
       console.error('Type invalide');
     }
   }
+  
 
   click(id: number): void {
     this.router.navigate(["/update-newsletter"]);
