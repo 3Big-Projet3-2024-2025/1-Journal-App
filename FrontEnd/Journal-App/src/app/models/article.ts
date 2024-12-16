@@ -7,5 +7,7 @@ export interface Article {
     latitude : number ;
     user_id : number ;
     newsletter_id : number ;
-    valid : boolean
+    valid : boolean;
+    backgroundColor: string;
+    read: boolean;
 }

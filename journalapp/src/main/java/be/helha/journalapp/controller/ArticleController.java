@@ -39,8 +39,8 @@ public class ArticleController {
         article.setLongitude((Double) articleData.get("longitude"));
         article.setLatitude((Double) articleData.get("latitude"));
         article.setValid((Boolean) articleData.get("valid"));
+        article.setRead((Boolean) articleData.getOrDefault("read", false)); // Défaut: non lu
 
-        // Convertir les IDs en entités
         Long newsletterId = ((Number) articleData.get("newsletter_id")).longValue();
         Long userId = ((Number) articleData.get("user_id")).longValue();
 
@@ -52,10 +52,27 @@ public class ArticleController {
         article.setNewsletter(newsletter);
         article.setAuthor(author);
 
+        // Définir la couleur de fond basée sur la newsletter
+        article.setBackgroundColor(newsletter.getBackgroundColor());
+
         Article savedArticle = articleRepository.save(article);
         return ResponseEntity.ok(savedArticle);
     }
 
+
+
+    @GetMapping("/{newsletterId}/background-color")
+    public ResponseEntity<Map<String, String>> getNewsletterBackgroundColor(@PathVariable Long newsletterId) {
+        Optional<Newsletter> newsletter = newsletterRepository.findById(newsletterId);
+
+        if (newsletter.isPresent()) {
+            Map<String, String> response = new HashMap<>();
+            response.put("backgroundColor", newsletter.get().getBackgroundColor());
+            return ResponseEntity.ok(response);
+        }
+        // Newsletter non trouvée
+        return ResponseEntity.status(404).body(Map.of("error", "Newsletter not found"));
+    }
 
     @GetMapping("/all")
     public ResponseEntity<List<Article>> getAllArticles() {
@@ -78,8 +95,15 @@ public class ArticleController {
             article.setPublicationDate(updatedArticle.getPublicationDate());
             article.setLongitude(updatedArticle.getLongitude());
             article.setLatitude(updatedArticle.getLatitude());
-            article.setValid(updatedArticle.isValid()); // Utilisez les bons noms de méthodes
+            article.setValid(updatedArticle.isValid());
+            article.setRead(updatedArticle.isRead()); // Mettre à jour l'état de lecture
             article.setImages(updatedArticle.getImages());
+
+            // Mettre à jour la couleur de fond si la newsletter est modifiée
+            if (!article.getNewsletter().equals(updatedArticle.getNewsletter())) {
+                article.setNewsletter(updatedArticle.getNewsletter());
+                article.setBackgroundColor(updatedArticle.getNewsletter().getBackgroundColor());
+            }
 
             Article savedArticle = articleRepository.save(article);
             return ResponseEntity.ok(savedArticle);
@@ -156,4 +180,24 @@ public class ArticleController {
         }
         return ResponseEntity.ok(articles);
     }
+
+    @PatchMapping("/{id}/mark-read")
+    public ResponseEntity<Article> markArticleAsRead(@PathVariable Long id) {
+        return articleRepository.findById(id).map(article -> {
+            article.setRead(true); // Marquer l'article comme lu
+            Article updatedArticle = articleRepository.save(article);
+            return ResponseEntity.ok(updatedArticle);
+        }).orElse(ResponseEntity.notFound().build());
+    }
+
+    @PatchMapping("/{id}/mark-unread")
+    public ResponseEntity<Article> markArticleAsUnread(@PathVariable Long id) {
+        return articleRepository.findById(id).map(article -> {
+            article.setRead(false); // Marquer l'article comme non lu
+            Article updatedArticle = articleRepository.save(article);
+            return ResponseEntity.ok(updatedArticle);
+        }).orElse(ResponseEntity.notFound().build());
+    }
+
+
 }

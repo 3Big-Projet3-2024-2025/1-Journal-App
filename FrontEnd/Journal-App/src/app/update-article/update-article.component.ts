@@ -18,7 +18,9 @@ export class UpdateArticleComponent implements OnInit {
     latitude: 0.0,
     user_id: 0,
     newsletter_id: 0,
-    valid: false
+    valid: false,
+    backgroundColor: '#ffffff',
+    read: false,
   };
 
   selectedFiles: File[] = [];
@@ -87,7 +89,7 @@ export class UpdateArticleComponent implements OnInit {
         }
 
         // Retourner à la liste des articles
-        this.router.navigate(['/crud/articles']);
+        this.router.navigate(['crud/article']);
       },
       (error) => {
         console.error('Error updating article:', error);

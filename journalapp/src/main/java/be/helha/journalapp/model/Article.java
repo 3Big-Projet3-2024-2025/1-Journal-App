@@ -21,6 +21,9 @@ public class Article {
     private double longitude;
     private double latitude;
     private boolean valid;
+    private boolean read;
+
+    private String backgroundColor;
 
     // Many-to-One relationship with Newsletter
     @ManyToOne
