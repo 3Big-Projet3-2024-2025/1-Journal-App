@@ -49,7 +49,14 @@ export class NavbarComponent implements OnInit {
     console.log('Article variable set to 1 in localStorage');
     
   }
-
+  setCommentInLocalStorage() {
+    if(localStorage.getItem('newsletter') !== '0'){
+      this.route.navigate(['/crud/article'])
+    }
+    localStorage.setItem('newsletter', '3');
+    console.log('comment variable set to 3 in localStorage');
+    
+  }
   login() {
     this.authService.login();
   }

@@ -2,8 +2,9 @@
 <div class="container mt-4">
   <h2>{{ titre }}</h2>
 
-  <!-- Bouton d'ajout -->
+  <!-- Bouton d'ajout : visible uniquement pour les articles et newsletters -->
   <button
+    *ngIf="titretable !== 'comments'"
     class="btn btn-primary mb-3"
     [routerLink]="
       titretable === 'articles'
@@ -148,6 +149,46 @@
     </table>
     <ng-template #noNewsletters>
       <p>No newsletters available.</p>
+    </ng-template>
+  </div>
+
+  <!-- Section Comments -->
+  <div *ngIf="titretable === 'comments'">
+    <h3>Comments</h3>
+    <table
+      class="table table-striped"
+      *ngIf="comments.length > 0; else noComments"
+    >
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>ID</th>
+          <th>Author</th>
+          <th>Content</th>
+          <th>Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let comment of comments; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ comment.commentId }}</td>
+          <td>{{ comment.user.email }}</td>
+          <td>{{ comment.content }}</td>
+          <td>{{ comment.publicationDate }}</td>
+          <td>
+            <button
+              class="btn btn-danger btn-sm"
+              (click)="confirmDelete(comment.commentId, 'comment')"
+            >
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <ng-template #noComments>
+      <p>No comments available.</p>
     </ng-template>
   </div>
 </div>
