@@ -42,7 +42,7 @@
         <tr *ngFor="let article of validArticles; let i = index">
           <td>{{ i + 1 }}</td>
           <td>{{ article.title }}</td>
-          <td>{{ article.publicationDate }}</td>
+          <td>{{ article.publicationDate | date:"MM/dd/yyyy" }}</td>
           <td>
             <button
               class="btn btn-warning btn-sm"
@@ -81,7 +81,7 @@
         <tr *ngFor="let article of nonValidArticles; let i = index">
           <td>{{ i + 1 }}</td>
           <td>{{ article.title }}</td>
-          <td>{{ article.publicationDate }}</td>
+          <td>{{ article.publicationDate | date:"MM/dd/yyyy"}}</td>
           <td>
             <button
               class="btn btn-warning btn-sm"
@@ -129,7 +129,7 @@
         <tr *ngFor="let newsletter of newsletters; let i = index">
           <td>{{ i + 1 }}</td>
           <td>{{ newsletter.title }}</td>
-          <td>{{ newsletter.publicationDate }}</td>
+          <td>{{ newsletter.publicationDate | date:"MM/dd/yyyy"}}</td>
           <td>
             <button
               class="btn btn-warning btn-sm"

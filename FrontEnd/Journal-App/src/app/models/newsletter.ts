@@ -21,4 +21,5 @@ export interface Newsletter {
     subtitleBold?: boolean; // Optionnel
     subtitleItalic?: boolean; // Optionnel
     textAlign?: string; // Optionnel
+    journalists: User[];
 }

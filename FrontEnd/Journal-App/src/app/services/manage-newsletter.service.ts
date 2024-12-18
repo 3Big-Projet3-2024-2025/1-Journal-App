@@ -39,4 +39,22 @@ export class ManageNewsletterService {
     
     }
 
+      // Récupère toutes les newsletters auxquelles un journaliste est associé
+  getNewslettersForJournalist(userId: number): Observable<Newsletter[]> {
+    const url = `${this.apiUrl}/journalist/${userId}`;
+    return this.http.get<Newsletter[]>(url);
+  }
+
+  // Ajoute un journaliste à une newsletter
+  addJournalistToNewsletter(newsletterId: number, userId: number): Observable<Newsletter> {
+    const url = `${this.apiUrl}/${newsletterId}/addJournalist/${userId}`;
+    return this.http.patch<Newsletter>(url, {});
+  }
+
+  // Retire un journaliste d'une newsletter
+  removeJournalistFromNewsletter(newsletterId: number, userId: number): Observable<Newsletter> {
+    const url = `${this.apiUrl}/${newsletterId}/removeJournalist/${userId}`;
+    return this.http.patch<Newsletter>(url, {});
+  }
+
 }

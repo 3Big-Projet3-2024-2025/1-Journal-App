@@ -1,0 +1,37 @@
+<div class="form-container">
+    <h1>Add Article Form</h1>
+    <p>Please fill in the information and upload your pictures.</p>
+  
+    <form (ngSubmit)="addArticle()" #articleForm="ngForm">
+      <input
+        type="text"
+        name="title"
+        [(ngModel)]="articleToAdd.title"
+        placeholder="Title of article"
+        required
+      />
+  
+      <textarea
+        name="content"
+        [(ngModel)]="articleToAdd.content"
+        placeholder="Enter your text here (max 5000 characters)"
+        maxlength="5000"
+        rows="4"
+        required
+      ></textarea>
+  
+      <div class="file-upload">
+        <label>Upload your images</label>
+        <input
+          type="file"
+          name="images"
+          accept="image/png"
+          multiple
+          (change)="validateFileCount($event)"
+        />
+      </div>
+  
+      <button type="submit" [disabled]="!articleForm.form.valid">Submit</button>
+    </form>
+  </div>
+  

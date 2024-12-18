@@ -103,5 +103,10 @@ export class ArticleService {
       tap(() => console.log('Fetching read articles with token'))
     );
   }
+  
+  isJournalistInNewsletter(newsletterId: number, userId: number): Observable<boolean> {
+    const url = `http://localhost:8080/newsletters/${newsletterId}/journalists/${userId}`;
+    return this.http.get<boolean>(url);
+  }
 
 }

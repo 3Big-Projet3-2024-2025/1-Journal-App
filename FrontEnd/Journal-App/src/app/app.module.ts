@@ -32,6 +32,8 @@ import { UpdateArticleComponent } from './update-article/update-article.componen
 
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { ViewnewsletterComponent } from './viewnewsletter/viewnewsletter.component';
+import { CreateArticleJournalistComponent } from './create-article-journalist/create-article-journalist.component';
+import { ManageJournalistComponent } from './manage-journalist/manage-journalist.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +50,8 @@ import { ViewnewsletterComponent } from './viewnewsletter/viewnewsletter.compone
     AddArticleComponent,
     UpdateArticleComponent,
     ViewnewsletterComponent,
+    CreateArticleJournalistComponent,
+    ManageJournalistComponent,
     
    
 

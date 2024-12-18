@@ -4,6 +4,7 @@ import { AuthService } from '../services/auth.service';
 import { ManageNewsletterService } from '../services/manage-newsletter.service';
 import { UsersService } from '../services/users.service';
 import { Router } from '@angular/router';
+import { User } from '../models/user';
 
 @Component({
   selector: 'app-manage-newsletter-form',
@@ -14,6 +15,9 @@ export class ManageNewsletterFormComponent implements OnInit {
   userInfo: any = null;
   useridbykey: number | null = null;
   newsletterId: number | null = null;  // ID de la newsletter (si modif)
+
+  journalistIdToAdd: number | null = null; // champ pour ajouter un journaliste par son ID
+
   formData = {
     title: '',
     subtitle: '',
@@ -28,14 +32,16 @@ export class ManageNewsletterFormComponent implements OnInit {
     subtitleColor: '#000000',
     subtitleBold: false,
     subtitleItalic: false,
-    textAlign: ''
+    textAlign: '',
+    // On stocke ici les journalistes sous forme de tableau d'objets User
+    journalists: [] as User[]
   };
 
   constructor(
     private auth: AuthService,
     private manageNewsletterService: ManageNewsletterService,
     private userservice: UsersService,
-    private route:Router
+    private route: Router
   ) {}
 
   ngOnInit(): void {
@@ -45,8 +51,7 @@ export class ManageNewsletterFormComponent implements OnInit {
     // Si un ID est trouvé dans localStorage, récupérer la newsletter correspondante
     if (this.newsletterId) {
       this.manageNewsletterService.getnewsletterById(this.newsletterId).subscribe(
-        (data) => {
-          const newsletter = data;
+        (newsletter) => {
           // Remplir les champs du formulaire avec les données récupérées
           this.formData.title = newsletter.title;
           this.formData.subtitle = newsletter.subtitle;
@@ -62,6 +67,7 @@ export class ManageNewsletterFormComponent implements OnInit {
           this.formData.subtitleBold = newsletter.subtitleBold || false;
           this.formData.subtitleItalic = newsletter.subtitleItalic || false;
           this.formData.textAlign = newsletter.textAlign || '';
+          this.formData.journalists = newsletter.journalists || [];
         },
         (error) => {
           console.error('Erreur lors de la récupération de la newsletter:', error);
@@ -111,10 +117,14 @@ export class ManageNewsletterFormComponent implements OnInit {
       subtitleColor: this.formData.subtitleColor,
       subtitleBold: this.formData.subtitleBold,
       subtitleItalic: this.formData.subtitleItalic,
-      textAlign: this.formData.textAlign
+      textAlign: this.formData.textAlign,
+      journalists: this.formData.journalists // On envoie la liste de journalistes avec la newsletter
     };
+
+    // Pour la mise à jour, certains champs comme le creator ne sont pas requis si déjà existant,
+    // mais ce n'est pas un problème de les renvoyer.
     const putnewsletter: Newsletter = {
-      newsletterId: this.newsletterId || 0,  // Si l'ID est défini, on met à jour, sinon on crée
+      newsletterId: this.newsletterId || 0,
       title: this.formData.title,
       subtitle: this.formData.subtitle,
       publicationDate: new Date(),
@@ -129,12 +139,14 @@ export class ManageNewsletterFormComponent implements OnInit {
       subtitleColor: this.formData.subtitleColor,
       subtitleBold: this.formData.subtitleBold,
       subtitleItalic: this.formData.subtitleItalic,
-      textAlign: this.formData.textAlign
+      textAlign: this.formData.textAlign,
+      // Pas besoin de re-spécifier les journalistes ici si c'est une mise à jour partielle.
+      // Cependant, si l'API REST les attend, vous pouvez les remettre.
+      journalists: this.formData.journalists
     };
 
-
     if (this.newsletterId) {
-      // Mise à jour de la newsletter si l'ID est défini
+      // Mise à jour de la newsletter
       this.manageNewsletterService.Updatenewsletter(this.newsletterId, putnewsletter).subscribe({
         next: (value) => {
           console.log('Newsletter successfully updated', value);
@@ -197,5 +209,34 @@ export class ManageNewsletterFormComponent implements OnInit {
     localStorage.setItem('idnewsletter', '');
     this.route.navigate(['/crud/newsletter']);
   }
-  
+
+  // Ajout d'un journaliste dans la liste du formulaire (sans appel direct à l'API)
+  addJournalistToForm(): void {
+    if (!this.journalistIdToAdd) {
+      alert('Please provide a valid journalist ID.');
+      return;
+    }
+
+    // On crée un objet "User" minimaliste avec uniquement l'ID
+    const newJournalist: User = {
+      userId: this.journalistIdToAdd,
+      firstName: '',
+      lastName: '',
+      keycloakId: '',
+      role: {
+        roleId: 0,
+        roleName: ''
+      }
+    };
+    
+
+    // On ajoute ce journaliste à la liste
+    this.formData.journalists.push(newJournalist);
+    this.journalistIdToAdd = null;
+  }
+
+  // Supprime un journaliste de la liste du formulaire
+  removeJournalistFromForm(userId: number): void {
+    this.formData.journalists = this.formData.journalists.filter(j => j.userId !== userId);
+  }
 }
