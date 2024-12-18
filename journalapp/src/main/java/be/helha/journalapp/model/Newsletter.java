@@ -33,7 +33,6 @@ public class Newsletter {
 
     private String textAlign;
 
-
     @ManyToOne
     @JoinColumn(name = "creator_id", nullable = false)
     private User creator;
@@ -45,5 +44,13 @@ public class Newsletter {
     @JsonIgnore
     @OneToMany(mappedBy = "newsletter", cascade = CascadeType.ALL)
     private List<Comment> comments;
-}
 
+    // Relation Many-to-Many avec User pour les journalistes
+    @ManyToMany
+    @JoinTable(
+            name = "newsletter_journalists",
+            joinColumns = @JoinColumn(name = "newsletter_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private List<User> journalists;
+}

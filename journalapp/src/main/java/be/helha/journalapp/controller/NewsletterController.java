@@ -138,4 +138,54 @@ public class NewsletterController {
         }
         return ResponseEntity.notFound().build();
     }
+
+    @GetMapping("/{newsletterId}/journalists/{userId}")
+    public ResponseEntity<Boolean> isJournalistInNewsletter(@PathVariable Long newsletterId, @PathVariable Long userId) {
+        Newsletter newsletter = newsletterRepository.findById(newsletterId)
+                .orElseThrow(() -> new RuntimeException("Newsletter with ID " + newsletterId + " not found."));
+        boolean isJournalist = newsletter.getJournalists() != null && newsletter.getJournalists().stream()
+                .anyMatch(user -> user.getUserId().equals(userId));
+        return ResponseEntity.ok(isJournalist);
+    }
+
+    // Endpoint pour récupérer toutes les newsletters auxquelles un journaliste (userId) est associé
+    @GetMapping("/journalist/{userId}")
+    public ResponseEntity<List<Newsletter>> getNewslettersForJournalist(@PathVariable Long userId) {
+        List<Newsletter> newsletters = newsletterRepository.findByJournalistUserId(userId);
+        return ResponseEntity.ok(newsletters);
+    }
+
+    // Ajoute un journaliste à la liste de la newsletter
+    @PatchMapping("/{newsletterId}/addJournalist/{userId}")
+    public ResponseEntity<Newsletter> addJournalistToNewsletter(@PathVariable Long newsletterId, @PathVariable Long userId) {
+        Newsletter newsletter = newsletterRepository.findById(newsletterId)
+                .orElseThrow(() -> new RuntimeException("Newsletter with ID " + newsletterId + " not found."));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User with ID " + userId + " not found."));
+
+        List<User> journalists = newsletter.getJournalists();
+        if (!journalists.contains(user)) {
+            journalists.add(user);
+            newsletter.setJournalists(journalists);
+            newsletter = newsletterRepository.save(newsletter);
+        }
+        return ResponseEntity.ok(newsletter);
+    }
+
+    // Supprime un journaliste de la liste de la newsletter
+    @PatchMapping("/{newsletterId}/removeJournalist/{userId}")
+    public ResponseEntity<Newsletter> removeJournalistFromNewsletter(@PathVariable Long newsletterId, @PathVariable Long userId) {
+        Newsletter newsletter = newsletterRepository.findById(newsletterId)
+                .orElseThrow(() -> new RuntimeException("Newsletter with ID " + newsletterId + " not found."));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User with ID " + userId + " not found."));
+
+        List<User> journalists = newsletter.getJournalists();
+        if (journalists.contains(user)) {
+            journalists.remove(user);
+            newsletter.setJournalists(journalists);
+            newsletter = newsletterRepository.save(newsletter);
+        }
+        return ResponseEntity.ok(newsletter);
+    }
 }
