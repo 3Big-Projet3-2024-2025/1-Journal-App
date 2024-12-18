@@ -42,7 +42,7 @@
                       <button *ngIf="selectedArticle?.read" (click)="markArticleAsUnread(selectedArticle?.articleId)" class="btn btn-warning">
                         Mark as Unread
                       </button>
-                      <button class="btn btn-primary">Make a Comment</button>
+                      <button class="btn btn-primary" (click)="addCommet()">Make a Comment</button>
                     </div>
                   </div>
                   

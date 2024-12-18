@@ -15,6 +15,7 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['./map.component.css']
 })
 export class MapComponent implements OnInit, OnChanges {
+
   @Input() articles: Article[] = []; // Articles à afficher sur la carte
   readArticles: Article[] = [];
 
@@ -295,6 +296,10 @@ export class MapComponent implements OnInit, OnChanges {
         break;
       }
     }
+  }
+
+  addCommet() {
+    
   }
   
 }

@@ -58,3 +58,41 @@ button:hover {
   position: relative; /* Nécessaire pour le positionnement absolu du bouton */
   padding-bottom: 60px; /* Ajout d'espace pour ne pas chevaucher le bouton */
 }
+.section-article {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.article-card {
+  flex: 0 1 calc(33.333% - 10px); /* 3 articles par ligne */
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+}
+
+.article-list {
+  margin-top: 20px;
+}
+
+.article-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+  border-bottom: 1px solid #ccc;
+}
+
+.add-btn, .delete-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.add-btn:hover, .delete-btn:hover {
+  background-color: #0056b3;
+}

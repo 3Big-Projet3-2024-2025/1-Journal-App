@@ -14,6 +14,7 @@ import { CookieService } from 'ngx-cookie-service';
   styleUrls: ['./list-crud.component.css'],
 })
 export class ListCrudComponent {
+
   type: string = '';
   titre: string = '';
   titretable: string = '';
@@ -137,5 +138,21 @@ export class ListCrudComponent {
         );
       }
     }
+  }
+
+
+  click(id: number): void {
+    this.router.navigate(["/update-newsletter"]);
+  
+    localStorage.setItem("put", "edit");
+  
+    localStorage.setItem("idnewsletter", id.toString());
+  }
+  clickvoir(id: number): void {
+    this.router.navigate(["/see-newsletter"]);
+  
+    localStorage.setItem("see", "look");
+  
+    localStorage.setItem("seeidnewsletter", id.toString());
   }
 }
