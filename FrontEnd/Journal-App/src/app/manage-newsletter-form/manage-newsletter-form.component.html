@@ -33,8 +33,9 @@
           Background
         </button>
       </div>
-<br>
-      <!-- Contenu des onglets -->
+      <br>
+
+      <!-- Contenu de l'onglet Title Settings -->
       <div [hidden]="activeTab !== 'title-settings'" class="tab-content">
         <div class="form-group">
           <label for="title">Title</label>
@@ -63,8 +64,13 @@
             <input type="checkbox" name="titleUnderline" [(ngModel)]="formData.titleUnderline" /> Underline
           </label>
         </div>
+        <!-- Bouton pour aller à l'onglet suivant -->
+        <button type="button" (click)="setActiveTab('subtitle-settings')">
+          Next &rarr;
+        </button>
       </div>
 
+      <!-- Contenu de l'onglet Subtitle Settings -->
       <div [hidden]="activeTab !== 'subtitle-settings'" class="tab-content">
         <div class="form-group">
           <label for="subtitle">Subtitle</label>
@@ -93,8 +99,13 @@
             <input type="checkbox" name="subtitleItalic" [(ngModel)]="formData.subtitleItalic" /> Italic
           </label>
         </div>
+        <!-- Bouton pour aller à l'onglet suivant -->
+        <button type="button" (click)="setActiveTab('background-settings')">
+          Next &rarr;
+        </button>
       </div>
 
+      <!-- Contenu de l'onglet Background -->
       <div [hidden]="activeTab !== 'background-settings'" class="tab-content">
         <div class="form-group">
           <label for="backgroundColor">Background Color</label>
@@ -108,14 +119,11 @@
             <option value="right">Right</option>
           </select>
         </div>
+        <!-- Ici, on n'affiche pas "Next" mais le bouton de soumission du formulaire -->
+        <button type="submit">{{ isEditing ? 'Confirm Changes' : 'Create Newsletter' }}</button>
       </div>
-
-      <!-- Submit Button -->
-      <button type="submit">{{ isEditing ? 'Confirm Changes' : 'Create Newsletter' }}</button>
     </form>
-<br>
-<br>
-
+    <br><br>
     <!-- Back Button -->
     <button class="backbutton" (click)="goBack()">Back to list of Newsletters</button>
   </div>

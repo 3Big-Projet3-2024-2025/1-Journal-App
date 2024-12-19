@@ -24,22 +24,16 @@
           <button class="add-btn" (click)="addArticleToNewsletter(article)">+</button>
         </div>
       </div>
+      <div *ngIf="articleToConfirm" class="confirmation-box">
+  <p>L'article "{{ articleToConfirm.title }}" est déjà lié à une autre newsletter. Voulez-vous quand même l'ajouter à cette newsletter ?</p>
+  <button class="btn btn-success" (click)="confirmAddArticle(articleToConfirm)">Oui</button>
+  <button class="btn btn-danger" (click)="cancelAddArticle()">Non</button>
+</div>
     </div>
   </div>
 </div>
 
-<!-- Confirmation Modal -->
-<div *ngIf="articleToConfirm" class="confirmation-modal">
-  <div class="modal-content">
-    <p>
-      L'article "<strong>{{ articleToConfirm.title }}</strong>" est déjà associé à la newsletter
-      "<strong>{{ articleToConfirm.newsletter?.title }}</strong>".
-      Voulez-vous le lier à cette newsletter à la place ?
-    </p>
-    <button (click)="confirmAddArticle(articleToConfirm)">Confirmer le changement</button>
-    <button (click)="cancelAddArticle()">Annuler</button>
-  </div>
-</div>
+
 
 <ng-template #loading>
   <div class="card">

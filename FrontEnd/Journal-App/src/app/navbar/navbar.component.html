@@ -66,32 +66,30 @@
       <p>Welcome, you are {{ userRole }}!</p> 
       This location is reserved only for users with the ADMIN, EDITOR, or JOURNALIST role!
     </div><br>
-
-      <div class="offcanvas-title" id="offcanvasExampleLabel"  *ngIf="isAuthenticated && (userRole === 'ADMIN')">ADMIN<!-- if user ADMIN -->
-           <div class="button-like mt-3">
-             <a href="http://localhost:8082/admin/master/console/#/journalapp/users" target="_blank" style="text-decoration: none; color: inherit;">
-              Manage Users
-            </a>
-           </div>
-          <div class="button-like">Manage RGPD</div>
-      </div>
-
-      <div  class="offcanvas-title" id="offcanvasExampleLabel" *ngIf="isAuthenticated && (userRole === 'ADMIN' ||  userRole === 'EDITOR')">EDITOR<!-- if user EDITOR    -->
-        
-        <div class="button-like mt-3"(click)="setArticleInLocalStorage()">Manage Articles</div>
-        <div  class="button-like"(click)="setNewsletterInLocalStorage()">Manage Newsletters</div>
-        <div class="button-like "(click)="setCommentInLocalStorage()">Manage Comments</div>
-        <div routerLink="managejournalist" class="button-like ">Manage Journalist</div>
-      </div>
-
-      <div  class="offcanvas-title" id="offcanvasExampleLabel" *ngIf="isAuthenticated && (userRole === 'ADMIN' || userRole === 'JOURNALIST' || userRole === 'EDITOR')">JOURNALIST<!-- if user JOURNALISTE -->
-        <div routerLink="createarticlejournalist"  class="button-like  mt-3">Create an article</div>
-        <div routerLink="viewmyarticle" class="button-like">View My articles</div>
-        
-      </div>
   
-    
+    <div class="offcanvas-title" id="offcanvasExampleLabel" *ngIf="isAuthenticated && (userRole === 'ADMIN')">ADMIN
+      <div class="button-like mt-3">
+        <a href="http://localhost:8082/admin/master/console/#/journalapp/users" target="_blank" style="text-decoration: none; color: inherit;"
+           data-bs-dismiss="offcanvas">
+          Manage Users
+        </a>
+      </div>
+      <div class="button-like" data-bs-dismiss="offcanvas">Manage RGPD</div>
+    </div>
+  
+    <div class="offcanvas-title" id="offcanvasExampleLabel" *ngIf="isAuthenticated && (userRole === 'ADMIN' ||  userRole === 'EDITOR')">EDITOR
+      <div class="button-like mt-3" (click)="setArticleInLocalStorage()" data-bs-dismiss="offcanvas">Manage Articles</div>
+      <div class="button-like" (click)="setNewsletterInLocalStorage()" data-bs-dismiss="offcanvas">Manage Newsletters</div>
+      <div class="button-like" (click)="setCommentInLocalStorage()" data-bs-dismiss="offcanvas">Manage Comments</div>
+      <div routerLink="managejournalist" class="button-like" data-bs-dismiss="offcanvas">Manage Journalist</div>
+    </div>
+  
+    <div class="offcanvas-title" id="offcanvasExampleLabel" *ngIf="isAuthenticated && (userRole === 'ADMIN' || userRole === 'JOURNALIST' || userRole === 'EDITOR')">JOURNALIST
+      <div routerLink="createarticlejournalist" class="button-like mt-3" data-bs-dismiss="offcanvas">Create an article</div>
+      <div routerLink="viewmyarticle" class="button-like" data-bs-dismiss="offcanvas">View My articles</div>
+    </div>
   </div>
+  
 </div>
 
 
