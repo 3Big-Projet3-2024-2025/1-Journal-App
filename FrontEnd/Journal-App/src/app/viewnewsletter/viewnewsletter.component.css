@@ -60,28 +60,42 @@ button:hover {
 }
 .section-article {
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+  flex-wrap: wrap; /* Permet d'aller à la ligne si nécessaire */
+  gap: 10px; /* Espace entre les cartes */
+  justify-content: center; /* Centre les articles horizontalement */
+  max-width: 100%; /* Limite la largeur totale */
 }
 
 .article-card {
-  flex: 0 1 calc(33.333% - 10px); /* 3 articles par ligne */
+  flex: 0 1 calc(33.333% - 20px); /* 3 articles par ligne, en comptant le gap */
+  max-width: 300px; /* Taille maximale pour chaque carte */
+  min-width: 250px; /* Taille minimale pour chaque carte */
+  height: 200px; /* Hauteur fixe */
   border: 1px solid #ddd;
   border-radius: 5px;
   padding: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   background-color: #f9f9f9;
-}
-
-.article-list {
-  margin-top: 20px;
-}
-
-.article-item {
   display: flex;
-  justify-content: space-between;
-  padding: 5px;
-  border-bottom: 1px solid #ccc;
+  flex-direction: column;
+  justify-content: space-between; /* Équilibre le contenu */
+  text-align: center; /* Centre le texte */
+}
+
+.article-card h3 {
+  font-size: 1.2rem;
+  margin: 10px 0;
+  text-overflow: ellipsis; /* Gère les titres trop longs */
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.article-card p {
+  font-size: 0.9rem;
+  margin: 10px 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .add-btn, .delete-btn {
@@ -91,8 +105,32 @@ button:hover {
   padding: 5px 10px;
   cursor: pointer;
   border-radius: 5px;
+  align-self: center; /* Centre le bouton horizontalement */
 }
 
 .add-btn:hover, .delete-btn:hover {
   background-color: #0056b3;
 }
+
+.article-list {
+  margin-top: 20px;
+  max-height: 300px; /* Hauteur maximale de la liste d'articles disponibles */
+  overflow-y: auto; /* Ajoute un défilement vertical si nécessaire */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  background-color: #f9f9f9;
+}
+
+.article-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+  border-bottom: 1px solid #ccc;
+}
+
+.article-item:last-child {
+  border-bottom: none; /* Supprime la bordure du dernier élément */
+}
+

@@ -3,7 +3,7 @@
     <div [style.background-color]="newsletter.backgroundColor" [style.text-align]="newsletter.textAlign">
       <h1>{{ newsletter.title }}</h1>
       <h2>{{ newsletter.subtitle }}</h2>
-      <p>Publication Date: {{ newsletter.publicationDate }}</p>
+      <p>Publication Date: {{ newsletter.publicationDate | date:"MM/dd/yyyy" }}</p>
 
       <!-- Section pour les articles ajoutés -->
       <div class="section-article">
@@ -25,6 +25,19 @@
         </div>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- Confirmation Modal -->
+<div *ngIf="articleToConfirm" class="confirmation-modal">
+  <div class="modal-content">
+    <p>
+      L'article "<strong>{{ articleToConfirm.title }}</strong>" est déjà associé à la newsletter
+      "<strong>{{ articleToConfirm.newsletter?.title }}</strong>".
+      Voulez-vous le lier à cette newsletter à la place ?
+    </p>
+    <button (click)="confirmAddArticle(articleToConfirm)">Confirmer le changement</button>
+    <button (click)="cancelAddArticle()">Annuler</button>
   </div>
 </div>
 
