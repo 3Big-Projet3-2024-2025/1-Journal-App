@@ -41,9 +41,7 @@ public class Newsletter {
     @OneToMany(mappedBy = "newsletter", cascade = CascadeType.ALL)
     private List<Article> articles;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "newsletter", cascade = CascadeType.ALL)
-    private List<Comment> comments;
+
 
     // Relation Many-to-Many avec User pour les journalistes
     @ManyToMany

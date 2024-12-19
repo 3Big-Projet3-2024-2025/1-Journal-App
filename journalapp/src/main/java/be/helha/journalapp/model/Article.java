@@ -27,7 +27,7 @@ public class Article {
 
     // Many-to-One relationship with Newsletter
     @ManyToOne
-    @JoinColumn(name = "newsletter_id", nullable = false) // Foreign key to Newsletter
+    @JoinColumn(name = "newsletter_id") // Foreign key to Newsletter
     private Newsletter newsletter;
 
     // Many-to-One relationship with User (an article is written by a single user)

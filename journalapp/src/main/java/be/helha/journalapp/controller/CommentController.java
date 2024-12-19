@@ -1,12 +1,17 @@
 package be.helha.journalapp.controller;
 
+import be.helha.journalapp.model.Article;
 import be.helha.journalapp.model.Comment;
+import be.helha.journalapp.model.User;
+import be.helha.journalapp.repositories.ArticleRepository;
 import be.helha.journalapp.repositories.CommentRepository;
+import be.helha.journalapp.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.List;
 
 @RestController
@@ -14,16 +19,52 @@ import java.util.List;
 public class CommentController {
 
     private final CommentRepository commentRepository;
+    private final UserRepository userRepository;
+    private final ArticleRepository articleRepository;
 
     @Autowired
-    public CommentController(CommentRepository commentRepository) {
+    public CommentController(CommentRepository commentRepository, UserRepository userRepository, ArticleRepository articleRepository) {
         this.commentRepository = commentRepository;
+        this.userRepository = userRepository;
+        this.articleRepository = articleRepository;
     }
 
-    // CREATE: Add a new comment
     @PostMapping
-    public ResponseEntity<Comment> addComment(@RequestBody Comment newComment) {
-        Comment savedComment = commentRepository.save(newComment);
+    public ResponseEntity<Comment> addComment(@RequestBody Map<String, Object> commentData) {
+        System.out.println("Données reçues : " + commentData);
+
+        // Vérification de la présence des champs requis
+        if (!commentData.containsKey("user_id")) {
+            throw new RuntimeException("User ID is missing from request.");
+        }
+        if (!commentData.containsKey("article_id")) {
+            throw new RuntimeException("Article ID is missing from request.");
+        }
+
+        // Récupération des informations de base
+        String content = (String) commentData.get("content");
+        String publicationDate = (String) commentData.get("publicationDate");
+
+        Long userId = ((Number) commentData.get("user_id")).longValue();
+        Long articleId = ((Number) commentData.get("article_id")).longValue();
+
+        // Recherche de l'utilisateur
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User with ID " + userId + " not found."));
+
+        // Recherche de l'article
+        Article article = articleRepository.findById(articleId)
+                .orElseThrow(() -> new RuntimeException("Article with ID " + articleId + " not found."));
+
+        // Création du commentaire
+        Comment comment = new Comment();
+        comment.setContent(content);
+        comment.setPublicationDate(publicationDate);
+        comment.setUser(user);
+        comment.setArticle(article);
+
+        // Sauvegarde du commentaire
+        Comment savedComment = commentRepository.save(comment);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedComment);
     }
 
@@ -73,10 +114,11 @@ public class CommentController {
         return ResponseEntity.ok(comments);
     }
 
-    // Retrieve comments by newsletter ID
-    @GetMapping("/newsletter/{newsletterId}")
-    public ResponseEntity<List<Comment>> getCommentsByNewsletterId(@PathVariable Long newsletterId) {
-        List<Comment> comments = commentRepository.findByNewsletterNewsletterId(newsletterId);
+    // Retrieve comments by article ID
+    @GetMapping("/article/{articleId}")
+    public ResponseEntity<List<Comment>> getCommentsByArticleId(@PathVariable Long articleId) {
+        List<Comment> comments = commentRepository.findByArticleArticleId(articleId);
         return ResponseEntity.ok(comments);
     }
+
 }

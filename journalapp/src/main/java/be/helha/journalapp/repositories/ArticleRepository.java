@@ -1,6 +1,7 @@
 package be.helha.journalapp.repositories;
 
 import be.helha.journalapp.model.Article;
+import be.helha.journalapp.model.Newsletter;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,6 +18,14 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     List<Article> findByAuthorId(@Param("userId") Long userId);
     List<Article> findByValidTrue();
     List<Article> findByValidFalse();
+    @Query("SELECT a FROM Article a WHERE a.newsletter.newsletterId = :newsletterId")
+    List<Article> findArticlesByNewsletterId(@Param("newsletterId") Long newsletterId);
+
+
+
+
+
+
 
     @Query("SELECT a FROM Article a WHERE a.valid = true AND " +
             "LOWER(a.title) LIKE LOWER(CONCAT('%', :term, '%'))")
