@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./add-article.component.css']
 })
 export class AddArticleComponent implements OnInit {
+  successMessage: string = "";
 
   constructor(
     private articleService: ArticleService, 
@@ -145,6 +146,12 @@ export class AddArticleComponent implements OnInit {
       reader.onerror = (error) => reject(error);
     });
   }
+  
+  goBack(): void {
+    // Redirige vers /crud/newsletter et réinitialise les données du localStorage
+
+    this.router.navigate(['crud/article']);
+  }
 
   addArticle(): void {
     this.getUserId();
@@ -174,6 +181,7 @@ export class AddArticleComponent implements OnInit {
         this.articleService.addArticle(this.articleToAdd).subscribe(
           async (newArticle) => {
             console.log('Article ajouté avec succès:', newArticle);
+            
     
             // Envoi des images si présentes
             if (this.selectedFiles.length > 0) {
@@ -196,8 +204,14 @@ export class AddArticleComponent implements OnInit {
             };
             this.selectedFiles = [];
             this.selectedNewsletterId = null;
-            this.router.navigate(['/crud/articles']);
+            this.successMessage = "Article sent successfully";
+            setTimeout(() => {
+              this.router.navigate(['crud/article']); // Remplace '/articles' par la route souhaitée
+            }, 2000);
+            
           },
+
+          
           (error) => {
             console.error('Erreur lors de l\'ajout de l\'article:', error);
           }

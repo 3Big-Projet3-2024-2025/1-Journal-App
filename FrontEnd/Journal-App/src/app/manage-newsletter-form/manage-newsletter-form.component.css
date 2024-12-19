@@ -146,3 +146,17 @@
     position: relative; /* Nécessaire pour le positionnement absolu du bouton */
     padding-bottom: 60px; /* Ajout d'espace pour ne pas chevaucher le bouton */
 }
+.backbutton {
+    background-color: #d81d1d;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 20px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    width: 100%;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Animation au hover */
+    margin-top: 15px;
+
+}

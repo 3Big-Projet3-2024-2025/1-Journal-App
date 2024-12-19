@@ -12,7 +12,8 @@
             <i class="fa-solid fa-bars"></i>
            </button>
 
-      
+           <mat-icon routerLink="/home" aria-hidden="false" aria-label="Example home icon" fontIcon="home"></mat-icon>
+
   
     </div>
     <div class="logo" routerLink="/home">Journal-App</div>
@@ -85,7 +86,7 @@
 
       <div  class="offcanvas-title" id="offcanvasExampleLabel" *ngIf="isAuthenticated && (userRole === 'ADMIN' || userRole === 'JOURNALIST' || userRole === 'EDITOR')">JOURNALIST<!-- if user JOURNALISTE -->
         <div routerLink="createarticlejournalist"  class="button-like  mt-3">Create an article</div>
-        <div class="button-like">View My articles</div>
+        <div routerLink="viewmyarticle" class="button-like">View My articles</div>
         
       </div>
   

@@ -190,10 +190,7 @@ button.btn-danger:hover {
   border-top-right-radius: 10px;
 }
 
-.popup-header h3 {
-  margin: 0;
-  font-size: 1.5rem;
-}
+
 
 .popup-close {
   background: none;
@@ -247,6 +244,16 @@ button.btn-danger {
 
 button.btn-danger:hover {
   background-color: #c9302c;
+}
+
+.btn-info-btn-sm{
+  background-color: #1026e9;
+  color: #ffffff;
+  border: none;
+  padding: 5px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
 }
 
 /* Animation de la popup */

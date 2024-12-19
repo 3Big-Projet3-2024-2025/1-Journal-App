@@ -22,4 +22,5 @@ export interface Newsletter {
     subtitleItalic?: boolean; // Optionnel
     textAlign?: string; // Optionnel
     journalists: User[];
+    articles?: Article[]; 
 }
