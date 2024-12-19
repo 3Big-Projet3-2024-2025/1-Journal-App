@@ -7,6 +7,10 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Image } from '../models/image';
 import { ImageService } from '../services/image.service';
 import { AuthService } from '../services/auth.service';
+import { CommentService } from '../services/comment.service';
+import { Commentmap } from '../models/commentmap';
+import { UsersService } from '../services/users.service';
+
 
 
 @Component({
@@ -15,6 +19,10 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['./map.component.css']
 })
 export class MapComponent implements OnInit, OnChanges {
+  isCommentFormVisible = false;
+  newCommentContent = '';
+
+  userId: number = 1; 
 
   @Input() articles: Article[] = []; // Articles à afficher sur la carte
   readArticles: Article[] = [];
@@ -37,8 +45,11 @@ export class MapComponent implements OnInit, OnChanges {
   userInfo: any;
   userRole: string | null = null; 
   private roleHierarchy: string[] = ['ADMIN', 'EDITOR', 'JOURNALIST', 'READER'];
+  isCommentsVisible = false; // Pour gérer l'affichage du tableau de commentaires
+  comments: Commentmap[] = [];
+ 
 
-  constructor(private articleService: ArticleService, private imageService: ImageService,private authService: AuthService) {}
+  constructor(private articleService: ArticleService, private imageService: ImageService,private authService: AuthService,private commentService: CommentService, private userService:UsersService) {}
 
   ngOnInit(): void {
     this.initializeMap();
@@ -297,9 +308,66 @@ export class MapComponent implements OnInit, OnChanges {
       }
     }
   }
-
   addCommet() {
-    
+    this.isCommentFormVisible = true; // affiche le formulaire
   }
+
+  submitComment() {
+    if (!this.selectedArticle?.articleId) {
+      console.error("No article selected");
+      return;
+    }
+
+    const commentData = {
+      content: this.newCommentContent,
+      publicationDate: new Date().toISOString().split('T')[0], // par exemple la date du jour
+      user_id: this.userId,
+      article_id: this.selectedArticle.articleId
+    };
+
+    this.commentService.addComment(commentData).subscribe({
+      next: (createdComment) => {
+        console.log("Comment created:", createdComment);
+        this.isCommentFormVisible = false;
+        this.newCommentContent = '';
+        // Vous pouvez ici recharger la liste des commentaires si nécessaire
+      },
+      error: (err) => {
+        console.error("Error creating comment:", err);
+      }
+    });
+  }
+
+  
+  toggleComments() {
+    this.isCommentsVisible = !this.isCommentsVisible;
+    if (this.isCommentsVisible) {
+      this.loadComments();
+    }
+  }
+
+  loadComments() {
+    this.commentService.getAllCommentsmap().subscribe({
+      next: (comments) => {
+        this.comments = comments;
+  
+        // Pour chaque commentaire, faire un appel pour récupérer l'utilisateur associé
+        this.comments.forEach(comment => {
+          this.userService.getUserById(comment.user_id).subscribe({
+            next: (user) => {
+              comment.user = user; // On stocke l'utilisateur directement dans l'objet commentaire
+            },
+            error: (err) => {
+              console.error("Error loading user for comment:", err);
+            }
+          });
+        });
+      },
+      error: (err) => {
+        console.error("Error loading comments:", err);
+      }
+    });
+  }
+  
   
 }

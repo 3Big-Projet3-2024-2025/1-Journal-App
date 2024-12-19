@@ -1,7 +1,11 @@
-<br> <br>
+
 <div class="form-container">
   <h1>Update Article</h1>
   <form (ngSubmit)="updateArticle()">
+    <div *ngIf="successMessage" class="alert alert-success">
+      {{ successMessage }}
+    </div>
+    <!-- Title Field -->
     <div>
       <label for="title">Title</label>
       <input
@@ -14,6 +18,7 @@
       />
     </div>
 
+    <!-- Content Field -->
     <div>
       <label for="content">Content</label>
       <textarea
@@ -26,7 +31,8 @@
       ></textarea>
     </div>
 
-    <div>
+    <!-- File Upload -->
+    <div class="file-upload">
       <label for="images">Upload New Images</label>
       <input
         type="file"
@@ -38,7 +44,8 @@
       />
     </div>
 
-    <div>
+    <!-- Validation Radio Buttons -->
+    <div class="valid">
       <label>Is the article valid?</label>
       <div>
         <label>
@@ -62,6 +69,10 @@
       </div>
     </div>
 
+    <!-- Submit Button -->
     <button type="submit">Update</button>
+
+        <!-- Back Button -->
+        <button class="backbutton" (click)="goBack()">Back to list of Newsletters</button>
   </form>
 </div>

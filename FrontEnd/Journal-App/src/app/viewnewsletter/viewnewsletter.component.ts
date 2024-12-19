@@ -14,9 +14,12 @@ import { ArticleService } from '../services/article.service';
 export class ViewnewsletterComponent implements OnInit {
 
   newsletter: Newsletter | null = null;
-  validArticles: Article[] = []; // Articles valides récupérés depuis la DB
-  addedArticles: Article[] = []; // Articles ajoutés
+  validArticles: Article[] = []; // Articles disponibles pour ajout
+  addedArticles: Article[] = []; // Articles associés à la newsletter
   showArticleList: boolean = false;
+
+  // Pour la confirmation
+  articleToConfirm: Article | null = null;
 
   constructor(
     private newsletterService: ManageNewsletterService,
@@ -26,53 +29,83 @@ export class ViewnewsletterComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Récupération de la newsletter
-    const id = +localStorage.getItem('seeidnewsletter')!;
-    this.newsletterService.getnewsletterById(id).subscribe(
-      (data) => this.newsletter = data,
-      (error) => console.error('Erreur lors de la récupération de la newsletter:', error)
-    );
-
-    // Récupération des articles valides
-    this.articleService.getArticles().subscribe(
-      (articles) => {
-        this.validArticles = articles.filter((article) => article.valid);
-      },
-      (error) => console.error('Erreur lors de la récupération des articles:', error)
-    );
-
-    // Récupération des articles ajoutés depuis le localStorage
-    const storedArticles = localStorage.getItem('addedArticles');
-    if (storedArticles) {
-      this.addedArticles = JSON.parse(storedArticles);
-    }
+    const newsletterId = +localStorage.getItem('seeidnewsletter')!;
+    this.getnewsletter(newsletterId);
   }
 
-  // Afficher/Cacher la liste des articles disponibles
+  getnewsletter(id: number): void {
+    this.newsletterService.getnewsletterById(id).subscribe(
+      (data) => {
+        this.newsletter = data;
+        this.articleService.getArticles().subscribe(
+          (articles) => {
+            this.addedArticles = articles.filter(
+              (article) => article.newsletter?.newsletterId === id
+            );
+            this.validArticles = articles.filter(
+              (article) => article.valid && article.newsletter?.newsletterId !== id
+            );
+          },
+          (error) => console.error('Erreur lors de la récupération des articles:', error)
+        );
+      },
+      (error) => console.error('Erreur lors de la récupération de la newsletter:', error)
+    );
+  }
+
   toggleArticleList(): void {
     this.showArticleList = !this.showArticleList;
   }
-
-  // Ajouter un article avec vérification des doublons
   addArticleToNewsletter(article: Article): void {
-    const exists = this.addedArticles.some((a) => a.articleId === article.articleId);
-    if (!exists) {
-      this.addedArticles.push(article);
-      this.updateLocalStorage();
-    } else {
-      alert('Cet article a déjà été ajouté.');
+    if (this.newsletter) {
+      // Si l'article est déjà lié à une autre newsletter
+      if (article.newsletter && article.newsletter.newsletterId !== this.newsletter.newsletterId) {
+        // On demande confirmation à l'utilisateur en assignant articleToConfirm
+        this.articleToConfirm = article;
+        // NE PAS appeler confirmAddArticle(article) ici !
+        // L'utilisateur doit confirmer manuellement, par exemple via un bouton dans le template.
+      } else {
+        // Si l'article n'est pas lié à une autre newsletter, on l'ajoute directement
+        this.confirmAddArticle(article);
+      }
     }
   }
+  
 
-  // Supprimer un article ajouté
-  deleteArticle(article: Article): void {
-    this.addedArticles = this.addedArticles.filter((a) => a.articleId !== article.articleId);
-    this.updateLocalStorage();
+  confirmAddArticle(article: Article): void {
+    if (this.newsletter) {
+      this.newsletterService.addArticleToNewsletter(this.newsletter.newsletterId, article.articleId).subscribe(
+        () => {
+          this.articleToConfirm = null;
+          alert('Article ajouté avec succès.');
+          this.getnewsletter(this.newsletter!.newsletterId);
+        },
+        (error) => {
+          console.error("Erreur lors de l'ajout de l'article:", error);
+        }
+      );
+    }
+  }
+  
+
+  cancelAddArticle(): void {
+    this.articleToConfirm = null;
   }
 
-  // Mettre à jour le localStorage
-  updateLocalStorage(): void {
-    localStorage.setItem('addedArticles', JSON.stringify(this.addedArticles));
+  deleteArticle(article: Article): void {
+    if (this.newsletter) {
+      this.newsletterService.removeArticleFromNewsletter(this.newsletter.newsletterId, article.articleId).subscribe(
+        () => {
+          // Après suppression, on peut aussi recharger la newsletter si nécessaire,
+          // mais vous pouvez garder l'ancienne logique.
+          this.validArticles.push(article);
+          this.addedArticles = this.addedArticles.filter((a) => a.articleId !== article.articleId);
+        },
+        (error) => {
+          console.error('Erreur lors de la suppression de l\'article:', error);
+        }
+      );
+    }
   }
 
   goBack(): void {

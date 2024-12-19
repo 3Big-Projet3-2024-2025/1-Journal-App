@@ -293,6 +293,18 @@ public class ArticleController {
     }
 
 
+    @GetMapping("/author/email/{email}")
+    public ResponseEntity<List<Article>> getArticlesByAuthorEmail(@PathVariable String email) {
+        // Trouver l'utilisateur via son email
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé avec l'email : " + email));
+
+        // Récupérer les articles associés à cet utilisateur
+        List<Article> articles = articleRepository.findByAuthorId(user.getUserId());
+
+        return ResponseEntity.ok(articles);
+    }
+
 
 
 

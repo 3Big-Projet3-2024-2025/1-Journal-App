@@ -1,6 +1,9 @@
 <div class="form-container">
     <h1>Add Article Form</h1>
     <p>Please fill in the information and upload your pictures.</p>
+    <div *ngIf="successMessage" class="alert alert-success">
+      {{ successMessage }}
+    </div>
   
     <form (ngSubmit)="addArticle()" #articleForm="ngForm">
       <input

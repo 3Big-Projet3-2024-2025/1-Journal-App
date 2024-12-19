@@ -9,6 +9,8 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./update-article.component.css']
 })
 export class UpdateArticleComponent implements OnInit {
+  successMessage: string = "";
+
   articleToUpdate: Article = {
     articleId: 0,
     title: '',
@@ -34,6 +36,12 @@ export class UpdateArticleComponent implements OnInit {
   ngOnInit(): void {
     this.loadArticle();
   }
+  goBack(): void {
+
+
+    this.router.navigate(['crud/article']);
+  }
+
 
   // Charger l'article existant à partir de l'ID
   loadArticle(): void {
@@ -88,8 +96,10 @@ export class UpdateArticleComponent implements OnInit {
           await this.uploadImages(articleId);
         }
 
-        // Retourner à la liste des articles
-        this.router.navigate(['crud/article']);
+            this.successMessage = "Update article successfully";
+            setTimeout(() => {
+              this.router.navigate(['crud/article']); // Remplace '/articles' par la route souhaitée
+            }, 2000);
       },
       (error) => {
         console.error('Error updating article:', error);

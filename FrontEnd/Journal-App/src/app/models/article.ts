@@ -1,3 +1,5 @@
+import { Newsletter } from "./newsletter";
+
 export interface Article {
     articleId : number;
     title : string;
@@ -10,4 +12,5 @@ export interface Article {
     valid : boolean;
     backgroundColor: string;
     read: boolean;
+    newsletter?: Newsletter;
 }

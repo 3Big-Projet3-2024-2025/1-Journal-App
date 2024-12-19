@@ -5,7 +5,7 @@ import { ArticleService } from '../services/article.service';
 import { CommentService } from '../services/comment.service';
 import { Article } from '../models/article';
 import { Newsletter } from '../models/newsletter';
-import { Comment } from '../models/comment';
+import { Comments } from '../models/comment';
 import { CookieService } from 'ngx-cookie-service';
 
 @Component({
@@ -21,7 +21,7 @@ export class ListCrudComponent {
   validArticles: Article[] = [];
   nonValidArticles: Article[] = [];
   newsletters: Newsletter[] = [];
-  comments: Comment[] = [];
+  comments: Comments[] = [];
 
   constructor(
     private route: ActivatedRoute,

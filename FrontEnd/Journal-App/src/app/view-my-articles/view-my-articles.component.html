@@ -1,0 +1,32 @@
+
+<br><br><div class="container">
+    <h2>My Articles</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Title</th>
+          <th>Publication Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let article of myArticles; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ article.title }}</td>
+          <td>{{ article.publicationDate | date: 'MM/dd/yyyy' }}</td>
+          <td>
+            <button
+              class="btn btn-warning btn-sm"
+              [routerLink]="['/update-article', article.articleId]"
+            >
+              Edit
+            </button>
+            <button class="btn-danger" (click)="deleteArticle(article.articleId)">Delete</button>
+
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

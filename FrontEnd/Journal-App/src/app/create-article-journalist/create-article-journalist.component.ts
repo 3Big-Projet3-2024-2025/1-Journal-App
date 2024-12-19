@@ -28,6 +28,7 @@ export class CreateArticleJournalistComponent implements OnInit {
     backgroundColor: '#ffffff',
     read: false
   };
+  successMessage: string = "";
 
   selectedFiles: File[] = [];
 
@@ -189,13 +190,17 @@ export class CreateArticleJournalistComponent implements OnInit {
           async (newArticle) => {
             console.log('Article ajouté avec succès:', newArticle);
 
+
             if (this.selectedFiles.length > 0) {
               await this.uploadImages(newArticle.articleId);
             }
 
             // Réinitialisation
             this.resetForm();
-            this.router.navigate(['/crud/articles']);
+            this.successMessage = "Article sent successfully";
+            setTimeout(() => {
+              this.router.navigate(['crud/article']); // Remplace '/articles' par la route souhaitée
+            }, 2000);
           },
           (error) => {
             console.error('Erreur lors de l\'ajout de l\'article:', error);

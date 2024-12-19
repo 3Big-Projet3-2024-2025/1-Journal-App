@@ -15,6 +15,8 @@ export class ManageNewsletterFormComponent implements OnInit {
   userInfo: any = null;
   useridbykey: number | null = null;
   newsletterId: number | null = null;  // ID de la newsletter (si modif)
+  activeTab: string = 'title-settings';
+  isEditing: boolean = false;
 
   journalistIdToAdd: number | null = null; // champ pour ajouter un journaliste par son ID
 
@@ -36,20 +38,22 @@ export class ManageNewsletterFormComponent implements OnInit {
     // On stocke ici les journalistes sous forme de tableau d'objets User
     journalists: [] as User[]
   };
+  successMessage: string | undefined;
 
   constructor(
     private auth: AuthService,
     private manageNewsletterService: ManageNewsletterService,
     private userservice: UsersService,
-    private route: Router
+    private router: Router
   ) {}
 
   ngOnInit(): void {
+    
     // Récupérer l'ID de la newsletter à partir de localStorage
     this.newsletterId = +localStorage.getItem('idnewsletter')!;
-
+    this.isEditing = !!this.newsletterId;
     // Si un ID est trouvé dans localStorage, récupérer la newsletter correspondante
-    if (this.newsletterId) {
+    if (this.isEditing) {
       this.manageNewsletterService.getnewsletterById(this.newsletterId).subscribe(
         (newsletter) => {
           // Remplir les champs du formulaire avec les données récupérées
@@ -73,7 +77,13 @@ export class ManageNewsletterFormComponent implements OnInit {
           console.error('Erreur lors de la récupération de la newsletter:', error);
         }
       );
+    } else {
+      // Réinitialiser le formulaire pour le mode création
+      localStorage.removeItem('idnewsletter'); // Supprimer l'ID de `localStorage`
+      this.resetForm();
     }
+  
+    
 
     // Récupérer les informations de l'utilisateur
     this.auth.getUserProfile().then(profile => {
@@ -151,6 +161,10 @@ export class ManageNewsletterFormComponent implements OnInit {
         next: (value) => {
           console.log('Newsletter successfully updated', value);
           alert('Newsletter successfully updated!');
+          this.successMessage = "Article sent successfully";
+          setTimeout(() => {
+            this.router.navigate(['crud/article']); // Remplace '/articles' par la route souhaitée
+          }, 2000);
         },
         error: (err) => {
           console.error('Error while updating the newsletter', err);
@@ -163,6 +177,10 @@ export class ManageNewsletterFormComponent implements OnInit {
         next: (value) => {
           console.log('Newsletter successfully added', value);
           alert('Newsletter successfully added!');
+          this.successMessage = "Article sent successfully";
+          setTimeout(() => {
+            this.router.navigate(['crud/article']); // Remplace '/articles' par la route souhaitée
+          }, 2000);
         },
         error: (err) => {
           console.error('Error while adding the newsletter', err);
@@ -206,8 +224,8 @@ export class ManageNewsletterFormComponent implements OnInit {
   goBack(): void {
     // Redirige vers /crud/newsletter et réinitialise les données du localStorage
     localStorage.setItem('put', '');
-    localStorage.setItem('idnewsletter', '');
-    this.route.navigate(['/crud/newsletter']);
+    localStorage.removeItem('idnewsletter'); 
+    this.router.navigate(['crud/newsletter']);
   }
 
   // Ajout d'un journaliste dans la liste du formulaire (sans appel direct à l'API)
@@ -239,4 +257,31 @@ export class ManageNewsletterFormComponent implements OnInit {
   removeJournalistFromForm(userId: number): void {
     this.formData.journalists = this.formData.journalists.filter(j => j.userId !== userId);
   }
+
+  setActiveTab(tab: string): void {
+    this.activeTab = tab;
+  }
+  private resetForm(): void {
+    this.formData = {
+      title: '',
+      subtitle: '',
+      backgroundColor: '#ffffff',
+      titleFont: 'Arial',
+      titleFontSize: 24,
+      titleColor: '#000000',
+      titleBold: false,
+      titleUnderline: false,
+      subtitleFont: 'Arial',
+      subtitleFontSize: 18,
+      subtitleColor: '#000000',
+      subtitleBold: false,
+      subtitleItalic: false,
+      textAlign: '',
+      journalists: this.formData.journalists
+      
+    };
+  }
+  
+
 }
+

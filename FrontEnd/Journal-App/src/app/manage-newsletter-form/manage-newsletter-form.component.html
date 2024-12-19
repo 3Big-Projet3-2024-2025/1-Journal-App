@@ -1,163 +1,130 @@
 <div class="form-section">
   <div class="form-card">
-    <h2>Create a Custom Newsletter</h2>
+    <h2>{{ isEditing ? 'Update Newsletter' : 'Create Newsletter' }}</h2>
+
+    <div *ngIf="successMessage" class="alert alert-success">
+      {{ successMessage }}
+    </div>
     <form (ngSubmit)="onSubmit()">
-      <!-- Title Section -->
-      <div class="form-group">
-        <label for="title">Title</label>
-        <input
-          type="text"
-          id="title"
-          [(ngModel)]="formData.title"
-          name="title"
-          placeholder="Enter the newsletter title"
-          required
-        />
-        <div class="style-options">
-          <label for="titleFont">Font</label><br>
-          <select
-            id="titleFont"
-            [(ngModel)]="formData.titleFont"
-            name="titleFont"
-          >
-            <option value="Arial">Arial</option>
-            <option value="Times New Roman">Times New Roman</option>
-            <option value="Verdana">Verdana</option>
-            <option value="Georgia">Georgia</option>
-          </select>
- <br>
-          <label for="titleFontSize">Font Size</label><br>
-          <input
-            type="number"
-            id="titleFontSize"
-            [(ngModel)]="formData.titleFontSize"
-            name="titleFontSize"
-            placeholder="e.g., 24"
-          />
-          <br>
-
-          <label for="titleColor">Color</label>
-          <input
-            type="color"
-            id="titleColor"
-            [(ngModel)]="formData.titleColor"
-            name="titleColor"
-          />
-          <br>
-
-          <div class="checkbox-group">
-            <label>
-              <input
-                type="checkbox"
-                [(ngModel)]="formData.titleBold"
-                name="titleBold"
-              />
-              Bold
-            </label>
-            <br>
-            <label>
-              <input
-                type="checkbox"
-                [(ngModel)]="formData.titleUnderline"
-                name="titleUnderline"
-              />
-              Underline
-            </label>
-          </div>
-        </div>
-      </div>
-
-      <!-- Subtitle Section -->
-      <div class="form-group">
-        <label for="subtitle">Subtitle</label>
-        <input
-          type="text"
-          id="subtitle"
-          [(ngModel)]="formData.subtitle"
-          name="subtitle"
-          placeholder="Enter the newsletter subtitle"
-          required
-        />
-        <div class="style-options">
-          <label for="subtitleFont">Font</label>
-          <br>
-          <select
-            id="subtitleFont"
-            [(ngModel)]="formData.subtitleFont"
-            name="subtitleFont"
-          >
-            <option value="Arial">Arial</option>
-            <option value="Times New Roman">Times New Roman</option>
-            <option value="Verdana">Verdana</option>
-            <option value="Georgia">Georgia</option>
-          </select>
-          <br>
-
-          <label for="subtitleFontSize">Font Size</label><br>
-          <input
-            type="number"
-            id="subtitleFontSize"
-            [(ngModel)]="formData.subtitleFontSize"
-            name="subtitleFontSize"
-            placeholder="e.g., 18"
-          />
-          <br>
-
-          <label for="subtitleColor">Color</label>
-          <input
-            type="color"
-            id="subtitleColor"
-            [(ngModel)]="formData.subtitleColor"
-            name="subtitleColor"
-          />
-
-          <div class="checkbox-group">
-            <label>
-              <input
-                type="checkbox"
-                [(ngModel)]="formData.subtitleBold"
-                name="subtitleBold"
-              />
-              Bold
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                [(ngModel)]="formData.subtitleItalic"
-                name="subtitleItalic"
-              />
-              Italic
-            </label>
-          </div>
-        </div>
-      </div>
-
-      <!-- Background and Layout -->
-      <div class="form-group">
-        <label for="backgroundColor">Background Color</label>
-        <input
-          type="color"
-          id="backgroundColor"
-          [(ngModel)]="formData.backgroundColor"
-          name="backgroundColor"
-        />
-
-        <label for="textAlign">Text Alignment</label>
-        <select
-          id="textAlign"
-          [(ngModel)]="formData.textAlign"
-          name="textAlign"
+      <!-- Onglets -->
+      <div class="tabs">
+        <button
+          type="button"
+          class="tab-button"
+          [ngClass]="{ active: activeTab === 'title-settings' }"
+          (click)="setActiveTab('title-settings')"
         >
-          <option value="left">Left</option>
-          <option value="center">Center</option>
-          <option value="right">Right</option>
-        </select>
+          Title Settings
+        </button>
+        <button
+          type="button"
+          class="tab-button"
+          [ngClass]="{ active: activeTab === 'subtitle-settings' }"
+          (click)="setActiveTab('subtitle-settings')"
+        >
+          Subtitle Settings
+        </button>
+        <button
+          type="button"
+          class="tab-button"
+          [ngClass]="{ active: activeTab === 'background-settings' }"
+          (click)="setActiveTab('background-settings')"
+        >
+          Background
+        </button>
+      </div>
+      <br>
+
+      <!-- Contenu de l'onglet Title Settings -->
+      <div [hidden]="activeTab !== 'title-settings'" class="tab-content">
+        <div class="form-group">
+          <label for="title">Title</label>
+          <input type="text" id="title" name="title" [(ngModel)]="formData.title" required />
+        </div>
+        <div class="form-group">
+          <label for="titleFont">Font</label>
+          <select id="titleFont" name="titleFont" [(ngModel)]="formData.titleFont">
+            <option>Arial</option>
+            <option>Verdana</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="titleFontSize">Font Size</label>
+          <input type="number" id="titleFontSize" name="titleFontSize" [(ngModel)]="formData.titleFontSize" />
+        </div>
+        <div class="form-group">
+          <label for="titleColor">Color</label>
+          <input type="color" id="titleColor" name="titleColor" [(ngModel)]="formData.titleColor" />
+        </div>
+        <div class="form-group">
+          <label>
+            <input type="checkbox" name="titleBold" [(ngModel)]="formData.titleBold" /> Bold
+          </label>
+          <label>
+            <input type="checkbox" name="titleUnderline" [(ngModel)]="formData.titleUnderline" /> Underline
+          </label>
+        </div>
+        <!-- Bouton pour aller à l'onglet suivant -->
+        <button type="button" (click)="setActiveTab('subtitle-settings')">
+          Next &rarr;
+        </button>
       </div>
 
- 
+      <!-- Contenu de l'onglet Subtitle Settings -->
+      <div [hidden]="activeTab !== 'subtitle-settings'" class="tab-content">
+        <div class="form-group">
+          <label for="subtitle">Subtitle</label>
+          <input type="text" id="subtitle" name="subtitle" [(ngModel)]="formData.subtitle" required />
+        </div>
+        <div class="form-group">
+          <label for="subtitleFont">Font</label>
+          <select id="subtitleFont" name="subtitleFont" [(ngModel)]="formData.subtitleFont">
+            <option>Arial</option>
+            <option>Verdana</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="subtitleFontSize">Font Size</label>
+          <input type="number" id="subtitleFontSize" name="subtitleFontSize" [(ngModel)]="formData.subtitleFontSize" />
+        </div>
+        <div class="form-group">
+          <label for="subtitleColor">Color</label>
+          <input type="color" id="subtitleColor" name="subtitleColor" [(ngModel)]="formData.subtitleColor" />
+        </div>
+        <div class="form-group">
+          <label>
+            <input type="checkbox" name="subtitleBold" [(ngModel)]="formData.subtitleBold" /> Bold
+          </label>
+          <label>
+            <input type="checkbox" name="subtitleItalic" [(ngModel)]="formData.subtitleItalic" /> Italic
+          </label>
+        </div>
+        <!-- Bouton pour aller à l'onglet suivant -->
+        <button type="button" (click)="setActiveTab('background-settings')">
+          Next &rarr;
+        </button>
+      </div>
 
-      <button type="submit">Save Newsletter</button>
+      <!-- Contenu de l'onglet Background -->
+      <div [hidden]="activeTab !== 'background-settings'" class="tab-content">
+        <div class="form-group">
+          <label for="backgroundColor">Background Color</label>
+          <input type="color" id="backgroundColor" name="backgroundColor" [(ngModel)]="formData.backgroundColor" />
+        </div>
+        <div class="form-group">
+          <label for="textAlign">Text Alignment</label>
+          <select id="textAlign" name="textAlign" [(ngModel)]="formData.textAlign">
+            <option value="left">Left</option>
+            <option value="center">Center</option>
+            <option value="right">Right</option>
+          </select>
+        </div>
+        <!-- Ici, on n'affiche pas "Next" mais le bouton de soumission du formulaire -->
+        <button type="submit">{{ isEditing ? 'Confirm Changes' : 'Create Newsletter' }}</button>
+      </div>
     </form>
+    <br><br>
+    <!-- Back Button -->
+    <button class="backbutton" (click)="goBack()">Back to list of Newsletters</button>
   </div>
- <button (click)="goBack()" class="back-button">Back</button>
 </div>

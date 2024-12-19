@@ -41,10 +41,11 @@ export class ArticleService {
     return this.http.put<Article>(url, updatedArticle);
   }
 
-  deleteArticle(id: number): Observable<string> {
-    const url = `${this.apiUrl}/${id}`;
-    return this.http.delete<string>(url);
+  deleteArticle(articleId: number): Observable<string> {
+    const url = `http://localhost:8080/articles/${articleId}`;
+    return this.http.delete(url, { responseType: 'text' }); // Indique que la réponse est du texte
   }
+  
 
   validateArticle(id: number): Observable<Article> {
     const url = `${this.apiUrl}/${id}/validate`;
@@ -109,4 +110,12 @@ export class ArticleService {
     return this.http.get<boolean>(url);
   }
 
+    // Récupérer les articles créés par un journaliste
+    getArticlesByAuthor(userId: number): Observable<Article[]> {
+      const url = `${this.apiUrl}/author/${userId}`;
+      return this.http.get<Article[]>(url);
+    }
+    getArticlesByAuthorEmail(email: string): Observable<Article[]> {
+      return this.http.get<Article[]>(`${this.apiUrl}/author/email/${email}`);
+    }
 }

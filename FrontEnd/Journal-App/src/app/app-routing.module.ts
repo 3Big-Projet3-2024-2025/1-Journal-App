@@ -10,12 +10,20 @@ import { ViewnewsletterComponent } from './viewnewsletter/viewnewsletter.compone
 import { RoleGuard } from './guards/role.guard';
 import { CreateArticleJournalistComponent } from './create-article-journalist/create-article-journalist.component';
 import { ManageJournalistComponent } from './manage-journalist/manage-journalist.component';
+import { ViewMyArticlesComponent } from './view-my-articles/view-my-articles.component';
 
 const routes: Routes = [
   // Route par défaut
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
 
+
+  {
+    path: 'viewmyarticle',
+    component: ViewMyArticlesComponent,
+    canActivate: [RoleGuard],
+    data: { roles: ["ADMIN","EDITOR", "JOURNALIST"] },
+  },
   {
     path: 'managejournalist',
     component: ManageJournalistComponent,
