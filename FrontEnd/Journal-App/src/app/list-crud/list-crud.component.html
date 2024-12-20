@@ -84,17 +84,18 @@
           <td>{{ article.publicationDate | date:"MM/dd/yyyy"}}</td>
           <td>
             <button
+            class="btn btn-success btn-sm"
+            (click)="validateArticle(article)"
+          >
+            Validate
+          </button>
+            <button
               class="btn btn-warning btn-sm"
               [routerLink]="['/update-article', article.articleId]"
             >
               Edit
             </button>
-            <button
-              class="btn btn-success btn-sm"
-              (click)="validateArticle(article)"
-            >
-              Validate
-            </button>
+ 
             <button
               class="btn btn-danger btn-sm"
               (click)="confirmDelete(article.articleId, 'article')"
@@ -147,7 +148,7 @@
             class="btn btn-info btn-sm"
             (click)="clickvoir( newsletter.newsletterId)"
           >
-            Voir
+            See
           </button>
           </td>
         </tr>

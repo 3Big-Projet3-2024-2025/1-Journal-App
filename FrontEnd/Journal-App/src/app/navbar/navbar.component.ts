@@ -38,6 +38,7 @@ export class NavbarComponent implements OnInit {
     localStorage.setItem("idnewsletter","")
     localStorage.setItem('newsletter', '1');
     console.log('Newsletter variable set to 1 in localStorage');
+    this.route.navigate(['/crud/newsletter'])
     
     
   }
@@ -47,6 +48,7 @@ export class NavbarComponent implements OnInit {
     }
     localStorage.setItem('newsletter', '2');
     console.log('Article variable set to 1 in localStorage');
+    this.route.navigate(['/crud/article'])
     
   }
   setCommentInLocalStorage() {
