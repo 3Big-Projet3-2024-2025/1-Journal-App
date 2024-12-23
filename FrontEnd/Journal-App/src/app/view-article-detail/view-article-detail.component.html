@@ -1,0 +1,67 @@
+<div >
+    <div class="container my-4"  >
+      <!-- Titre et Newsletter -->
+      <div class="d-flex flex-column align-items-center mb-4">
+        <h2 class=" text-center">{{ articleToView.title }}</h2>
+        <button [ngStyle]="{ 'background-color': articleToView.backgroundColor || '#ffffff'}"
+          type="button"
+          class="btn btn-outline-secondary btn-lg mt-3"
+          routerLink="/see-newsletter"
+        >
+          <strong >{{ newsletterTitle || 'Newsletter' }}</strong>
+        </button>
+      </div>
+  
+      <!-- Card de l'article -->
+      <div class="card mt-4 shadow-sm"  [ngStyle]="{ 'background-color': articleToView.backgroundColor || '#ffffff', 'padding': '30px' }">
+        <div class="card-body">
+          <!-- Images -->
+          <div class="text-center mb-4">
+            <div *ngIf="images.length > 0; else noImages" class="d-flex justify-content-center flex-wrap gap-3">
+              <img
+                *ngFor="let image of images"
+                [src]="'data:image/png;base64,' + image.imagePath"
+                [alt]="'Image for article ' + articleToView.title"
+                class="img-fluid rounded"
+                style="max-height: 200px; width: auto;"
+              />
+            </div>
+            <ng-template #noImages>
+              <p class="text-muted mt-3">
+                <img src="/assets/no_image.png" alt="No image available" class="img-fluid" style="max-height: 150px;" />
+                <br />
+                No images available for this article.
+              </p>
+            </ng-template>
+          </div>
+  
+          <!-- Contenu -->
+          <div class="text-center">
+            <p class="fs-5 text-muted">{{ articleToView.content }}</p>
+          </div>
+  
+          <!-- Informations supplémentaires -->
+          <div class="mt-4 text-center">
+            <p><strong>Author:</strong> {{ authorName || 'Unknown' }}</p>
+            <p><strong>Published on:</strong> {{ articleToView.publicationDate | date: "longDate" }}</p>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Localisation -->
+      <div class="mt-5"  >
+        <h4 class="text-center ">Location</h4>
+        <div id="map" class="rounded" style="height: 300px; border: 1px solid ; margin: 20px auto;"></div>
+        <p class="text-center mt-3">
+          <strong>Coordinates:</strong>
+          Latitude: {{ articleToView.latitude }}, Longitude: {{ articleToView.longitude }}
+        </p>
+      </div>
+      <div class="text-center mt-4">
+        <button class="btn btn-secondary btn-lg" (click)="goBack()" [ngStyle]="{ 'background-color': articleToView.backgroundColor || '#ffffff'}">
+          Back to List
+        </button>
+      </div>
+    </div>
+  </div>
+  

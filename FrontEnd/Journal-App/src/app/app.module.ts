@@ -36,6 +36,7 @@ import { CreateArticleJournalistComponent } from './create-article-journalist/cr
 import { ManageJournalistComponent } from './manage-journalist/manage-journalist.component';
 import { ViewMyArticlesComponent } from './view-my-articles/view-my-articles.component';
 import { MyReadArticlesComponent } from './my-read-articles/my-read-articles.component';
+import { ViewArticleDetailComponent } from './view-article-detail/view-article-detail.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { MyReadArticlesComponent } from './my-read-articles/my-read-articles.com
     ManageJournalistComponent,
     ViewMyArticlesComponent,
     MyReadArticlesComponent,
+    ViewArticleDetailComponent,
     
    
 

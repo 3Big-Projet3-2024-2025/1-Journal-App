@@ -1,0 +1,16 @@
+.card {
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  
+  
+  #map {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .container {
+    max-width: 800px;
+  }
+  

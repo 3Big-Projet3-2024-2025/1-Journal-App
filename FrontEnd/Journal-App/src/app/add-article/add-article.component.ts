@@ -191,7 +191,7 @@ export class AddArticleComponent implements OnInit {
   }
   
   goBack(): void {
-    // Redirige vers /crud/newsletter et réinitialise les données du localStorage
+   
 
     this.router.navigate(['crud/article']);
   }
