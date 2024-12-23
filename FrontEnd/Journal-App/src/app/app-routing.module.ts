@@ -11,6 +11,7 @@ import { RoleGuard } from './guards/role.guard';
 import { CreateArticleJournalistComponent } from './create-article-journalist/create-article-journalist.component';
 import { ManageJournalistComponent } from './manage-journalist/manage-journalist.component';
 import { ViewMyArticlesComponent } from './view-my-articles/view-my-articles.component';
+import { MyReadArticlesComponent } from './my-read-articles/my-read-articles.component';
 
 const routes: Routes = [
   // Route par défaut
@@ -113,6 +114,12 @@ const routes: Routes = [
     canActivate: [RoleGuard],
     data: { roles: ['ADMIN', 'EDITOR', 'JOURNALIST'] },
   },
+  {
+    path: 'My-read-articles',
+    component: MyReadArticlesComponent,
+    canActivate: [RoleGuard],
+    data: { roles: ["ADMIN","EDITOR", "JOURNALIST"] },
+  }
 ];
 
 @NgModule({

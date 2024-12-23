@@ -1,0 +1,45 @@
+/* Corps principal */
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to bottom, #1e3c72, #2a5298);
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+  }
+  
+
+  
+  /* Titre principal */
+  h3 {
+    color: #1e3c72;
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  
+
+  
+  button.btn-primary:hover {
+    background-color: #164b8a;
+  }
+  
+  /* Table */
+  .table {
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #ffffff;
+    color: #333;
+  }
+  
+  .table th {
+    background-color: #28a745;
+    color: #ffffff;
+  }
+  
+  .table td,
+  .table th {
+    text-align: center;
+    padding: 15px;
+  }
+  

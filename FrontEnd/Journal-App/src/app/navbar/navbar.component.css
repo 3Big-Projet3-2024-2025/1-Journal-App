@@ -5,6 +5,21 @@
   padding: 0px 30px;
 }
 
+
+.archiveIcon {
+  height: 25px;
+  width: 25px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+.archiveIcon img {
+  height: 100%;
+  width: 100%;
+}
+
+
 .navbar {
   background-color: #ffffff;
   color: #333;

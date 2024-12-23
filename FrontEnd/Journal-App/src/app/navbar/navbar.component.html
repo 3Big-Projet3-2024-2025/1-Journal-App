@@ -19,10 +19,16 @@
     <div class="logo" routerLink="/home">Journal-App</div>
     <div class="right-section">
       <div *ngIf="isAuthenticated" class="user-icon">
+        <button type="button" class="archiveIcon" title="See the articles I've read"  routerLink="My-read-articles">
+          <img src="/assets/archive_icone.png" alt="archive icon">
+        </button>
+        
         <button type="button" class="menu-button" (click)="showUserInfo()">
         👤
         </button><!-- Bouton profile (affiché si l'utilisateur n'est pas connecté) -->
+       
       </div> 
+      
 
 
         <!-- Bouton d'identification (affiché si l'utilisateur n'est pas connecté) -->

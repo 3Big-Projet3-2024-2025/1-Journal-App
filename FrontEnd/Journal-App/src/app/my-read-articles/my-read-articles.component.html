@@ -1,0 +1,32 @@
+<h3>Articles Already Read</h3>
+
+<!-- Message si aucun article lu -->
+<div *ngIf="readArticles.length === 0" class="alert alert-warning">
+    No articles read yet.
+</div>
+
+<!-- Table si des articles sont disponibles -->
+<table *ngIf="readArticles.length > 0" class="table table-striped">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Title</th>
+      <th>Content</th>
+      <th>Publication Date</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let article of readArticles; let i = index">
+      <td>{{ i + 1 }}</td>
+      <td>{{ article.title }}</td>
+      <td>{{ article.content }}</td>
+      <td>{{ article.publicationDate | date:"MM/dd/yyyy" }}</td>
+      <td>
+        <button (click)="markArticleAsUnread(article.articleId)" class="btn btn-warning">
+          Mark as Unread
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
