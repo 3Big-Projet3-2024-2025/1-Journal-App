@@ -15,7 +15,7 @@
                 <div *ngIf="isDetailsVisible" class="card article-details" [ngStyle]="{ 'background-color': selectedArticle?.backgroundColor || '#ffffff' }">
                     <div class="card-header">
                       <h3>{{ selectedArticle?.title }}</h3>
-                      <strong><span class="badge">Newsletter {{ newsletterTitle }}</span></strong>
+                      <button type="button" class="btn" routerLink="/see-newsletter"><strong><span class="badge">{{ newsletterTitle }}</span></strong></button>
                     </div>
                     <div class="card-body">
                       <!-- Emplacement pour les images -->
@@ -25,7 +25,7 @@
                         </div>
                       </div>
                       <ng-template #noImages>
-                        <p>No images available for this article.</p>
+                        <p><img class="archiveIcon" src="/assets/no_image.png" alt="read article"></p>
                       </ng-template>
                   
                       <p>{{ selectedArticle?.content }}</p>
@@ -34,16 +34,20 @@
                     </div>
                     <div class="card-footer">
                       <button (click)="toggleDetails()" class="btn btn-primary">
-                        {{ isDetailsVisible ? 'Return to Map' : 'Show Details' }}
+                        <i *ngIf="isDetailsVisible" class="fa-solid fa-map-location-dot"></i>
+                        <span *ngIf="!isDetailsVisible">Show Details</span>
                       </button>
-                      <button *ngIf="!selectedArticle?.read" (click)="markArticleAsRead(selectedArticle?.articleId)" class="btn btn-success">
-                        Mark as Read
+                      
+                      <button *ngIf="!selectedArticle?.read" (click)="markArticleAsRead(selectedArticle?.articleId)" class="btn btn-success" title="Mark as read">
+                        <img class="archiveIcon" src="/assets/article-read.gif" alt="read article">
                       </button>
-                      <button *ngIf="selectedArticle?.read" (click)="markArticleAsUnread(selectedArticle?.articleId)" class="btn btn-warning">
-                        Mark as Unread
+                      <button *ngIf="selectedArticle?.read" (click)="markArticleAsUnread(selectedArticle?.articleId)" class="btn btn-warning" title="Mark as unread">
+                        <img class="archiveIcon" src="/assets/article_no_read.png" alt="read article">
                       </button>
-                      <button class="btn btn-primary" (click)="addCommet()">Make a Comment</button>
+                      <button class="btn btn-primary" (click)="addCommet()"><i class="fa-regular fa-comment"></i></button>
                     </div>
+
+
                     <div *ngIf="isCommentFormVisible" class="comment-form">
                       <h4>Add a Comment</h4>
                       <form (ngSubmit)="submitComment()">

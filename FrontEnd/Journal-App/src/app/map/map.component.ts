@@ -10,7 +10,7 @@ import { AuthService } from '../services/auth.service';
 import { CommentService } from '../services/comment.service';
 import { Commentmap } from '../models/commentmap';
 import { UsersService } from '../services/users.service';
-import { Route, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 
 
@@ -50,21 +50,22 @@ export class MapComponent implements OnInit, OnChanges {
   comments: Commentmap[] = [];
  
 
-  constructor(private articleService: ArticleService, private imageService: ImageService,private authService: AuthService,private commentService: CommentService, private userService:UsersService,private router: Router) {}
+  constructor(private articleService: ArticleService, private imageService: ImageService,
+    private authService: AuthService,private commentService: CommentService, 
+    private userService:UsersService, private router: Router) {}
 
 
   navigateToReadArticles(article: Article): void {
-    this.router.navigate(['/My-read-articles'], { state: { selectedArticle: article } });
-  }
+  this.router.navigate(['/read-articles'], { state: { selectedArticle: article } });
+}
   ngOnInit(): void {
     this.initializeMap();
-    
+    this.loadAvailableArticles();
 
     this.authService.isAuthenticated$.subscribe(authenticated => {
       this.isAuthenticated = authenticated; 
       if (authenticated) {
         this.loadUserInfo();  
-        this.loadReadArticles();
       }
     });
   }
@@ -104,17 +105,17 @@ export class MapComponent implements OnInit, OnChanges {
     }
   }
 
-  loadReadArticles(): void {
-    this.articleService.getReadArticles().subscribe(
-      (readArticles) => {
-        this.readArticles = readArticles;
-        console.log('Articles marqués comme lus:', this.readArticles);
-      },
-      (error: HttpErrorResponse) => {
-        console.error('Erreur lors du chargement des articles marqués comme lus:', error);
-      }
+  loadAvailableArticles(): void {
+    this.articleService.getAvailableArticles().subscribe(
+        (articles) => {
+            this.articles = articles;
+            this.updateMarkers(); 
+        },
+        (error: HttpErrorResponse) => {
+            console.error('Erreur lors du chargement des articles disponibles:', error);
+        }
     );
-  }
+}
 
   initializeFallbackMap(): void {
     const charleroiLat = 50.4106;
@@ -281,7 +282,6 @@ export class MapComponent implements OnInit, OnChanges {
     this.articleService.markAsRead(articleId).subscribe(() => {
       if (this.selectedArticle) this.selectedArticle.read = true;
       console.log(`Article ${articleId} marked as read.`);
-      this.loadReadArticles();
     });
   }
   
@@ -290,7 +290,6 @@ export class MapComponent implements OnInit, OnChanges {
     this.articleService.markAsUnread(articleId).subscribe(() => {
       if (this.selectedArticle) this.selectedArticle.read = false;
       console.log(`Article ${articleId} marked as unread.`);
-      this.loadReadArticles();
     });
   }
   
