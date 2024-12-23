@@ -106,12 +106,13 @@ export class ListCrudComponent {
       if (type === 'article') {
         this.articleService.deleteArticle(id).subscribe(
           () => {
-            this.router.navigate(['/home']);
+            this.loadDataBasedOnType(); //refresh articles 
+            this.router.navigate(['/crud/article']);
             alert('The article has been successfully deleted.');
           },
           (error) => {
             console.error('Error deleting article:', error);
-            this.router.navigate(['/home']);
+            this.router.navigate(['/crud/article']);
           }
         );
       } else if (type === 'newsletter') {

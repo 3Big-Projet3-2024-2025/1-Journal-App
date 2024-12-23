@@ -7,6 +7,7 @@ import { Newsletter } from '../models/newsletter';
 import { KeycloakService } from 'keycloak-angular';
 import { UsersService } from '../services/users.service';
 import { Router } from '@angular/router';
+import * as L from 'leaflet';
 
 @Component({
   selector: 'app-add-article',
@@ -16,6 +17,16 @@ import { Router } from '@angular/router';
 export class AddArticleComponent implements OnInit {
   successMessage: string = "";
 
+  customIcon = L.icon({
+    iconUrl: 'assets/warning_icon.png', 
+    iconSize: [50, 50], // size icon
+    iconAnchor: [25, 50], // size icon
+    popupAnchor: [0, -50] 
+  });
+
+  map!: L.Map;// map leaflet
+  marker!: L.Marker; // Marqueur for selected position
+
   constructor(
     private articleService: ArticleService, 
     private newsletterService: ManageNewsletterService,
@@ -24,13 +35,7 @@ export class AddArticleComponent implements OnInit {
     private router: Router
   ) {}
   
-  ngOnInit(): void {
-    localStorage.setItem('newsletter', '0');
-    this.getUserId().then(() => {
-      this.getUserLocation();
-      this.loadNewsletters();
-    });
-  }
+  
 
   articleToAdd: Article = {
     articleId: 0,
@@ -49,6 +54,65 @@ export class AddArticleComponent implements OnInit {
   selectedFiles: File[] = []; 
   newsletters: Newsletter[] = []; 
   selectedNewsletterId: number | null = null; 
+
+
+  ngOnInit(): void {
+    localStorage.setItem('newsletter', '0');
+    this.getUserId().then(() => {
+      this.loadNewsletters();
+      this.initializeMapForForm();
+    });
+  }
+
+  // Init map
+  initializeMapForForm(): void {
+    const charleroiLat = 50.4106;
+    const charleroiLng = 4.4447;
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
+          this.createFormMap([latitude, longitude], 13); // Position utilisateur
+        },
+        () => {
+          this.createFormMap([charleroiLat, charleroiLng], 13); // Position par défaut : Charleroi
+        }
+      );
+    } else {
+      this.createFormMap([charleroiLat, charleroiLng], 13); // Position par défaut : Charleroi
+    }
+  }
+
+  createFormMap(center: [number, number], zoom: number): void {
+    this.map = L.map('map').setView(center, zoom);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(this.map);
+
+    // Ajouter un marqueur draggable avec l'icône personnalisée
+    this.marker = L.marker(center, { icon: this.customIcon, draggable: true }).addTo(this.map);
+
+    this.marker.on('dragend', () => {
+      const position = this.marker.getLatLng();
+      this.articleToAdd.latitude = position.lat;
+      this.articleToAdd.longitude = position.lng;
+    });
+
+    this.map.on('click', (e: L.LeafletMouseEvent) => {
+      const position = e.latlng;
+      this.marker.setLatLng(position); // Déplace le marqueur
+      this.articleToAdd.latitude = position.lat;
+      this.articleToAdd.longitude = position.lng;
+    });
+
+    this.articleToAdd.latitude = center[0];
+    this.articleToAdd.longitude = center[1];
+  }
+
+  
 
   // Récupérer l'ID de l'utilisateur connecté via Keycloak
   getUserId(): Promise<void> {
@@ -73,28 +137,7 @@ export class AddArticleComponent implements OnInit {
     });
   }
 
-  // Récupérer la localisation de l'utilisateur
-  getUserLocation(): void {
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          this.articleToAdd.latitude = position.coords.latitude;
-          this.articleToAdd.longitude = position.coords.longitude;
-         // console.log('Localisation obtenue:', this.articleToAdd.latitude, this.articleToAdd.longitude);
-        },
-        (error) => {
-          console.error('Erreur de géolocalisation:', error);
-        },
-        {
-          enableHighAccuracy: true,
-          timeout: 10000,
-          maximumAge: 0
-        }
-      );
-    } else {
-      console.error('Géolocalisation non supportée par le navigateur');
-    }
-  }
+ 
 
   // Charger les newsletters disponibles
   loadNewsletters(): void {
@@ -159,59 +202,27 @@ export class AddArticleComponent implements OnInit {
       this.articleToAdd.newsletter_id = Number(this.selectedNewsletterId); 
     }
   
-  
     if (this.articleToAdd.user_id === 0) {
       console.error('user id missing');
       return;
     }
-  
-    // Vérifier si `newsletter_id` est défini correctement
+
     if (this.articleToAdd.newsletter_id === 0) {
       console.error('L\'ID de la newsletter est manquant');
       return;
     }
 
-    //console.log('Données envoyées :', this.articleToAdd);
-    // Envoi de l'article
     this.articleService.getNewsletterBackgroundColor(this.articleToAdd.newsletter_id).subscribe(
       (backgroundColor: string) => {
-        this.articleToAdd.backgroundColor = backgroundColor; // Assigner la couleur récupérée
-    
-        // Envoi de l'article avec la couleur de fond définie
+        this.articleToAdd.backgroundColor = backgroundColor;
         this.articleService.addArticle(this.articleToAdd).subscribe(
           async (newArticle) => {
-            console.log('Article ajouté avec succès:', newArticle);
-            
-    
-            // Envoi des images si présentes
             if (this.selectedFiles.length > 0) {
               await this.uploadImages(newArticle.articleId);
             }
-    
-            // Réinitialisation du formulaire après l'ajout
-            this.articleToAdd = {
-              articleId: 0,
-              title: '',
-              content: '',
-              publicationDate: new Date(),
-              longitude: 0.0,
-              latitude: 0.0,
-              user_id: 0,
-              newsletter_id: 0,
-              valid: false,
-              backgroundColor: '#ffffff',
-              read: false,
-            };
-            this.selectedFiles = [];
-            this.selectedNewsletterId = null;
-            this.successMessage = "Article sent successfully";
-            setTimeout(() => {
-              this.router.navigate(['crud/article']); // Remplace '/articles' par la route souhaitée
-            }, 2000);
-            
+            this.resetForm();
+            this.router.navigate(['crud/article']);
           },
-
-          
           (error) => {
             console.error('Erreur lors de l\'ajout de l\'article:', error);
           }
@@ -222,6 +233,29 @@ export class AddArticleComponent implements OnInit {
       }
     );
   }
+
+
+
+  resetForm(): void {
+    this.articleToAdd = {
+      articleId: 0,
+      title: '',
+      content: '',
+      publicationDate: new Date(),
+      longitude: 0.0,
+      latitude: 0.0,
+      user_id: 0,
+      newsletter_id: 0,
+      valid: false,
+      backgroundColor: '#ffffff',
+      read: false,
+    };
+    this.selectedFiles = [];
+    this.selectedNewsletterId = null;
+    this.successMessage = "Article sent successfully";
+  }
+
+  
 
   async uploadImages(articleId: number): Promise<void> {
     for (const file of this.selectedFiles) {

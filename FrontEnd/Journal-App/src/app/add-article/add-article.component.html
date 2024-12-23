@@ -1,86 +1,90 @@
-<br><br>
 <div class="form-container">
-    <h1>Add Article Form</h1>
-    <p>Please fill in the information and upload your pictures.</p>
+  <h1>Add Article Form</h1>
+  <p>Please fill in the information and upload your pictures.</p>
 
-    <div *ngIf="successMessage" class="alert alert-success">
-      {{ successMessage }}
+  <div *ngIf="successMessage" class="alert alert-success">
+    {{ successMessage }}
+  </div>
+
+  <form (ngSubmit)="addArticle()" #articleForm="ngForm">
+    <input
+      type="text"
+      name="title"
+      [(ngModel)]="articleToAdd.title"
+      placeholder="Title of article"
+      required
+    />
+
+    <textarea
+      name="content"
+      [(ngModel)]="articleToAdd.content"
+      placeholder="Enter your text here (max 5000 characters)"
+      maxlength="5000"
+      rows="4"
+      required
+    ></textarea>
+
+    <div class="newsletter-select">
+      <label for="newsletter">Select a Newsletter</label>
+      <select
+        id="newsletter"
+        [(ngModel)]="selectedNewsletterId"
+        name="newsletter"
+        required
+      >
+        <option *ngFor="let newsletter of newsletters" [value]="newsletter.newsletterId">
+          {{ newsletter.title }}
+        </option>
+      </select>
     </div>
-  
-    <form (ngSubmit)="addArticle()" #articleForm="ngForm">
 
+    <!-- Map for location selection -->
+    <div id="map" style="height: 300px; margin: 20px 0;"></div>
+    <p>
+      Selected Coordinates: <strong>Latitude:</strong> {{ articleToAdd.latitude }},
+      <strong>Longitude:</strong> {{ articleToAdd.longitude }}
+    </p>
+
+    <div class="file-upload">
+      <label>Upload your images</label>
       <input
-        type="text"
-        name="title"
-        [(ngModel)]="articleToAdd.title"
-        placeholder="Title of article"
-        required
+        type="file"
+        name="images"
+        accept="image/png"
+        multiple
+        (change)="validateFileCount($event)"
       />
-  
-      <textarea
-        name="content"
-        [(ngModel)]="articleToAdd.content"
-        placeholder="Enter your text here (max 5000 characters)"
-        maxlength="5000"
-        rows="4"
-        required
-      ></textarea>
-  
-      <div class="newsletter-select">
-        <label for="newsletter">Select a Newsletter</label>
-        <select
-          id="newsletter"
-          [(ngModel)]="selectedNewsletterId"
-          name="newsletter"
-          required
-        >
-          <option *ngFor="let newsletter of newsletters" [value]="newsletter.newsletterId">
-            {{ newsletter.title }}
-          </option>
-        </select>
-      </div>
-  
-      <div class="file-upload">
-        <label>Upload your images</label>
+    </div>
+
+    <div class="valid">
+      <label>Is the article valid?</label>
+      <div>
         <input
-          type="file"
-          name="images"
-          accept="image/png"
-          multiple
-          (change)="validateFileCount($event)"
+          type="radio"
+          id="valid-true-add"
+          name="valid"
+          [(ngModel)]="articleToAdd.valid"
+          [value]="true"
+          required
         />
+        <label for="valid-true-add">True</label>
       </div>
-  
-      <div class="valid">
-        <label>Is the article valid?</label>
-        <div>
-          <input
-            type="radio"
-            id="valid-true-add"
-            name="valid"
-            [(ngModel)]="articleToAdd.valid"
-            [value]="true"
-            required
-          />
-          <label for="valid-true-add">True</label>
-        </div>
-        <div>
-          <input
-            type="radio"
-            id="valid-false-add"
-            name="valid"
-            [(ngModel)]="articleToAdd.valid"
-            [value]="false"
-            required
-          />
-          <label for="valid-false-add">False</label>
-        </div>
+      <div>
+        <input
+          type="radio"
+          id="valid-false-add"
+          name="valid"
+          [(ngModel)]="articleToAdd.valid"
+          [value]="false"
+          required
+        />
+        <label for="valid-false-add">False</label>
       </div>
-  
-      <button type="submit" [disabled]="!articleForm.form.valid">Submit</button>
-          <!-- Back Button -->
-           <br><br>
+    </div>
+
+    <button type="submit" [disabled]="!articleForm.form.valid">Submit</button>
+
+    <br /><br />
     <button class="backbutton" (click)="goBack()">Back to list of Articles</button>
-    </form>
-  </div><br>
-  
+  </form>
+</div>

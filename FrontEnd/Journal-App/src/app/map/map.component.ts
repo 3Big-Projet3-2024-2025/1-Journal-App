@@ -10,6 +10,7 @@ import { AuthService } from '../services/auth.service';
 import { CommentService } from '../services/comment.service';
 import { Commentmap } from '../models/commentmap';
 import { UsersService } from '../services/users.service';
+import { Route, Router } from '@angular/router';
 
 
 
@@ -49,8 +50,12 @@ export class MapComponent implements OnInit, OnChanges {
   comments: Commentmap[] = [];
  
 
-  constructor(private articleService: ArticleService, private imageService: ImageService,private authService: AuthService,private commentService: CommentService, private userService:UsersService) {}
+  constructor(private articleService: ArticleService, private imageService: ImageService,private authService: AuthService,private commentService: CommentService, private userService:UsersService,private router: Router) {}
 
+
+  navigateToReadArticles(article: Article): void {
+    this.router.navigate(['/My-read-articles'], { state: { selectedArticle: article } });
+  }
   ngOnInit(): void {
     this.initializeMap();
     

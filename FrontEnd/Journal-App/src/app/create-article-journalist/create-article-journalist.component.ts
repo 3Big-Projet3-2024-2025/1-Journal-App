@@ -7,6 +7,7 @@ import { Newsletter } from '../models/newsletter';
 import { KeycloakService } from 'keycloak-angular';
 import { UsersService } from '../services/users.service';
 import { Router } from '@angular/router';
+import * as L from 'leaflet';
 
 @Component({
   selector: 'app-create-article-journalist',
@@ -14,7 +15,6 @@ import { Router } from '@angular/router';
   styleUrls: ['./create-article-journalist.component.css']
 })
 export class CreateArticleJournalistComponent implements OnInit {
-  
   articleToAdd: Article = {
     articleId: 0,
     title: '',
@@ -28,9 +28,18 @@ export class CreateArticleJournalistComponent implements OnInit {
     backgroundColor: '#ffffff',
     read: false
   };
-  successMessage: string = "";
 
+  successMessage: string = "";
   selectedFiles: File[] = [];
+
+  map!: L.Map; // Carte Leaflet
+  marker!: L.Marker; // Marqueur interactif
+  customIcon = L.icon({
+    iconUrl: 'assets/warning_icon.png', // Icône personnalisée
+    iconSize: [50, 50],
+    iconAnchor: [25, 50],
+    popupAnchor: [0, -50]
+  });
 
   constructor(
     private articleService: ArticleService,
@@ -42,25 +51,47 @@ export class CreateArticleJournalistComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeComponent();
+    this.initializeMap();
   }
 
-  /**
-   * Méthode d'initialisation du composant.
-   * Récupère l'ID de l'utilisateur, sa localisation et la newsletter qui lui est associée.
-   */
   private async initializeComponent(): Promise<void> {
     try {
       await this.getUserId();
-      this.getUserLocation();
       this.setUserNewsletter();
     } catch (error) {
       console.error('Erreur lors de l\'initialisation du composant:', error);
     }
   }
 
-  /**
-   * Récupère l'ID de l'utilisateur connecté via Keycloak, puis va chercher l'utilisateur associé dans la BDD.
-   */
+  initializeMap(): void {
+    const defaultLocation: [number, number] = [50.4106, 4.4447]; // Position par défaut : Charleroi
+    this.map = L.map('map').setView(defaultLocation, 13);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(this.map);
+
+    this.marker = L.marker(defaultLocation, {
+      icon: this.customIcon,
+      draggable: true
+    }).addTo(this.map);
+
+    // Mettre à jour les coordonnées sur drag-and-drop
+    this.marker.on('dragend', () => {
+      const position = this.marker.getLatLng();
+      this.articleToAdd.latitude = position.lat;
+      this.articleToAdd.longitude = position.lng;
+    });
+
+    // Permettre le clic sur la carte pour déplacer le marqueur
+    this.map.on('click', (e: L.LeafletMouseEvent) => {
+      const position = e.latlng;
+      this.marker.setLatLng(position);
+      this.articleToAdd.latitude = position.lat;
+      this.articleToAdd.longitude = position.lng;
+    });
+  }
+
   getUserId(): Promise<void> {
     return new Promise((resolve, reject) => {
       const keycloakId = this.keycloakService.getKeycloakInstance().tokenParsed?.sub;
@@ -81,34 +112,6 @@ export class CreateArticleJournalistComponent implements OnInit {
     });
   }
 
-  /**
-   * Récupère la localisation de l'utilisateur (latitude/longitude).
-   */
-  getUserLocation(): void {
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          this.articleToAdd.latitude = position.coords.latitude;
-          this.articleToAdd.longitude = position.coords.longitude;
-        },
-        (error) => {
-          console.error('Erreur de géolocalisation:', error);
-        },
-        {
-          enableHighAccuracy: true,
-          timeout: 10000,
-          maximumAge: 0
-        }
-      );
-    } else {
-      console.error('Géolocalisation non supportée par ce navigateur.');
-    }
-  }
-
-  /**
-   * Détermine la newsletter à laquelle appartient le journaliste.
-   * On prend la première newsletter retournée par le service.
-   */
   setUserNewsletter(): void {
     if (this.articleToAdd.user_id === 0) {
       console.warn('Impossible de récupérer la newsletter car l\'user_id est manquant.');
@@ -118,7 +121,6 @@ export class CreateArticleJournalistComponent implements OnInit {
     this.newsletterService.getNewslettersForJournalist(this.articleToAdd.user_id).subscribe(
       (newsletters: Newsletter[]) => {
         if (newsletters && newsletters.length > 0) {
-          // On associe la première newsletter trouvée
           this.articleToAdd.newsletter_id = newsletters[0].newsletterId;
         } else {
           console.error("L'utilisateur n'est journaliste dans aucune newsletter.");
@@ -130,9 +132,6 @@ export class CreateArticleJournalistComponent implements OnInit {
     );
   }
 
-  /**
-   * Valide le nombre et le type des fichiers sélectionnés.
-   */
   validateFileCount(event: any): void {
     const files = event.target.files;
     if (files.length > 3) {
@@ -153,92 +152,43 @@ export class CreateArticleJournalistComponent implements OnInit {
     alert(`${files.length} file(s) selected successfully.`);
   }
 
-  /**
-   * Convertit un fichier image en base64 (sans préfixe data).
-   */
-  convertToBase64(file: File): Promise<string> {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        const base64String = (reader.result as string).split(',')[1]; 
-        resolve(base64String);
-      };
-      reader.onerror = (error) => reject(error);
-    });
-  }
-
-  /**
-   * Ajoute un article, puis envoie les images si présentes.
-   */
-  addArticle(): void {
-    if (this.articleToAdd.user_id === 0) {
-      console.error('User ID missing, impossible de créer l\'article.');
+  async addArticle(): Promise<void> {
+    if (this.articleToAdd.user_id === 0 || this.articleToAdd.newsletter_id === 0) {
+      console.error('User ID ou Newsletter ID manquant');
       return;
     }
 
-    if (this.articleToAdd.newsletter_id === 0) {
-      console.error('Newsletter ID missing, impossible de créer l\'article.');
-      return;
-    }
-
-    // Récupère la couleur de fond de la newsletter avant d'ajouter l'article
     this.articleService.getNewsletterBackgroundColor(this.articleToAdd.newsletter_id).subscribe(
       (backgroundColor: string) => {
-        this.articleToAdd.backgroundColor = backgroundColor; 
+        this.articleToAdd.backgroundColor = backgroundColor;
         this.articleService.addArticle(this.articleToAdd).subscribe(
           async (newArticle) => {
-            console.log('Article ajouté avec succès:', newArticle);
-
-
             if (this.selectedFiles.length > 0) {
               await this.uploadImages(newArticle.articleId);
             }
-
-            // Réinitialisation
             this.resetForm();
             this.successMessage = "Article sent successfully";
-            setTimeout(() => {
-              this.router.navigate(['crud/article']); // Remplace '/articles' par la route souhaitée
-            }, 2000);
+            this.router.navigate(['/home'])
           },
-          (error) => {
-            console.error('Erreur lors de l\'ajout de l\'article:', error);
-          }
+          (error) => console.error('Erreur lors de l\'ajout de l\'article:', error)
         );
       },
-      (error) => {
-        console.error('Erreur lors de la récupération de la couleur de fond de la newsletter:', error);
-      }
+      (error) => console.error('Erreur lors de la récupération de la couleur de fond:', error)
     );
   }
 
-  /**
-   * Envoie les images sélectionnées au back-end, associé à l'ID de l'article créé.
-   */
   async uploadImages(articleId: number): Promise<void> {
     for (const file of this.selectedFiles) {
       const base64Image = await this.convertToBase64(file);
-      const imageToAdd: Image = {
-        imageId: 0,
-        imagePath: base64Image,
-        articleId: articleId
-      };
+      const imageToAdd: Image = { imageId: 0, imagePath: base64Image, articleId: articleId };
 
       this.articleService.addImage(imageToAdd).subscribe(
-        () => {
-          // Image ajoutée avec succès
-        },
-        (error) => {
-          console.error('Erreur lors de l\'ajout de l\'image:', error);
-        }
+        () => console.log('Image ajoutée avec succès'),
+        (error) => console.error('Erreur lors de l\'ajout de l\'image:', error)
       );
     }
   }
 
-  /**
-   * Réinitialise le formulaire après création de l'article.
-   */
   resetForm(): void {
     this.articleToAdd = {
       articleId: 0,
@@ -256,4 +206,12 @@ export class CreateArticleJournalistComponent implements OnInit {
     this.selectedFiles = [];
   }
 
+  convertToBase64(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve((reader.result as string).split(',')[1]);
+      reader.onerror = (error) => reject(error);
+    });
+  }
 }

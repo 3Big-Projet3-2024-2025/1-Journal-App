@@ -57,53 +57,28 @@
                     </div>
 
                     <button class="btn btn-primary" (click)="toggleComments()">
-  {{ isCommentsVisible ? 'Hide Comments' : 'View Comments' }}
-</button>
+                    {{ isCommentsVisible ? 'Hide Comments' : 'View Comments' }}
+                  </button>
 
-<!-- Liste des commentaires sous forme de cartes -->
-<div *ngIf="isCommentsVisible" class="comments-list">
-  <h4>All Comments</h4>
-  
-  <div *ngFor="let c of comments" class="comment-card">
-    <div class="comment-header">
-      <strong>{{ c.user?.firstName }} {{ c.user?.lastName }}</strong>
-      <span class="comment-date">{{ c.publicationDate }}</span>
-    </div>
-    <div class="comment-content">
-      {{ c.content }}
-    </div>
-  </div>
-</div>
+                  <!-- Liste des commentaires sous forme de cartes -->
+                  <div *ngIf="isCommentsVisible" class="comments-list">
+                    <h4>All Comments</h4>
+                    
+                    <div *ngFor="let c of comments" class="comment-card">
+                      <div class="comment-header">
+                        <strong>{{ c.user?.firstName }} {{ c.user?.lastName }}</strong>
+                        <span class="comment-date">{{ c.publicationDate }}</span>
+                      </div>
+                      <div class="comment-content">
+                        {{ c.content }}
+                      </div>
+                    </div>
                   </div>
+                                    </div>
                   <!-- Bouton pour afficher/masquer la liste des commentaires -->
 
 
-                 
-
-                  <div id="map2"  *ngIf="isAuthenticated && (userRole === 'ADMIN' || userRole === 'JOURNALIST' || userRole === 'EDITOR')"><h3>Article already read</h3>
-                    <table
-                    class="table table-striped">
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>Title</th>
-                        <th>Content</th>
-                        <th>Publication Date</th>
-                       
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr *ngFor="let article of readArticles; let i = index">
-                        <td>{{ i + 1 }}</td>
-                        <td>{{ article.title }}</td>
-                        <td>{{ article.content }}</td>
-                        <td>{{ article.publicationDate }}</td>
-                        <td> <button *ngIf="selectedArticle?.read" (click)="markArticleAsUnread(selectedArticle?.articleId)" class="btn btn-warning"> Mark as Unread</button></td>
-                        <td>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table></div>
+                
                   
 
  

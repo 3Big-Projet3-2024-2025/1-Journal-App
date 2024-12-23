@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Article } from '../models/article';
 import { ArticleService } from '../services/article.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import * as L from 'leaflet';
 
 @Component({
   selector: 'app-update-article',
@@ -10,6 +11,16 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class UpdateArticleComponent implements OnInit {
   successMessage: string = "";
+  
+  customIcon = L.icon({
+    iconUrl: 'assets/warning_icon.png',
+    iconSize: [50, 50], // Taille de l'icône
+    iconAnchor: [25, 50],
+    popupAnchor: [0, -50]
+  });
+
+  map!: L.Map; // Carte Leaflet
+  marker!: L.Marker; // Marqueur pour la position sélectionnée
 
   articleToUpdate: Article = {
     articleId: 0,
@@ -36,14 +47,8 @@ export class UpdateArticleComponent implements OnInit {
   ngOnInit(): void {
     this.loadArticle();
   }
-  goBack(): void {
 
-
-    this.router.navigate(['crud/article']);
-  }
-
-
-  // Charger l'article existant à partir de l'ID
+  // Charger l'article existant et initialiser la carte
   loadArticle(): void {
     const articleId = Number(this.route.snapshot.paramMap.get('id')); // ID de l'article dans l'URL
     if (!articleId) {
@@ -54,11 +59,39 @@ export class UpdateArticleComponent implements OnInit {
     this.articleService.getArticleById(articleId).subscribe(
       (article) => {
         this.articleToUpdate = article;
+        this.initializeMap([article.latitude, article.longitude]); // Initialiser la carte à la position de l'article
       },
       (error) => {
         console.error('Error loading article:', error);
       }
     );
+  }
+
+  // Initialisation de la carte
+  initializeMap(center: [number, number]): void {
+    const zoomLevel = 13;
+    this.map = L.map('map').setView(center, zoomLevel);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(this.map);
+
+    this.marker = L.marker(center, { icon: this.customIcon, draggable: true }).addTo(this.map);
+
+    // Mise à jour des coordonnées en déplaçant le marqueur
+    this.marker.on('dragend', () => {
+      const position = this.marker.getLatLng();
+      this.articleToUpdate.latitude = position.lat;
+      this.articleToUpdate.longitude = position.lng;
+    });
+
+    // Mise à jour des coordonnées en cliquant sur la carte
+    this.map.on('click', (e: L.LeafletMouseEvent) => {
+      const position = e.latlng;
+      this.marker.setLatLng(position);
+      this.articleToUpdate.latitude = position.lat;
+      this.articleToUpdate.longitude = position.lng;
+    });
   }
 
   // Valider les fichiers
@@ -96,18 +129,14 @@ export class UpdateArticleComponent implements OnInit {
           await this.uploadImages(articleId);
         }
 
-            this.successMessage = "Update article successfully";
-            setTimeout(() => {
-              this.router.navigate(['crud/article']); // Remplace '/articles' par la route souhaitée
-            }, 2000);
+        this.successMessage = "Update article successfully";
+        this.router.navigate(['crud/article']);
       },
       (error) => {
         console.error('Error updating article:', error);
       }
     );
   }
-
-  
 
   // Téléverser les nouvelles images
   async uploadImages(articleId: number): Promise<void> {
@@ -141,5 +170,9 @@ export class UpdateArticleComponent implements OnInit {
       };
       reader.onerror = (error) => reject(error);
     });
+  }
+
+  goBack(): void {
+    this.router.navigate(['crud/article']);
   }
 }

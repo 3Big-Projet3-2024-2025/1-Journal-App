@@ -44,6 +44,9 @@
           <td>{{ article.title }}</td>
           <td>{{ article.publicationDate | date:"MM/dd/yyyy" }}</td>
           <td>
+            <button class="btn btn-info btn-sm">
+              See
+            </button>
             <button
               class="btn btn-warning btn-sm"
               [routerLink]="['/update-article', article.articleId]"
@@ -56,6 +59,10 @@
             >
               Delete
             </button>
+           
+            
+           
+       
           </td>
         </tr>
       </tbody>
@@ -83,11 +90,17 @@
           <td>{{ article.title }}</td>
           <td>{{ article.publicationDate | date:"MM/dd/yyyy"}}</td>
           <td>
+            <button class="btn btn-info btn-sm">
+              See
+            </button>
             <button
             class="btn btn-success btn-sm"
             (click)="validateArticle(article)"
           >
             Validate
+          </button>
+          <button class="btn btn-danger btn-sm">
+            Not validate
           </button>
             <button
               class="btn btn-warning btn-sm"

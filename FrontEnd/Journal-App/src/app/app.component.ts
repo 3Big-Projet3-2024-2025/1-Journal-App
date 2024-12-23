@@ -16,7 +16,7 @@ export class AppComponent {
   ngOnInit() {
     this.authService.initKeycloak().then(() => {
       // L'authentification est prête, l'état est mis à jour
-      console.log("Keycloak initialisé et état de l'utilisateur vérifié");
+     // console.log("Keycloak initialisé et état de l'utilisateur vérifié");
     }).catch(err => {
       console.error("Erreur lors de l'initialisation de Keycloak", err);
     });

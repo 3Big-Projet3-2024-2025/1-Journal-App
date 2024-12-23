@@ -1,10 +1,10 @@
-
 <div class="form-container">
   <h1>Update Article</h1>
   <form (ngSubmit)="updateArticle()">
     <div *ngIf="successMessage" class="alert alert-success">
       {{ successMessage }}
     </div>
+
     <!-- Title Field -->
     <div>
       <label for="title">Title</label>
@@ -26,10 +26,17 @@
         name="content"
         [(ngModel)]="articleToUpdate.content"
         placeholder="Content"
-        maxlength="500"
+        maxlength="5000"
         required
       ></textarea>
     </div>
+
+    <!-- Map for location selection -->
+    <div id="map" style="height: 300px; margin: 20px 0;"></div>
+    <p>
+      Selected Coordinates: <strong>Latitude:</strong> {{ articleToUpdate.latitude }},
+      <strong>Longitude:</strong> {{ articleToUpdate.longitude }}
+    </p>
 
     <!-- File Upload -->
     <div class="file-upload">
@@ -71,8 +78,6 @@
 
     <!-- Submit Button -->
     <button type="submit">Update</button>
-
-        <!-- Back Button -->
-        <button class="backbutton" (click)="goBack()">Back to list of Newsletters</button>
+    <button class="backbutton" (click)="goBack()">Back to list of Articles</button>
   </form>
 </div>
