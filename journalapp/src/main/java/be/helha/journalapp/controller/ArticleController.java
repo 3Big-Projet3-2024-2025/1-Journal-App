@@ -18,6 +18,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * REST controller for managing articles.
+ * This controller handles requests related to adding, retrieving, updating, deleting, and validating articles,
+ * as well as marking articles as read and retrieving read statuses.
+ */
 @RestController
 @RequestMapping("/articles")
 public class ArticleController {
@@ -28,6 +33,13 @@ public class ArticleController {
     private final NewsletterRepository newsletterRepository;
     private final UserArticleReadRepository userArticleReadRepository;
 
+    /**
+     * Constructor for ArticleController, injecting dependencies.
+     * @param articleRepository The repository for accessing article data.
+     * @param userRepository The repository for accessing user data.
+     * @param newsletterRepository The repository for accessing newsletter data.
+     * @param userArticleReadRepository The repository for accessing user article read data.
+     */
     public ArticleController(ArticleRepository articleRepository, UserRepository userRepository, NewsletterRepository newsletterRepository, UserArticleReadRepository userArticleReadRepository) {
         this.articleRepository = articleRepository;
         this.userRepository = userRepository;
@@ -36,6 +48,15 @@ public class ArticleController {
     }
 
 
+    /**
+     * Creates a new article.
+     * Sets the title, content, publication date, longitude, latitude, valid status, and associates the article with a newsletter and an author.
+     * Also sets the background color of the article based on the newsletter's background color.
+     *
+     * @param articleData A map containing the article data.
+     * @return A ResponseEntity containing the saved Article object.
+     * @throws RuntimeException if the Newsletter or User are not found
+     */
     @PostMapping
     public ResponseEntity<Article> addArticle(@RequestBody Map<String, Object> articleData) {
         Article article = new Article();
@@ -67,6 +88,12 @@ public class ArticleController {
 
 
 
+    /**
+     * Retrieves the background color of a newsletter by its ID.
+     *
+     * @param newsletterId The ID of the newsletter.
+     * @return A ResponseEntity containing a map with the background color if found, or a 404 Not Found response.
+     */
     @GetMapping("/{newsletterId}/background-color")
     public ResponseEntity<Map<String, String>> getNewsletterBackgroundColor(@PathVariable Long newsletterId) {
         Optional<Newsletter> newsletter = newsletterRepository.findById(newsletterId);
@@ -80,12 +107,22 @@ public class ArticleController {
         return ResponseEntity.status(404).body(Map.of("error", "Newsletter not found"));
     }
 
+    /**
+     * Retrieves all articles.
+     *
+     * @return A ResponseEntity containing a list of all Article objects.
+     */
     @GetMapping("/all")
     public ResponseEntity<List<Article>> getAllArticles() {
         List<Article> articles = articleRepository.findAll();
         return ResponseEntity.ok(articles);
     }
 
+    /**
+     * Retrieves an article by its ID.
+     * @param id The ID of the article to retrieve.
+     * @return A ResponseEntity containing the Article object if found, or a 404 Not Found response.
+     */
     @GetMapping("/{id}")
     public ResponseEntity<Article> getArticleById(@PathVariable Long id) {
         Optional<Article> article = articleRepository.findById(id);
@@ -93,6 +130,14 @@ public class ArticleController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    /**
+     * Updates an existing article by its ID.
+     * The method also updates the background color of an article based on the associated newsletter.
+     *
+     * @param id The ID of the article to update.
+     * @param updatedArticle The updated Article object.
+     * @return A ResponseEntity containing the updated Article object, or a 404 Not Found response.
+     */
     @PutMapping("/{id}")
     public ResponseEntity<Article> updateArticle(@PathVariable Long id, @RequestBody Article updatedArticle) {
         return articleRepository.findById(id).map(article -> {
@@ -116,6 +161,12 @@ public class ArticleController {
         }).orElse(ResponseEntity.notFound().build());
     }
 
+    /**
+     * Deletes an article by its ID.
+     *
+     * @param id The ID of the article to delete.
+     * @return A ResponseEntity with a success message if deleted, or a 404 Not Found response.
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteArticle(@PathVariable Long id) {
         if (articleRepository.existsById(id)) {
@@ -125,6 +176,12 @@ public class ArticleController {
         return ResponseEntity.notFound().build();
     }
 
+    /**
+     * Validates an article by setting its 'valid' flag to true.
+     *
+     * @param id The ID of the article to validate.
+     * @return A ResponseEntity containing the validated Article object, or a 404 Not Found response.
+     */
     @PatchMapping("/{id}/validate")
     public ResponseEntity<Article> validateArticle(@PathVariable Long id) {
         return articleRepository.findById(id).map(article -> {
@@ -135,6 +192,11 @@ public class ArticleController {
     }
 
 
+    /**
+     * Retrieves the title of the newsletter associated with an article by the article ID.
+     * @param articleId The ID of the article.
+     * @return A ResponseEntity containing a map with the newsletter title, or a 404 Not Found response.
+     */
     @GetMapping("/{articleId}/newsletter-title")
     public ResponseEntity<Map<String, String>> getNewsletterTitleByArticleId(@PathVariable Long articleId) {
         Optional<Article> article = articleRepository.findById(articleId);
@@ -147,6 +209,12 @@ public class ArticleController {
     }
 
 
+    /**
+     * Retrieves the author's full name of an article by its ID.
+     *
+     * @param articleId The ID of the article.
+     * @return A ResponseEntity containing a map with the author's full name, or a 404 Not Found response.
+     */
     @GetMapping("/{articleId}/author-name")
     public ResponseEntity<Map<String, String>> getAuthorNameByArticleId(@PathVariable Long articleId) {
         Optional<Article> article = articleRepository.findById(articleId);
@@ -159,6 +227,10 @@ public class ArticleController {
         return ResponseEntity.notFound().build();
     }
 
+    /**
+     * Retrieves all available articles (i.e., articles with valid = true).
+     * @return A ResponseEntity containing a list of available articles, or a 204 No Content response if empty.
+     */
     @GetMapping("/available")
     public ResponseEntity<List<Article>> getAllAvailableArticles() {
         List<Article> availableArticles = articleRepository.findByValidTrue();
@@ -168,6 +240,10 @@ public class ArticleController {
         return ResponseEntity.ok(availableArticles);
     }
 
+    /**
+     * Retrieves all unavailable articles (i.e., articles with valid = false).
+     * @return A ResponseEntity containing a list of unavailable articles, or a 204 No Content response if empty.
+     */
     @GetMapping("/unavailable")
     public ResponseEntity<List<Article>> getAllUnavailableArticles() {
         List<Article> unavailableArticles = articleRepository.findByValidFalse();
@@ -177,6 +253,12 @@ public class ArticleController {
         return ResponseEntity.ok(unavailableArticles);
     }
 
+    /**
+     * Searches for articles by a query in the title that are valid.
+     *
+     * @param query The query term to search for in the article titles.
+     * @return A ResponseEntity containing a list of matching articles, or a 204 No Content response if empty.
+     */
     @GetMapping("/search")
     public ResponseEntity<List<Article>> searchArticles(
             @RequestParam("query") String query) {
@@ -187,6 +269,15 @@ public class ArticleController {
         return ResponseEntity.ok(articles);
     }
 
+    /**
+     * Marks an article as read by a user.
+     * It uses the Keycloak ID from the authentication object to identify the user.
+     * If a read entry already exists for a user-article combination, it will be updated. If it does not exist, it will be created.
+     *
+     * @param articleId The ID of the article to mark as read.
+     * @param authentication The authentication object containing the user's Keycloak ID.
+     * @return A ResponseEntity containing a success message and a 200 Ok response, or a 404 Not Found response if the user or article does not exist.
+     */
     @PatchMapping("/{articleId}/mark-read")
     public ResponseEntity<Map<String, String>> markAsRead(@PathVariable Long articleId, Authentication authentication) {
         String keycloakId = authentication.getName(); // Récupérer le Keycloak ID
@@ -214,6 +305,14 @@ public class ArticleController {
     }
 
 
+    /**
+     * Marks an article as unread by a user.
+     * It uses the Keycloak ID from the authentication object to identify the user.
+     * If a read entry already exists for a user-article combination, it will be updated. If it does not exist, it will be created.
+     * @param articleId The ID of the article to mark as unread.
+     * @param authentication The authentication object containing the user's Keycloak ID.
+     * @return A ResponseEntity containing a success message and a 200 Ok response, or a 404 Not Found response if the user or article does not exist.
+     */
     @PatchMapping("/{articleId}/mark-unread")
     public ResponseEntity<Map<String, String>> markAsUnread(@PathVariable Long articleId, Authentication authentication) {
         String keycloakId = authentication.getName(); // Récupérer le Keycloak ID
@@ -243,6 +342,14 @@ public class ArticleController {
 
 
 
+    /**
+     * Retrieves the read status of an article for a specific user.
+     * Uses the Keycloak ID from the authentication object to identify the user.
+     *
+     * @param articleId The ID of the article.
+     * @param authentication The authentication object containing the user's Keycloak ID.
+     * @return A ResponseEntity containing a map with the read status (true or false) or a 404 Not Found response.
+     */
     @GetMapping("/{articleId}/status")
     public ResponseEntity<Map<String, Boolean>> getArticleReadStatus(@PathVariable Long articleId, Authentication authentication) {
         String keycloakId = authentication.getName(); // Récupérer l'ID Keycloak
@@ -261,7 +368,13 @@ public class ArticleController {
         return ResponseEntity.ok(response);
     }
 
-
+    /**
+     * Retrieves all articles that a user has marked as read.
+     * It uses the Keycloak ID from the authentication object to identify the user.
+     *
+     * @param authentication The authentication object containing the user's Keycloak ID.
+     * @return A ResponseEntity containing a list of articles that the user has read, a 204 No Content response if the user has not read any articles or a 401 Unauthorised if no user was found.
+     */
     @GetMapping("/read")
     public ResponseEntity<List<Article>> getReadArticles(Authentication authentication) {
         // Récupérer le Keycloak ID de l'utilisateur connecté
@@ -293,6 +406,12 @@ public class ArticleController {
     }
 
 
+    /**
+     * Retrieves all articles written by an author using their email address.
+     * @param email The email address of the author.
+     * @return A ResponseEntity containing a list of articles written by this author.
+     * @throws RuntimeException if the user is not found with the given email.
+     */
     @GetMapping("/author/email/{email}")
     public ResponseEntity<List<Article>> getArticlesByAuthorEmail(@PathVariable String email) {
         // Trouver l'utilisateur via son email

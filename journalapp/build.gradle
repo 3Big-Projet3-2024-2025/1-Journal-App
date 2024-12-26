@@ -65,9 +65,19 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
 	// Tests
+	// Pour les tests unitaires (JUnit, Mockito, etc.)
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	// testImplementation 'io.projectreactor:reactor-test'
-	// testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	// Pour la sécurité (fonctions de base) en mode "starter"
+	testImplementation 'org.springframework.boot:spring-boot-starter-security'
+
+	// Pour les tests de sécurité (annotation @WithMockUser, etc.)
+	testImplementation 'org.springframework.security:spring-security-test'
+
+	// Pour forcer l’utilisation de JUnit Platform si besoin
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+
 
 	// OAuth2 Resource Server pour la validation JWT
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'

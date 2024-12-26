@@ -2,6 +2,7 @@ package be.helha.journalapp.config;
 
 import be.helha.journalapp.security.KeycloakRoleConverter;
 import be.helha.journalapp.security.UserSynchronizationFilter;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -12,10 +13,30 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+/**
+ * Configuration class for Spring Security settings.
+ * Enables web security and configures authentication and authorization rules for the application.
+ * This configuration is enabled if the property 'security.enabled' is set to 'true' or is missing.
+ */
 @Configuration
 @EnableWebSecurity
+@ConditionalOnProperty(
+        name = "security.enabled",
+        havingValue = "true",
+        matchIfMissing = true
+)
 public class SecurityConfig {
 
+    /**
+     * Configures the security filter chain for the application.
+     * This method sets up CORS, authorization rules, OAuth2 resource server configuration,
+     * and adds the user synchronization filter.
+     *
+     * @param http                      The HttpSecurity object to configure.
+     * @param userSynchronizationFilter The custom filter for synchronizing users.
+     * @return The configured SecurityFilterChain.
+     * @throws Exception If an error occurs during configuration.
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, UserSynchronizationFilter userSynchronizationFilter) throws Exception {
         return http
@@ -44,7 +65,7 @@ public class SecurityConfig {
                     // Contrôles d'accès par rôle pour les autres endpoints :
                     // Comments: déjà traités ci-dessus
                     // Newsletters (autres que /all) : ADMIN, EDITOR
-                    auth.requestMatchers("/newsletters/**").hasAnyRole("ADMIN", "EDITOR");
+                    auth.requestMatchers("/newsletters/**").hasAnyRole("ADMIN", "EDITOR", "JOURNALIST" ,"READER");
 
                     // Articles (autres que /all) : ADMIN, EDITOR, JOURNALIST
                     auth.requestMatchers("/articles/**").hasAnyRole("ADMIN", "EDITOR", "JOURNALIST" ,"READER");
@@ -69,6 +90,12 @@ public class SecurityConfig {
     }
 
 
+    /**
+     * Configures the JWT authentication converter to use the Keycloak role converter.
+     * This converter is responsible for mapping roles from Keycloak's JWT to Spring Security authorities.
+     *
+     * @return The configured JwtAuthenticationConverter.
+     */
     @Bean
     public JwtAuthenticationConverter jwtAuthenticationConverter() {
         JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
@@ -76,14 +103,20 @@ public class SecurityConfig {
         return converter;
     }
 
+    /**
+     * Configures the CORS (Cross-Origin Resource Sharing) settings for the application.
+     * This method allows all origins, headers, and methods and exposes the 'Authorization' header.
+     *
+     * @return The configured UrlBasedCorsConfigurationSource.
+     */
     @Bean
     public UrlBasedCorsConfigurationSource corsConfigurationSource() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOriginPattern("*"); // Autoriser toutes les origines
-        config.addAllowedHeader("*");        // Autoriser tous les en-têtes
-        config.addAllowedMethod("*");        // Autoriser toutes les méthodes HTTP
+        config.addAllowedOriginPattern("*"); // All origins
+        config.addAllowedHeader("*");        // All headers
+        config.addAllowedMethod("*");        // All HTTP method
         config.addExposedHeader("Authorization");
         source.registerCorsConfiguration("/**", config);
         return source;

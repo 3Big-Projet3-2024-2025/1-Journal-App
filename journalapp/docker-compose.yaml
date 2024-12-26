@@ -1,29 +1,43 @@
-
+# Docker Compose Configuration for JournalApp Services
 services:
 
-
+  # PostgreSQL Database Service
   postgresql:
     image: postgres:17
+    # Specifies the Docker image to use for the PostgreSQL service (version 17).
     ports:
       - '5433:5432'
+      # Maps port 5433 on the host to port 5432 in the container.
     environment:
       POSTGRES_PASSWORD: postgres
+      # Sets the PostgreSQL password to "postgres".
       POSTGRES_DB: journalapp
+      # Sets the PostgreSQL database name to "journalapp".
     volumes:
       - ./data/postgresql/data:/var/lib/postgresql/data:rw
+      # Mounts the host directory ./data/postgresql/data to the container's /var/lib/postgresql/data, persisting the PostgreSQL data.
 
 
+
+  # Keycloak Authentication and Authorization Service
   keycloak:
     image: quay.io/keycloak/keycloak
+    # Specifies the Docker image to use for the Keycloak service.
     entrypoint: [ "/opt/keycloak/bin/kc.sh", "start-dev"]
+    # Overrides the default command to start Keycloak in development mode.
     ports:
       - "8082:8080"
+       # Maps port 8082 on the host to port 8080 in the container.
     environment:
       KC_DB: postgres
+      # Specifies the database type to "postgres".
       KC_DB_URL: jdbc:postgresql://postgresql/keycloak?currentSchema=keycloak
+      # Specifies the JDBC URL for connecting to the PostgreSQL database (using the linked "postgresql" service).
       KC_DB_USERNAME: keycloak
+      # Specifies the Keycloak database username  and password to "keycloak".
       KC_DB_PASSWORD: keycloak
       KC_DB_SCHEMA: keycloak
+      # Sets the Keycloak admin username to "admin"
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
       KC_HTTP_ENABLED: "true"
@@ -32,6 +46,9 @@ services:
       KC_PROXY: 'edge'
     volumes:
       - /etc/timezone:/etc/timezone:ro
+      # Mounts the host's timezone configuration to the container.
       - /etc/localtime:/etc/localtime:ro
+      # Mounts the host's local time configuration to the container.
     depends_on:
       - postgresql
+      # Specifies that the Keycloak service depends on the "postgresql" service to be started first.

@@ -17,6 +17,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * REST controller for managing user resources.
+ * This controller handles requests related to retrieving, deleting, and modifying user information,
+ * as well as handling password reset requests and user authorization.
+ */
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -25,6 +30,12 @@ public class UserController {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
 
+    /**
+     * Constructor for UserController, injecting dependencies.
+     * @param emailService The service for sending emails.
+     * @param userRepository The repository for accessing user data.
+     * @param roleRepository The repository for accessing role data.
+     */
     public UserController( EmailService emailService, UserRepository userRepository, RoleRepository roleRepository) {
         this.emailService = emailService;
         this.userRepository = userRepository;
@@ -33,14 +44,23 @@ public class UserController {
 
 
 
-    // READ: Retrieve all users
+    /**
+     * Retrieves all users.
+     *
+     * @return A ResponseEntity containing a list of all User objects.
+     */
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userRepository.findAll();
         return ResponseEntity.ok(users);
     }
 
-    // READ: Retrieve a specific user by ID
+    /**
+     * Retrieves a specific user by their ID.
+     *
+     * @param id The ID of the user to retrieve.
+     * @return A ResponseEntity containing the User object if found, or a 404 Not Found response.
+     */
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
         return userRepository.findById(id)
@@ -50,7 +70,12 @@ public class UserController {
 
 
 
-    // DELETE: Delete a user by ID
+    /**
+     * Deletes a user by their ID.
+     *
+     * @param id The ID of the user to delete.
+     * @return A ResponseEntity with a success message if deleted, or a 404 Not Found response.
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable Long id) {
         if (userRepository.existsById(id)) {
@@ -62,7 +87,13 @@ public class UserController {
 
 
 
-    // Forgot Password: Send email with reset link
+    /**
+     * Sends a password reset email to the user with the specified email address.
+     * Generates a reset token, constructs the reset link, and sends the email with reset instructions.
+     *
+     * @param email The email address of the user who requested the password reset.
+     * @return A ResponseEntity with a success message if the email is sent or an error message and a corresponding HTTP status.
+     */
     @PostMapping("/forgot-password")
     public ResponseEntity<String> forgotPassword(@RequestParam String email) {
         return userRepository.findByEmail(email)
@@ -87,7 +118,14 @@ public class UserController {
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with the specified email not found"));
     }
 
-    // Change User Role
+    /**
+     * Changes the role of a user by their ID.
+     *
+     * @param id The ID of the user whose role needs to be changed.
+     * @param newRoleName The new role name to assign to the user.
+     * @return A ResponseEntity containing the updated User object if successful, or a 404 Not Found response.
+     * @throws RuntimeException if the role is not found.
+     */
     @PatchMapping("/{id}/role")
     public ResponseEntity<User> changeUserRole(@PathVariable Long id, @RequestBody String newRoleName) {
         return userRepository.findById(id)
@@ -102,7 +140,11 @@ public class UserController {
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
-    // AUTHORIZE USER: Mark a user as authorized
+    /**
+     * Authorizes a user by setting the authorized attribute to true.
+     * @param id The ID of the user to authorize.
+     * @return A ResponseEntity containing the updated User object if found, or a 404 Not Found response.
+     */
     @PatchMapping("/{id}/authorize")
     public ResponseEntity<User> authorizeUser(@PathVariable Long id) {
         return userRepository.findById(id)
@@ -121,13 +163,23 @@ public class UserController {
 
 
 
+    /**
+     * Retrieves the current user principal from the security context.
+     *
+     * @param authentication The authentication object, injected by Spring Security.
+     * @return A ResponseEntity containing the authentication principal.
+     */
     @GetMapping("/me")
     public ResponseEntity<?> getCurrentUser(Authentication authentication) {
         return ResponseEntity.ok(authentication.getPrincipal());
     }
 
 
-    // READ: Retrieve a specific user by Keycloak ID
+    /**
+     * Retrieves a user by their Keycloak ID.
+     * @param keycloakId The Keycloak ID of the user.
+     * @return A ResponseEntity containing the User object if found, or a 404 Not Found response.
+     */
     @GetMapping("/keycloak/{keycloakId}")
     public ResponseEntity<User> getUserByKeycloakId(@PathVariable String keycloakId) {
         return userRepository.findByKeycloakId(keycloakId)
@@ -136,6 +188,11 @@ public class UserController {
     }
 
 
+    /**
+     * Retrieves the current user from the security context using their Keycloak ID.
+     *
+     * @return A ResponseEntity containing the current User object if found, or a 404 Not Found response.
+     */
     @GetMapping("/current")
     public ResponseEntity<User> getCurrentUser() {
         // Récupérez l'ID utilisateur Keycloak à partir du contexte de sécurité
