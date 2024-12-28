@@ -14,7 +14,6 @@ import { CookieService } from 'ngx-cookie-service';
   styleUrls: ['./list-crud.component.css'],
 })
 export class ListCrudComponent {
-
   type: string = '';
   titre: string = '';
   titretable: string = '';
@@ -92,10 +91,25 @@ export class ListCrudComponent {
       this.articleService.updateArticle(article.articleId, updatedArticle).subscribe(
         () => {
           alert('The article has been successfully validated.');
-          this.loadDataBasedOnType(); // Recharge les données après validation
+          this.loadDataBasedOnType();
         },
         (error) => {
           console.error('Error validating article:', error);
+        }
+      );
+    }
+  }
+
+  unvalidateArticle(article: Article): void {
+    if (confirm('Are you sure you want to unvalidate this article?')) {
+      const updatedArticle = { ...article, valid: false };
+      this.articleService.updateArticle(article.articleId, updatedArticle).subscribe(
+        () => {
+          alert('The article has been successfully unvalidated.');
+          this.loadDataBasedOnType();
+        },
+        (error) => {
+          console.error('Error unvalidating article:', error);
         }
       );
     }
@@ -106,7 +120,7 @@ export class ListCrudComponent {
       if (type === 'article') {
         this.articleService.deleteArticle(id).subscribe(
           () => {
-            this.loadDataBasedOnType(); //refresh articles 
+            this.loadDataBasedOnType();
             this.router.navigate(['/crud/article']);
             alert('The article has been successfully deleted.');
           },
@@ -141,19 +155,15 @@ export class ListCrudComponent {
     }
   }
 
-
   click(id: number): void {
-    this.router.navigate(["/update-newsletter"]);
-  
-    localStorage.setItem("put", "edit");
-  
-    localStorage.setItem("idnewsletter", id.toString());
+    this.router.navigate(['/update-newsletter']);
+    localStorage.setItem('put', 'edit');
+    localStorage.setItem('idnewsletter', id.toString());
   }
+
   clickvoir(id: number): void {
-    this.router.navigate(["/see-newsletter"]);
-  
-    localStorage.setItem("see", "look");
-  
-    localStorage.setItem("seeidnewsletter", id.toString());
+    this.router.navigate(['/see-newsletter']);
+    localStorage.setItem('see', 'look');
+    localStorage.setItem('seeidnewsletter', id.toString());
   }
 }

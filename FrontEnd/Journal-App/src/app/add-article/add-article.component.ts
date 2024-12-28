@@ -202,10 +202,10 @@ export class AddArticleComponent implements OnInit {
       this.articleToAdd.newsletter_id = Number(this.selectedNewsletterId); 
     }
   
-    if (this.articleToAdd.user_id === 0) {
+    /*if (this.articleToAdd.user_id === 0) {
       console.error('user id missing');
       return;
-    }
+    }*/
 
     if (this.articleToAdd.newsletter_id === 0) {
       console.error('L\'ID de la newsletter est manquant');

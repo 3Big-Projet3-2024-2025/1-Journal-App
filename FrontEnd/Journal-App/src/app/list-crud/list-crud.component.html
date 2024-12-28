@@ -42,9 +42,12 @@
         <tr *ngFor="let article of validArticles; let i = index">
           <td>{{ i + 1 }}</td>
           <td>{{ article.title }}</td>
-          <td>{{ article.publicationDate | date:"MM/dd/yyyy" }}</td>
+          <td>{{ article.publicationDate | date: 'MM/dd/yyyy' }}</td>
           <td>
-            <button class="btn btn-info btn-sm"  [routerLink]="['/view-article', article.articleId]">
+            <button
+              class="btn btn-info btn-sm"
+              [routerLink]="['/view-article', article.articleId]"
+            >
               See
             </button>
             <button
@@ -59,10 +62,12 @@
             >
               Delete
             </button>
-           
-            
-           
-       
+            <button
+              class="btn btn-secondary btn-sm"
+              (click)="unvalidateArticle(article)"
+            >
+              Unvalidate
+            </button>
           </td>
         </tr>
       </tbody>
@@ -88,26 +93,32 @@
         <tr *ngFor="let article of nonValidArticles; let i = index">
           <td>{{ i + 1 }}</td>
           <td>{{ article.title }}</td>
-          <td>{{ article.publicationDate | date:"MM/dd/yyyy"}}</td>
+          <td>{{ article.publicationDate | date: 'MM/dd/yyyy' }}</td>
           <td>
-            <button class="btn btn-info btn-sm"   [routerLink]="['/view-article', article.articleId]">
+            <button
+              class="btn btn-info btn-sm"
+              [routerLink]="['/view-article', article.articleId]"
+            >
               See
             </button>
             <button
-            class="btn btn-success btn-sm"
-            (click)="validateArticle(article)"
-          >
-            Validate
-          </button>
-          <button class="btn btn-danger btn-sm">
-            Not validate
-          </button>
-           <!-- <button
+              class="btn btn-success btn-sm"
+              (click)="validateArticle(article)"
+            >
+              Validate
+            </button>
+            <button
               class="btn btn-warning btn-sm"
               [routerLink]="['/update-article', article.articleId]"
             >
-              Edit 
-            </button>  -->
+              Edit
+            </button>
+            <button
+              class="btn btn-danger btn-sm"
+              (click)="confirmDelete(article.articleId, 'article')"
+            >
+              Delete
+            </button>
           </td>
         </tr>
       </tbody>
@@ -136,11 +147,11 @@
         <tr *ngFor="let newsletter of newsletters; let i = index">
           <td>{{ i + 1 }}</td>
           <td>{{ newsletter.title }}</td>
-          <td>{{ newsletter.publicationDate | date:"MM/dd/yyyy"}}</td>
+          <td>{{ newsletter.publicationDate | date: 'MM/dd/yyyy' }}</td>
           <td>
             <button
               class="btn btn-warning btn-sm"
-              (click)="click( newsletter.newsletterId)"
+              (click)="click(newsletter.newsletterId)"
             >
               Edit
             </button>
@@ -151,11 +162,11 @@
               Delete
             </button>
             <button
-            class="btn btn-info btn-sm"
-            (click)="clickvoir( newsletter.newsletterId)"
-          >
-            See
-          </button>
+              class="btn btn-info btn-sm"
+              (click)="clickvoir(newsletter.newsletterId)"
+            >
+              See
+            </button>
           </td>
         </tr>
       </tbody>
