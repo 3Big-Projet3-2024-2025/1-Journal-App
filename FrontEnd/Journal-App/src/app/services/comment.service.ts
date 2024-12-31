@@ -38,4 +38,8 @@ export class CommentService {
   getCommentById(id: number): Observable<Commentmap> {
     return this.http.get<Commentmap>(`${this.baseUrl}/${id}`);
   }
+   // Nouvelle méthode pour obtenir les commentaires par article ID
+   getCommentsByArticleId(articleId: number): Observable<Commentmap[]> {
+    return this.http.get<Commentmap[]>(`${this.baseUrl}/${articleId}`);
+  }
 }

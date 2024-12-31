@@ -22,7 +22,7 @@ export class UsersService {
 
     getUserByKeycloakId(keycloakId: string): Observable<User> {
         return this.http.get<User>(`${this.apiUrl}/users/keycloak/${keycloakId}`);
-      }
+}
 
     getUserById(id: number): Observable<any> {
         const url = `${this.apiUrl}/${id}`;

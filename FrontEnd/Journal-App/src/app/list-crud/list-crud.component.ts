@@ -64,24 +64,49 @@ export class ListCrudComponent {
 
       this.manageNewsletterService.GetALlnewsletter().subscribe(
         (newsletters) => {
-          this.newsletters = newsletters;
+          const userId = Number(localStorage.getItem('userId'));
+          const userRole = localStorage.getItem('userRole');
+      
+          if (userRole==="ADMIN") {
+            this.newsletters = newsletters;
+          } else{
+           this.newsletters = newsletters.filter(newsletter =>
+            newsletter.creator.userId === userId && userRole === 'EDITOR'
+          ); 
+          }
+          
+      
+          console.log(this.newsletters);
         },
         (error) => {
           console.error('Error fetching newsletters:', error);
         }
       );
+      
     } else if (this.type === 'comments') {
       this.titre = 'Management of the Comments';
       this.titretable = 'comments';
-
       this.commentService.getAllComments().subscribe(
         (comments) => {
-          this.comments = comments;
+          const userId = Number(localStorage.getItem('userId'));
+          const userRole = localStorage.getItem('userRole');
+          
+      
+          this.comments = comments.filter(comment => {
+            const condition = userRole === 'ADMIN' || (comment.article.newsletter.creator.userId === userId && userRole === 'EDITOR');
+            console.log('Condition:', condition); // Vérifier la condition de filtrage
+      
+            return condition;
+          });
+      
+          console.log('Filtered comments:', this.comments); // Résultat final
         },
         (error) => {
           console.error('Error fetching comments:', error);
         }
       );
+      
+      
     }
   }
 

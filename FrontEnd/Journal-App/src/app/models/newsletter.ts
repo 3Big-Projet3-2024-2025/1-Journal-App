@@ -8,6 +8,7 @@ export interface Newsletter {
     subtitle: string;
     publicationDate: Date; // Format: "YYYY-MM-DD"
     creator?: number;
+   
     backgroundColor?: string; // Optionnel
     font?: string; // Optionnel
     titleFont?: string; // Optionnel

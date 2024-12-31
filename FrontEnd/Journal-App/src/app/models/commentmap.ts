@@ -1,3 +1,5 @@
+import { ArticleService } from "../services/article.service";
+import { Article } from "./article";
 import { User } from "./user";
 
 export interface Commentmap {
@@ -6,5 +8,6 @@ export interface Commentmap {
   user_id: number,
   article_id: number,
   user?:User
+  article?:Article
 
   }
