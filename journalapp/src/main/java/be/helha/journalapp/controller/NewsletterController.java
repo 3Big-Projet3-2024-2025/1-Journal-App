@@ -14,6 +14,13 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.HashMap;
 
+/**
+ * REST controller for managing newsletters.
+ * <p>
+ * Ce contrôleur fournit des points d'accès pour créer, lire, mettre à jour et supprimer des newsletters.
+ * Il permet également de gérer les associations entre les newsletters, les journalistes (utilisateurs) et les articles.
+ * </p>
+ */
 @RestController
 @RequestMapping("/newsletters")
 public class NewsletterController {
@@ -22,13 +29,25 @@ public class NewsletterController {
     private final UserRepository userRepository;
     private final ArticleRepository articleRepository;
 
+    /**
+     * Construit un nouveau NewsletterController avec les dépôts spécifiés.
+     *
+     * @param newsletterRepository le dépôt pour les newsletters
+     * @param userRepository       le dépôt pour les utilisateurs
+     * @param articleRepository    le dépôt pour les articles
+     */
     public NewsletterController(NewsletterRepository newsletterRepository, UserRepository userRepository, ArticleRepository articleRepository) {
         this.newsletterRepository = newsletterRepository;
         this.userRepository = userRepository;
         this.articleRepository = articleRepository;
     }
 
-    // CREATE: Ajouter une nouvelle newsletter
+    /**
+     * Crée une nouvelle newsletter.
+     *
+     * @param newsletterData une carte contenant les données de la newsletter, y compris l'ID du créateur et d'autres attributs
+     * @return un ResponseEntity contenant la newsletter créée ou un message d'erreur
+     */
     @PostMapping
     public ResponseEntity<?> addNewsletter(@RequestBody Map<String, Object> newsletterData) {
         // Vérification des champs requis
@@ -75,14 +94,23 @@ public class NewsletterController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedNewsletter);
     }
 
-    // READ: Récupérer toutes les newsletters
+    /**
+     * Récupère toutes les newsletters.
+     *
+     * @return un ResponseEntity contenant une liste de toutes les newsletters
+     */
     @GetMapping("/all")
     public ResponseEntity<List<Newsletter>> getAllNewsletters() {
         List<Newsletter> newsletters = newsletterRepository.findAll();
         return ResponseEntity.ok(newsletters);
     }
 
-    // READ: Récupérer une newsletter par son ID
+    /**
+     * Récupère une newsletter spécifique par son ID.
+     *
+     * @param id l'ID de la newsletter à récupérer
+     * @return un ResponseEntity contenant la newsletter si trouvée, ou un message d'erreur si non trouvée
+     */
     @GetMapping("/{id}")
     public ResponseEntity<?> getNewsletterById(@PathVariable Long id) {
         Optional<Newsletter> newsletterOpt = newsletterRepository.findById(id);
@@ -93,6 +121,13 @@ public class NewsletterController {
         return ResponseEntity.ok(newsletterOpt.get());
     }
 
+    /**
+     * Met à jour une newsletter existante avec les données fournies.
+     *
+     * @param id               l'ID de la newsletter à mettre à jour
+     * @param updatedNewsletter l'objet newsletter contenant les données mises à jour
+     * @return un ResponseEntity contenant la newsletter mise à jour ou un message d'erreur
+     */
     @PutMapping("/{id}")
     public ResponseEntity<?> updateNewsletter(@PathVariable Long id, @RequestBody Newsletter updatedNewsletter) {
         Optional<Newsletter> existingOpt = newsletterRepository.findById(id);
@@ -130,6 +165,12 @@ public class NewsletterController {
         return ResponseEntity.ok(savedNewsletter);
     }
 
+    /**
+     * Met à jour la couleur de fond de tous les articles associés à une newsletter.
+     *
+     * @param newsletterId        l'ID de la newsletter
+     * @param newBackgroundColor la nouvelle couleur de fond à appliquer
+     */
     private void updateArticlesBackgroundColor(Long newsletterId, String newBackgroundColor) {
         List<Article> articles = articleRepository.findByNewsletterNewsletterId(newsletterId);
         for (Article article : articles) {
@@ -138,7 +179,12 @@ public class NewsletterController {
         articleRepository.saveAll(articles);
     }
 
-    // DELETE: Supprimer une newsletter par son ID
+    /**
+     * Supprime une newsletter par son ID.
+     *
+     * @param id l'ID de la newsletter à supprimer
+     * @return un ResponseEntity indiquant le résultat de l'opération de suppression
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteNewsletter(@PathVariable Long id) {
         if (!newsletterRepository.existsById(id)) {
@@ -149,6 +195,13 @@ public class NewsletterController {
         return ResponseEntity.ok(Map.of("message", "Newsletter deleted successfully"));
     }
 
+    /**
+     * Vérifie si un utilisateur spécifique est un journaliste associé à une newsletter donnée.
+     *
+     * @param newsletterId l'ID de la newsletter
+     * @param userId       l'ID de l'utilisateur (journaliste) à vérifier
+     * @return un ResponseEntity contenant un booléen indiquant si l'utilisateur est un journaliste dans la newsletter
+     */
     @GetMapping("/{newsletterId}/journalists/{userId}")
     public ResponseEntity<?> isJournalistInNewsletter(@PathVariable Long newsletterId, @PathVariable Long userId) {
         Newsletter newsletter = newsletterRepository.findById(newsletterId)
@@ -162,14 +215,25 @@ public class NewsletterController {
         return ResponseEntity.ok(Map.of("isJournalist", isJournalist));
     }
 
-    // Endpoint pour récupérer toutes les newsletters auxquelles un journaliste (userId) est associé
+    /**
+     * Récupère toutes les newsletters associées à un journaliste spécifique (userId).
+     *
+     * @param userId l'ID du journaliste (utilisateur)
+     * @return un ResponseEntity contenant une liste de newsletters associées au journaliste
+     */
     @GetMapping("/journalist/{userId}")
     public ResponseEntity<List<Newsletter>> getNewslettersForJournalist(@PathVariable Long userId) {
         List<Newsletter> newsletters = newsletterRepository.findByJournalistUserId(userId);
         return ResponseEntity.ok(newsletters);
     }
 
-    // Ajoute un journaliste à la liste de la newsletter
+    /**
+     * Ajoute un journaliste (utilisateur) à la liste des journalistes d'une newsletter.
+     *
+     * @param newsletterId l'ID de la newsletter
+     * @param userId       l'ID de l'utilisateur (journaliste) à ajouter
+     * @return un ResponseEntity contenant la newsletter mise à jour ou un message d'erreur
+     */
     @PatchMapping("/{newsletterId}/addJournalist/{userId}")
     public ResponseEntity<?> addJournalistToNewsletter(@PathVariable Long newsletterId, @PathVariable Long userId) {
         Newsletter newsletter = newsletterRepository.findById(newsletterId)
@@ -194,7 +258,13 @@ public class NewsletterController {
         return ResponseEntity.ok(newsletter);
     }
 
-    // Supprime un journaliste de la liste de la newsletter
+    /**
+     * Supprime un journaliste (utilisateur) de la liste des journalistes d'une newsletter.
+     *
+     * @param newsletterId l'ID de la newsletter
+     * @param userId       l'ID de l'utilisateur (journaliste) à supprimer
+     * @return un ResponseEntity contenant la newsletter mise à jour ou un message d'erreur
+     */
     @PatchMapping("/{newsletterId}/removeJournalist/{userId}")
     public ResponseEntity<?> removeJournalistFromNewsletter(@PathVariable Long newsletterId, @PathVariable Long userId) {
         Newsletter newsletter = newsletterRepository.findById(newsletterId)
@@ -219,6 +289,13 @@ public class NewsletterController {
         return ResponseEntity.ok(newsletter);
     }
 
+    /**
+     * Ajoute un article à une newsletter spécifique.
+     *
+     * @param newsletterId l'ID de la newsletter
+     * @param articleData  une carte contenant l'ID de l'article à ajouter
+     * @return un ResponseEntity indiquant le résultat de l'opération ou un message d'erreur
+     */
     @PostMapping("/{newsletterId}/addArticle")
     public ResponseEntity<?> addArticleToNewsletter(@PathVariable Long newsletterId, @RequestBody Map<String, Object> articleData) {
         Newsletter newsletter = newsletterRepository.findById(newsletterId)
@@ -262,6 +339,13 @@ public class NewsletterController {
         return ResponseEntity.ok(Map.of("message", "Article added to the newsletter successfully."));
     }
 
+    /**
+     * Supprime un article d'une newsletter spécifique.
+     *
+     * @param newsletterId l'ID de la newsletter
+     * @param articleId    l'ID de l'article à supprimer
+     * @return un ResponseEntity indiquant le résultat de l'opération ou un message d'erreur
+     */
     @DeleteMapping("/{newsletterId}/removeArticle/{articleId}")
     public ResponseEntity<?> removeArticleFromNewsletter(@PathVariable Long newsletterId, @PathVariable Long articleId) {
         Newsletter newsletter = newsletterRepository.findById(newsletterId)
