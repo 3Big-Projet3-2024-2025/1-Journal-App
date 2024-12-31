@@ -64,21 +64,19 @@
                     {{ isCommentsVisible ? 'Hide Comments' : 'View Comments' }}
                   </button>
 
-                  <!-- Liste des commentaires sous forme de cartes -->
                   <div *ngIf="isCommentsVisible" class="comments-list">
                     <h4>All Comments</h4>
-                    
+                  
                     <div *ngFor="let c of comments" class="comment-card">
                       <div class="comment-header">
                         <strong>{{ c.user?.firstName }} {{ c.user?.lastName }}</strong>
-                        <span class="comment-date">{{ c.publicationDate }}</span>
+                        <span class="comment-date">{{ c.publicationDate | date: 'dd/MM/yyyy' }}</span>
                       </div>
                       <div class="comment-content">
                         {{ c.content }}
                       </div>
                     </div>
                   </div>
-                                    </div>
                   <!-- Bouton pour afficher/masquer la liste des commentaires -->
 
 

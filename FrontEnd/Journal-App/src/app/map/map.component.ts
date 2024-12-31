@@ -202,7 +202,8 @@ export class MapComponent implements OnInit, OnChanges {
   
         // Récupérer le titre de la newsletter
         this.getNewsletterTitle(articleId);
-  
+
+        localStorage.setItem("articleid",articleId.toString())
         // Récupérer le nom de l'auteur
         this.getAuthorName(articleId);
   
@@ -238,6 +239,7 @@ export class MapComponent implements OnInit, OnChanges {
         }
       }
     );
+    
   }
 
   toggleDetails(): void {
@@ -346,32 +348,25 @@ export class MapComponent implements OnInit, OnChanges {
   toggleComments() {
     this.isCommentsVisible = !this.isCommentsVisible;
     if (this.isCommentsVisible) {
-      this.loadComments();
+      const articleId= localStorage.getItem("articleid")
+      this.loadComments(Number(articleId));
     }
   }
 
-  loadComments() {
-    this.commentService.getAllCommentsmap().subscribe({
-      next: (comments) => {
-        this.comments = comments;
   
-        // Pour chaque commentaire, faire un appel pour récupérer l'utilisateur associé
-        this.comments.forEach(comment => {
-          this.userService.getUserById(comment.user_id).subscribe({
-            next: (user) => {
-              comment.user = user; // On stocke l'utilisateur directement dans l'objet commentaire
-            },
-            error: (err) => {
-              console.error("Error loading user for comment:", err);
-            }
-          });
-        });
-      },
-      error: (err) => {
-        console.error("Error loading comments:", err);
-      }
-    });
-  }
+    loadComments(articleId: number): void {
+      alert(articleId)
+      this.commentService.getCommentsByArticleId(articleId).subscribe({
+        next: (comments) => {
+          this.comments = comments;
+          console.log(this.comments)
+        },
+        error: (err) => {
+          console.error("Error loading comments:", err);
+        }
+      });
+    }
+  
   
   
 }

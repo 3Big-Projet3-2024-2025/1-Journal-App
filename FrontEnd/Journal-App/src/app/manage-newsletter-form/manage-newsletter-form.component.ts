@@ -89,9 +89,11 @@ export class ManageNewsletterFormComponent implements OnInit {
     this.auth.getUserProfile().then(profile => {
       this.userInfo = profile || {};  // Assurez-vous que userInfo soit toujours défini
       if (this.userInfo.id) {
+        
         this.userservice.getUserByKeycloakId(this.userInfo.id).subscribe({
           next: (data) => {
             this.useridbykey = data.userId;
+            alert(this.useridbykey)
           },
           error: (err) => {
             console.error('Error while retrieving user ID', err);

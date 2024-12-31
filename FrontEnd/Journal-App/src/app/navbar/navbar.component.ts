@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
+import { UsersService } from '../services/users.service';
 
 @Component({
   selector: 'app-navbar',
@@ -16,55 +17,60 @@ export class NavbarComponent implements OnInit {
   detailsVisible = false;
 
   private roleHierarchy: string[] = ['ADMIN', 'EDITOR', 'JOURNALIST', 'READER'];
+  useridbykey: number | undefined;
+  useridtransformed: string | undefined; // Modifié pour être une chaîne de caractères ou undefined
 
-
-  constructor(private authService: AuthService,private cook:CookieService, private route: Router) {}
+  constructor(
+    private authService: AuthService,
+    private cook: CookieService,
+    private route: Router,
+    private userservice: UsersService
+  ) {}
 
   ngOnInit(): void {
     this.authService.isAuthenticated$.subscribe(authenticated => {
       this.isAuthenticated = authenticated; // Mettre à jour l'état d'authentification
-      //localStorage.setItem('newsletter', '0');
-      //console.log('Newsletter variable set to 0 in localStorage');
       if (authenticated) {
         this.loadUserInfo();  // Charger les informations utilisateur si authentifié
       }
     });
   }
+
   setNewsletterInLocalStorage() {
-    if(localStorage.getItem('newsletter') !== '0'){
-     this.route.navigate(['/crud/newsletter'])
+    if (localStorage.getItem('newsletter') !== '0') {
+      this.route.navigate(['/crud/newsletter']);
     }
-    localStorage.setItem("put","")
-    localStorage.setItem("idnewsletter","")
+    localStorage.setItem("put", "");
+    localStorage.setItem("idnewsletter", "");
     localStorage.setItem('newsletter', '1');
     console.log('Newsletter variable set to 1 in localStorage');
-    this.route.navigate(['/crud/newsletter'])
-    
-    
+    this.route.navigate(['/crud/newsletter']);
   }
+
   setArticleInLocalStorage() {
-    if(localStorage.getItem('newsletter') !== '0'){
-      this.route.navigate(['/crud/article'])
+    if (localStorage.getItem('newsletter') !== '0') {
+      this.route.navigate(['/crud/article']);
     }
     localStorage.setItem('newsletter', '2');
-    console.log('Article variable set to 1 in localStorage');
-    this.route.navigate(['/crud/article'])
-    
+    console.log('Article variable set to 2 in localStorage');
+    this.route.navigate(['/crud/article']);
   }
+
   setCommentInLocalStorage() {
-    if(localStorage.getItem('newsletter') !== '0'){
-      this.route.navigate(['/crud/article'])
+    if (localStorage.getItem('newsletter') !== '0') {
+      this.route.navigate(['/crud/article']);
     }
     localStorage.setItem('newsletter', '3');
-    console.log('comment variable set to 3 in localStorage');
-    
+    console.log('Comment variable set to 3 in localStorage');
   }
+
   login() {
     this.authService.login();
   }
 
   logout() {
     this.authService.logout();
+    localStorage.setItem("userId","")
   }
 
   showUserInfo(): void {
@@ -77,6 +83,25 @@ export class NavbarComponent implements OnInit {
   loadUserInfo(): void {
     this.authService.getUserProfile().then(profile => {
       this.userInfo = profile;  // Stocker les informations dans la variable userInfo
+      if (this.userInfo.id) {
+        this.userservice.getUserByKeycloakId(this.userInfo.id).subscribe({
+          next: (data) => {
+            this.useridbykey = data.userId;
+            if (this.useridbykey) {
+              this.useridtransformed = this.useridbykey.toString(); // Appeler la méthode toString()
+            }
+
+            if (this.useridtransformed) {
+              localStorage.setItem("userId", this.useridtransformed);
+            } else {
+              console.log('useridtransformed is undefined.');
+            }
+          },
+          error: (err) => {
+            console.error('Error while retrieving user ID', err);
+          }
+        });
+      }
       this.setUserRole();  // Déterminer et afficher le rôle principal
     }).catch(error => {
       console.error('Erreur lors du chargement des informations utilisateur', error);
@@ -88,6 +113,7 @@ export class NavbarComponent implements OnInit {
     for (let role of this.roleHierarchy) {
       if (roles.includes(role)) {
         this.userRole = role;  // Assigner le rôle principal
+        localStorage.setItem("userRole",this.userRole)
         break;
       }
     }
