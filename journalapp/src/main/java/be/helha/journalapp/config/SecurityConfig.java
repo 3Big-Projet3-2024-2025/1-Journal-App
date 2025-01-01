@@ -71,7 +71,7 @@ public class SecurityConfig {
                     auth.requestMatchers("/articles/**").hasAnyRole("ADMIN", "EDITOR", "JOURNALIST" ,"READER");
 
                     // Users : uniquement ADMIN
-                    auth.requestMatchers("/users/**").hasAnyRole("ADMIN", "EDITOR");
+                    auth.requestMatchers("/users/**").hasAnyRole("ADMIN", "EDITOR","READER");
 
                     // Roles : uniquement ADMIN
                     auth.requestMatchers("/roles/**").hasRole("ADMIN");
