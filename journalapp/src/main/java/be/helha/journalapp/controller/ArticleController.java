@@ -119,6 +119,22 @@ public class ArticleController {
     }
 
     /**
+     * Retrieves all articles belonging to newsletters created by a specific editor.
+     *
+     * @param editorId The ID of the editor.
+     * @return A ResponseEntity containing a list of articles or a 204 No Content response if none are found.
+     */
+    @GetMapping("/by-editor/{editorId}")
+    public ResponseEntity<List<Article>> getArticlesByEditorId(@PathVariable Long editorId) {
+        List<Article> articles = articleRepository.findArticlesByEditorId(editorId);
+        if (articles.isEmpty()) {
+            return ResponseEntity.noContent().build(); // 204 No Content if no articles found
+        }
+        return ResponseEntity.ok(articles); // Return the list of articles
+    }
+
+
+    /**
      * Retrieves an article by its ID.
      * @param id The ID of the article to retrieve.
      * @return A ResponseEntity containing the Article object if found, or a 404 Not Found response.

@@ -62,6 +62,11 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     @Query("SELECT a FROM Article a WHERE a.newsletter.newsletterId = :newsletterId")
     List<Article> findArticlesByNewsletterId(@Param("newsletterId") Long newsletterId);
 
+    @Query("SELECT a FROM Article a WHERE a.newsletter.creator.userId = :editorId")
+    List<Article> findArticlesByEditorId(@Param("editorId") Long editorId);
+
+
+
 
     /**
      * Searches for valid articles that match a given term in their titles using a JPQL query.

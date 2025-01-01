@@ -48,41 +48,59 @@ export class ListCrudComponent {
     if (this.type === 'articles') {
       this.titre = 'Management of the Articles';
       this.titretable = 'articles';
-
-      this.articleService.getArticles().subscribe(
-        (articles) => {
-          this.validArticles = articles.filter((article) => article.valid);
-          this.nonValidArticles = articles.filter((article) => !article.valid);
-        },
-        (error) => {
-          console.error('Error fetching articles:', error);
-        }
-      );
+  
+      const userRole = localStorage.getItem('userRole');
+      const userId = Number(localStorage.getItem('userId'));
+  
+      if (userRole === 'ADMIN') {
+        // Récupérer tous les articles si l'utilisateur est ADMIN
+        this.articleService.getArticles().subscribe(
+          (articles) => {
+            this.validArticles = articles.filter((article) => article.valid);
+            this.nonValidArticles = articles.filter((article) => !article.valid);
+          },
+          (error) => {
+            console.error('Error fetching articles:', error);
+          }
+        );
+      } else if (userRole === 'EDITOR') {
+        // Récupérer uniquement les articles des newsletters de l'éditeur
+        this.articleService.getArticlesByEditorId(userId).subscribe(
+          (articles) => {
+            this.validArticles = articles.filter((article) => article.valid);
+            this.nonValidArticles = articles.filter((article) => !article.valid);
+          },
+          (error) => {
+            console.error('Error fetching articles for editor:', error);
+          }
+        );
+      } else {
+        console.error('Unknown user role:', userRole);
+      }
     } else if (this.type === 'newsletters') {
       this.titre = 'Management of the Newsletters';
       this.titretable = 'newsletters';
-
+  
       this.manageNewsletterService.GetALlnewsletter().subscribe(
         (newsletters) => {
           const userId = Number(localStorage.getItem('userId'));
           const userRole = localStorage.getItem('userRole');
-      
-          if (userRole==="ADMIN") {
+  
+          if (userRole === 'ADMIN') {
             this.newsletters = newsletters;
-          } else{
-           this.newsletters = newsletters.filter(newsletter =>
-            newsletter.creator.userId === userId && userRole === 'EDITOR'
-          ); 
+          } else {
+            this.newsletters = newsletters.filter(
+              (newsletter) =>
+                newsletter.creator.userId === userId && userRole === 'EDITOR'
+            );
           }
-          
-      
+  
           console.log(this.newsletters);
         },
         (error) => {
           console.error('Error fetching newsletters:', error);
         }
       );
-      
     } else if (this.type === 'comments') {
       this.titre = 'Management of the Comments';
       this.titretable = 'comments';
@@ -90,25 +108,24 @@ export class ListCrudComponent {
         (comments) => {
           const userId = Number(localStorage.getItem('userId'));
           const userRole = localStorage.getItem('userRole');
-          
-      
-          this.comments = comments.filter(comment => {
-            const condition = userRole === 'ADMIN' || (comment.article.newsletter.creator.userId === userId && userRole === 'EDITOR');
-            console.log('Condition:', condition); // Vérifier la condition de filtrage
-      
+  
+          this.comments = comments.filter((comment) => {
+            const condition =
+              userRole === 'ADMIN' ||
+              (comment.article.newsletter.creator.userId === userId &&
+                userRole === 'EDITOR');
             return condition;
           });
-      
-          console.log('Filtered comments:', this.comments); // Résultat final
+  
+          console.log('Filtered comments:', this.comments);
         },
         (error) => {
           console.error('Error fetching comments:', error);
         }
       );
-      
-      
     }
   }
+  
 
   validateArticle(article: Article): void {
     if (confirm('Are you sure you want to validate this article?')) {
