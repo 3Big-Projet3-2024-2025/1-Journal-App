@@ -13,6 +13,9 @@ export class UsersService {
 
     
     private apiUrl = 'http://localhost:8080';
+    private baseUrl = 'http://localhost:8080/users';
+
+
 
 
 
@@ -31,26 +34,27 @@ export class UsersService {
     }
     
 
-    addUser(newUser: User): Observable<User> {
-        const headers = this.getAuthHeaders();
-        return this.http.post<User>(this.apiUrl, newUser, { headers });
-    }
-    getUsers(): Observable<User[]> {
-        const headers = this.getAuthHeaders();
-        return this.http.get<User[]>(this.apiUrl, { headers });
-    }
 
-    updateUser(id: number, updatedUser: User): Observable<User> {
-        const url = `${this.apiUrl}/${id}`;
-        const headers = this.getAuthHeaders();
-        return this.http.put<User>(url, updatedUser, { headers });
-    }
+    // new
+    getAllUsers(): Observable<User[]> {
+        return this.http.get<User[]>(`${this.baseUrl}`);
+      }
+    
+      updateUser(userId: number, user: Partial<User>): Observable<any> {
+        return this.http.patch(`${this.baseUrl}/${userId}/update`, user);
+      }
+    
+      deleteUser(userId: number): Observable<any> {
+        return this.http.delete(`${this.baseUrl}/${userId}`);
+      }
+    
+      addUser(user: Partial<User>): Observable<User> {
+        return this.http.post<User>(`${this.baseUrl}`, user);
+      }
+// new end 
 
-    deleteUser(id: number): Observable<void> {
-        const url = `${this.apiUrl}/${id}`;
-        const headers = this.getAuthHeaders();
-        return this.http.delete<void>(url, { headers });
-    }
+
+    
 
     private getAuthHeaders(): HttpHeaders {
         const token = this.cookieService.get('token');  // Récupère le token JWT depuis les cookies

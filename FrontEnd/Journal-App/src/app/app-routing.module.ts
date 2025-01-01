@@ -14,6 +14,7 @@ import { ViewMyArticlesComponent } from './view-my-articles/view-my-articles.com
 import { MyReadArticlesComponent } from './my-read-articles/my-read-articles.component';
 import { ViewArticleDetailComponent } from './view-article-detail/view-article-detail.component';
 import { ManageRgpdFormComponent } from './manage-rgpd-form/manage-rgpd-form.component';
+import { ManageUserComponent } from './manage-user/manage-user.component';
 
 const routes: Routes = [
   // Route par défaut
@@ -128,6 +129,12 @@ const routes: Routes = [
     canActivate: [RoleGuard],
     data: { roles: ["ADMIN","EDITOR"] },
   },
+  {
+    path: 'manage-users',
+    component: ManageUserComponent,
+    canActivate: [RoleGuard],
+    data: { roles: ["ADMIN"] },
+  }, 
   {
     path: 'rgpdform',
     component: ManageRgpdFormComponent,

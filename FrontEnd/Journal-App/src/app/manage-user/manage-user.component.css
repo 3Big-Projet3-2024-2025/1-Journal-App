@@ -1,0 +1,270 @@
+/* Corps principal */
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to bottom, #1e3c72, #2a5298);
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Conteneur principal */
+  .container {
+    background-color: #ffffff;
+    color: #333;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin-top: 20px;
+  }
+  
+  /* Titre principal */
+  h2 {
+    color: #1e3c72;
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  
+  /* Bouton Ajouter */
+  button.btn-primary {
+    background-color: #1e3c72;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  
+  button.btn-primary:hover {
+    background-color: #164b8a;
+  }
+  
+  /* Table */
+  .table {
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #ffffff;
+    color: #333;
+  }
+  
+  .table th {
+    background-color: #1e3c72;
+    color: #ffffff;
+  }
+  
+  .table td,
+  .table th {
+    text-align: center;
+    padding: 15px;
+  }
+  
+  /* Boutons d'action */
+  button.btn-warning {
+    background-color: #f0ad4e;
+    color: #ffffff;
+    border: none;
+    padding: 5px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+  }
+  
+  button.btn-warning:hover {
+    background-color: #ec971f;
+  }
+  
+  button.btn-danger {
+    background-color: #d9534f;
+    color: #ffffff;
+    border: none;
+    padding: 5px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+  }
+  
+  button.btn-danger:hover {
+    background-color: #c9302c;
+  }
+  
+  /* Styles pour la popup */
+  .modal-content {
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    background-color: #ffffff;
+    color: #333;
+  }
+  
+  .modal-header {
+    background-color: #1e3c72;
+    color: #ffffff;
+    border-bottom: none;
+    padding: 15px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+  
+  .modal-title {
+    font-size: 1.5rem;
+    margin: 0;
+  }
+  
+  .modal-body {
+    font-size: 1rem;
+    color: #555;
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .modal-footer {
+    border-top: none;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 15px;
+  }
+  
+  .modal-footer .btn {
+    width: 120px;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  /* Bouton Non */
+  button.btn-secondary {
+    background-color: #6c757d;
+    color: #ffffff;
+    border: none;
+  }
+  
+  button.btn-secondary:hover {
+    background-color: #5a6268;
+  }
+  
+  /* Bouton Oui */
+  button.btn-danger {
+    background-color: #d9534f;
+    color: #ffffff;
+    border: none;
+  }
+  
+  button.btn-danger:hover {
+    background-color: #c9302c;
+  }
+  /* Overlay pour la popup */
+  .popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Fond semi-transparent */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  /* Contenu principal de la popup */
+  .popup-content {
+    background: #ffffff; /* Fond blanc */
+    color: #333; /* Texte sombre */
+    width: 400px;
+    max-width: 90%; /* Responsive */
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Ombre douce */
+    animation: slide-down 0.3s ease-out; /* Animation */
+    overflow: hidden;
+  }
+  
+  /* En-tête de la popup */
+  .popup-header {
+    background-color: #1e3c72; /* Couleur primaire */
+    color: #ffffff;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+  
+  
+  
+  .popup-close {
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  
+  /* Corps de la popup */
+  .popup-body {
+    padding: 20px;
+    font-size: 1rem;
+    text-align: center;
+    color: #555;
+  }
+  
+  /* Pied de la popup */
+  .popup-footer {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 15px;
+    background: #f9f9f9;
+    border-top: 1px solid #ddd;
+  }
+  
+  /* Boutons */
+  .popup-footer button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  button.btn-secondary {
+    background-color: #6c757d;
+    color: #ffffff;
+  }
+  
+  button.btn-secondary:hover {
+    background-color: #5a6268;
+  }
+  
+  button.btn-danger {
+    background-color: #d9534f;
+    color: #ffffff;
+  }
+  
+  button.btn-danger:hover {
+    background-color: #c9302c;
+  }
+  
+  .btn-info-btn-sm{
+    background-color: #1026e9;
+    color: #ffffff;
+    border: none;
+    padding: 5px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+  }
+  
+  /* Animation de la popup */
+  @keyframes slide-down {
+    from {
+      transform: translateY(-50px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  

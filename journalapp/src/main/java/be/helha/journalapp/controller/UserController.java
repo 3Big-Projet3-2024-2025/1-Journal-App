@@ -6,6 +6,7 @@ import be.helha.journalapp.model.User;
 import be.helha.journalapp.repositories.RoleRepository;
 import be.helha.journalapp.repositories.UserRepository;
 import be.helha.journalapp.service.EmailService;
+import be.helha.journalapp.service.KeycloakAdminService;
 import jakarta.mail.MessagingException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -30,16 +32,19 @@ public class UserController {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
 
+    private final  KeycloakAdminService keycloakAdminService;
+
     /**
      * Constructor for UserController, injecting dependencies.
      * @param emailService The service for sending emails.
      * @param userRepository The repository for accessing user data.
      * @param roleRepository The repository for accessing role data.
      */
-    public UserController( EmailService emailService, UserRepository userRepository, RoleRepository roleRepository) {
+    public UserController( EmailService emailService, UserRepository userRepository, RoleRepository roleRepository,KeycloakAdminService keycloakAdminService) {
         this.emailService = emailService;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.keycloakAdminService = keycloakAdminService;
     }
 
 
@@ -77,12 +82,19 @@ public class UserController {
      * @return A ResponseEntity with a success message if deleted, or a 404 Not Found response.
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable Long id) {
-        if (userRepository.existsById(id)) {
+    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()) {
+            User userToDelete = user.get();
+            // Supprime l'utilisateur dans Keycloak
+            keycloakAdminService.deleteUserInKeycloak(userToDelete.getKeycloakId());
+
+            // Supprime l'utilisateur dans la base locale
             userRepository.deleteById(id);
-            return ResponseEntity.ok("User deleted successfully");
+
+            return ResponseEntity.ok("User deleted successfully.");
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
     }
 
 
@@ -91,10 +103,10 @@ public class UserController {
      * Sends a password reset email to the user with the specified email address.
      * Generates a reset token, constructs the reset link, and sends the email with reset instructions.
      *
-     * @param email The email address of the user who requested the password reset.
+   
      * @return A ResponseEntity with a success message if the email is sent or an error message and a corresponding HTTP status.
      */
-    @PostMapping("/forgot-password")
+  /*  @PostMapping("/forgot-password")
     public ResponseEntity<String> forgotPassword(@RequestParam String email) {
         return userRepository.findByEmail(email)
                 .map(user -> {
@@ -116,7 +128,34 @@ public class UserController {
                     }
                 })
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with the specified email not found"));
+    }*/
+
+    @PostMapping
+    public ResponseEntity<?> addUser(@RequestBody User newUser) {
+        // Prépare les détails pour Keycloak
+        Map<String, Object> keycloakUserDetails = Map.of(
+                "username", newUser.getEmail(),
+                "firstName", newUser.getFirstName(),
+                "lastName", newUser.getLastName(),
+                "email", newUser.getEmail(),
+                "enabled", true,
+                "credentials", List.of(Map.of(
+                        "type", "password",
+                        "value", "temporaryPassword",
+                        "temporary", true
+                ))
+        );
+
+        // Créer l'utilisateur dans Keycloak
+        String keycloakId = keycloakAdminService.addUserToKeycloak(keycloakUserDetails);
+
+        // Ajouter l'utilisateur dans la base locale
+        newUser.setKeycloakId(keycloakId);
+        User savedUser = userRepository.save(newUser);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
     }
+
 
     /**
      * Changes the role of a user by their ID.
@@ -157,9 +196,27 @@ public class UserController {
     }
 
 
-
-
-
+    @PatchMapping("/{id}/update")
+    public ResponseEntity<?> updateUser(
+            @PathVariable Long id,
+            @RequestBody User userUpdates
+    ) {
+        Optional<User> existingUser = userRepository.findById(id);
+        if (existingUser.isPresent()) {
+            User user = existingUser.get();
+            keycloakAdminService.updateUserInKeycloak(user.getKeycloakId(), Map.of(
+                    "firstName", userUpdates.getFirstName(),
+                    "lastName", userUpdates.getLastName(),
+                    "email", userUpdates.getEmail()
+            ));
+            user.setFirstName(userUpdates.getFirstName());
+            user.setLastName(userUpdates.getLastName());
+            user.setEmail(userUpdates.getEmail());
+            userRepository.save(user);
+            return ResponseEntity.ok("User updated successfully.");
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
+    }
 
 
 
