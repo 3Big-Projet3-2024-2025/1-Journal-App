@@ -11,6 +11,7 @@ import { UsersService } from '../services/users.service';
 })
 export class NavbarComponent implements OnInit {
 
+
   userInfo: any; // Stocker les informations utilisateur
   isAuthenticated = false;  // Variable pour stocker l'état d'authentification
   userRole: string | null = null;  // Stocker le rôle principal
@@ -118,4 +119,7 @@ export class NavbarComponent implements OnInit {
       }
     }
   }
+
+  sendRgpdRequest() {
+    this.route.navigate(["/rgpdform"])    }
 }

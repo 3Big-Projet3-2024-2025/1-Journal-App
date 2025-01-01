@@ -40,6 +40,10 @@
         <button *ngIf="isAuthenticated" type="button" class="btn" (click)="logout()">
           Log out <i class="fa-solid fa-right-from-bracket"></i>
         </button>
+
+        <button *ngIf="isAuthenticated && userRole === 'READER'" type="button" class="btn btn-rgpd" (click)="sendRgpdRequest()">
+          Send RGPD Request <i class="fa-solid fa-envelope"></i>
+        </button>
     </div>
   </div>
 
@@ -80,7 +84,6 @@
           Manage Users
         </a>
       </div>
-      <div class="button-like" data-bs-dismiss="offcanvas">Manage RGPD</div>
     </div>
   
     <div class="offcanvas-title" id="offcanvasExampleLabel" *ngIf="isAuthenticated && (userRole === 'ADMIN' ||  userRole === 'EDITOR')">EDITOR

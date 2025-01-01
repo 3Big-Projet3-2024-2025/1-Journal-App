@@ -1,53 +1,62 @@
-import { Component } from '@angular/core';
-import { NgClass, } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { EmailService } from '../services/Email.service';
+import { UsersService } from '../services/users.service';
 
 @Component({
   selector: 'app-manage-rgpd-form',
   templateUrl: './manage-rgpd-form.component.html',
   styleUrls: ['./manage-rgpd-form.component.css']
 })
-export class ManageRgpdFormComponent {
+export class ManageRgpdFormComponent implements OnInit {
   formData = {
     fullName: '',
     email: '',
     requestType: '',
-    requestDetails: ''
+    requestDetails: '',
+    adminEmail: '' // Pré-rempli avec l'email de l'admin
   };
 
-  onSubmit() {
-    const { fullName, email, requestType, requestDetails } = this.formData;
+  constructor(private emailService: EmailService,private userservice:UsersService) {}
 
-    // Validation des champs
-    if (!fullName || fullName.trim().length < 2) {
-      alert('Full name is required and must be at least 2 characters.');
-      return;
-    }
-
-    if (!email || !this.isValidEmail(email)) {
-      alert('Please enter a valid email address.');
-      return;
-    }
-
-    if (!requestType) {
-      alert('Please select a request type.');
-      return;
-    }
-
-    if (requestDetails.length > 1000) {
-      alert('Request details cannot exceed 1000 characters.');
-      return;
-    }
-
-    // Si tout est valide
-    alert('Form successfully submitted!');
-    console.log('Submitted data:', this.formData);
-    // Envoyer les données au backend ici...
+  ngOnInit() {
+    // Récupérer l'email de l'admin avec l'ID 1
+    this.userservice.getUserById(5).subscribe(
+      (admin) => {
+        if (admin && admin.email) {
+          this.formData.adminEmail = admin.email;
+          console.log(admin.email)
+        } else {
+          console.error('Admin with ID 1 does not have a valid email.');
+          alert('Unable to retrieve admin email. Please contact support.');
+        }
+      },
+      (error) => {
+        console.error('Error fetching admin details:', error);
+        alert('Failed to load admin details.');
+      }
+    );
   }
 
-  // Fonction pour vérifier si l'email est valide
-  isValidEmail(email: string): boolean {
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailPattern.test(email);
+  onSubmit() {
+    const { fullName, email, requestType, requestDetails, adminEmail } = this.formData;
+
+    if (!fullName || !email || !requestType || !adminEmail || requestDetails.length > 1000) {
+      alert('Please fill out all required fields.');
+      return;
+    }
+
+    const subject = `RGPD Request from ${fullName}`;
+    const content = `User: ${fullName} (${email})\nType: ${requestType}\nDetails: ${requestDetails}`;
+
+    // Appeler le service pour envoyer l'email
+    this.emailService.sendEmail(adminEmail, subject, content).subscribe(
+      (response) => {
+        alert('Email sent successfully!');
+      },
+      (error) => {
+        console.error('Error sending email:', error);
+        alert('Failed to send email.');
+      }
+    );
   }
 }

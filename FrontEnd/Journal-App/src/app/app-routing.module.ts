@@ -13,6 +13,7 @@ import { ManageJournalistComponent } from './manage-journalist/manage-journalist
 import { ViewMyArticlesComponent } from './view-my-articles/view-my-articles.component';
 import { MyReadArticlesComponent } from './my-read-articles/my-read-articles.component';
 import { ViewArticleDetailComponent } from './view-article-detail/view-article-detail.component';
+import { ManageRgpdFormComponent } from './manage-rgpd-form/manage-rgpd-form.component';
 
 const routes: Routes = [
   // Route par défaut
@@ -126,6 +127,12 @@ const routes: Routes = [
     component: ViewArticleDetailComponent,
     canActivate: [RoleGuard],
     data: { roles: ["ADMIN","EDITOR"] },
+  },
+  {
+    path: 'rgpdform',
+    component: ManageRgpdFormComponent,
+    canActivate: [RoleGuard],
+    data: { roles: ["ADMIN","READER"] },
   }
 ];
 

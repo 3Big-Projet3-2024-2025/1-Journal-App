@@ -25,7 +25,7 @@ export class UsersService {
 }
 
     getUserById(id: number): Observable<any> {
-        const url = `${this.apiUrl}/${id}`;
+        const url = `${this.apiUrl}/users/${id}`;
         const headers = this.getAuthHeaders(); 
         return this.http.get(url, { headers });
     }
