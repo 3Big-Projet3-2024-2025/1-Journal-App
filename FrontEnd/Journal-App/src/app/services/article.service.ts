@@ -60,6 +60,11 @@ export class ArticleService {
     const url = `${this.apiUrl}/${id}/validate`;
     return this.http.patch<Article>(url, {});
   }
+    // Unvalider un article
+    unvalidateArticle(id: number): Observable<Article> {
+      const url = `${this.apiUrl}/${id}/unvalidate`;
+      return this.http.patch<Article>(url, {});
+    }
 
   // Récupérer le titre de la newsletter associée à un article
   getNewsletterTitleByArticleId(articleId: number): Observable<string> {

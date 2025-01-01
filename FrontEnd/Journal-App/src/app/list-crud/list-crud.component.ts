@@ -130,7 +130,7 @@ export class ListCrudComponent {
   validateArticle(article: Article): void {
     if (confirm('Are you sure you want to validate this article?')) {
       const updatedArticle = { ...article, valid: true };
-      this.articleService.updateArticle(article.articleId, updatedArticle).subscribe(
+      this.articleService.validateArticle(article.articleId).subscribe(
         () => {
           alert('The article has been successfully validated.');
           this.loadDataBasedOnType();
@@ -145,7 +145,7 @@ export class ListCrudComponent {
   unvalidateArticle(article: Article): void {
     if (confirm('Are you sure you want to unvalidate this article?')) {
       const updatedArticle = { ...article, valid: false };
-      this.articleService.updateArticle(article.articleId, updatedArticle).subscribe(
+      this.articleService.unvalidateArticle(article.articleId).subscribe(
         () => {
           alert('The article has been successfully unvalidated.');
           this.loadDataBasedOnType();

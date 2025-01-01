@@ -8,6 +8,8 @@ import be.helha.journalapp.repositories.ArticleRepository;
 import be.helha.journalapp.repositories.NewsletterRepository;
 import be.helha.journalapp.repositories.UserArticleReadRepository;
 import be.helha.journalapp.repositories.UserRepository;
+import be.helha.journalapp.service.EmailService;
+import jakarta.mail.MessagingException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -27,24 +29,20 @@ import java.util.Optional;
 @RequestMapping("/articles")
 public class ArticleController {
 
-
     private final ArticleRepository articleRepository;
     private final UserRepository userRepository;
     private final NewsletterRepository newsletterRepository;
     private final UserArticleReadRepository userArticleReadRepository;
+    private final EmailService emailService;
 
-    /**
-     * Constructor for ArticleController, injecting dependencies.
-     * @param articleRepository The repository for accessing article data.
-     * @param userRepository The repository for accessing user data.
-     * @param newsletterRepository The repository for accessing newsletter data.
-     * @param userArticleReadRepository The repository for accessing user article read data.
-     */
-    public ArticleController(ArticleRepository articleRepository, UserRepository userRepository, NewsletterRepository newsletterRepository, UserArticleReadRepository userArticleReadRepository) {
+    public ArticleController(ArticleRepository articleRepository, UserRepository userRepository,
+                             NewsletterRepository newsletterRepository, UserArticleReadRepository userArticleReadRepository,
+                             EmailService emailService) {
         this.articleRepository = articleRepository;
         this.userRepository = userRepository;
         this.newsletterRepository = newsletterRepository;
         this.userArticleReadRepository = userArticleReadRepository;
+        this.emailService = emailService;
     }
 
 
@@ -198,14 +196,7 @@ public class ArticleController {
      * @param id The ID of the article to validate.
      * @return A ResponseEntity containing the validated Article object, or a 404 Not Found response.
      */
-    @PatchMapping("/{id}/validate")
-    public ResponseEntity<Article> validateArticle(@PathVariable Long id) {
-        return articleRepository.findById(id).map(article -> {
-            article.setValid(true); // Utilisez les bons noms de méthodes
-            Article savedArticle = articleRepository.save(article);
-            return ResponseEntity.ok(savedArticle);
-        }).orElse(ResponseEntity.notFound().build());
-    }
+
 
 
     /**
@@ -440,6 +431,62 @@ public class ArticleController {
         return ResponseEntity.ok(articles);
     }
 
+    @PatchMapping("/{id}/validate")
+    public ResponseEntity<Article> validateArticle(@PathVariable Long id) {
+        System.out.println("Starting validation process for article ID: " + id);
+
+        return articleRepository.findById(id).map(article -> {
+            System.out.println("Article found. Title: " + article.getTitle() + ", Author: " + article.getAuthor().getEmail());
+
+            // Mettre à jour l'article comme valide
+            article.setValid(true);
+            Article savedArticle = articleRepository.save(article);
+            System.out.println("Article has been marked as valid and saved to the database.");
+
+            try {
+                String email = article.getAuthor().getEmail();
+                String subject = "Your article has been validated!";
+                String content = "<p>Dear " + article.getAuthor().getFirstName() + ",</p>"
+                        + "<p>Your article titled '<strong>" + article.getTitle() + "</strong>' has been validated.</p>"
+                        + "<p>Thank you for your contribution.</p>";
+
+                System.out.println("Attempting to send email to: " + email);
+                emailService.sendEmail(email, subject, content);
+                System.out.println("Email sent successfully to: " + email);
+            } catch (MessagingException e) {
+                System.err.println("Failed to send email. Error: " + e.getMessage());
+                e.printStackTrace();
+            }
+
+            return ResponseEntity.ok(savedArticle);
+        }).orElseGet(() -> {
+            System.out.println("Article with ID " + id + " not found.");
+            return ResponseEntity.notFound().build();
+        });
+    }
+    @PatchMapping("/{id}/unvalidate")
+    public ResponseEntity<Article> unvalidateArticle(@PathVariable Long id) {
+        return articleRepository.findById(id).map(article -> {
+            article.setValid(false);
+            Article savedArticle = articleRepository.save(article);
+
+            try {
+                String email = article.getAuthor().getEmail();
+                String subject = "Your article has been unvalidated.";
+                String content = "<p>Dear " + article.getAuthor().getFirstName() + ",</p>"
+                        + "<p>Your article titled '<strong>" + article.getTitle() + "</strong>' has been unvalidated.</p>"
+                        + "<p>Please review it and make the necessary adjustments.</p>";
+                System.out.println("Sending unvalidation email to: " + email);
+                emailService.sendEmail(email, subject, content);
+                System.out.println("Unvalidation email successfully sent.");
+            } catch (MessagingException e) {
+                System.err.println("Failed to send unvalidation email: " + e.getMessage());
+                e.printStackTrace();
+            }
+
+            return ResponseEntity.ok(savedArticle);
+        }).orElse(ResponseEntity.notFound().build());
+    }
 
 
 
