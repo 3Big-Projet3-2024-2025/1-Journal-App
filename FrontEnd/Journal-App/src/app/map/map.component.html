@@ -15,7 +15,7 @@
                 <div *ngIf="isDetailsVisible" class="card article-details" [ngStyle]="{ 'background-color': selectedArticle?.backgroundColor || '#ffffff' }">
                     <div class="card-header">
                       <h3>{{ selectedArticle?.title }}</h3>
-                      <button type="button" class="btn" routerLink="/see-newsletter"><strong><span class="badge">{{ newsletterTitle }}</span></strong></button>
+                      <button type="button" class="btn" routerLink="/see-newsletter" (click)="setlocalstorage()"><strong><span class="badge">{{ newsletterTitle }}</span></strong></button>
                     </div>
                     <div class="card-body">
                       <!-- Emplacement pour les images -->

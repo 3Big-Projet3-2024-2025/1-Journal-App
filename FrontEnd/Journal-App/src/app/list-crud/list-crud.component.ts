@@ -207,5 +207,6 @@ export class ListCrudComponent {
     this.router.navigate(['/see-newsletter']);
     localStorage.setItem('see', 'look');
     localStorage.setItem('seeidnewsletter', id.toString());
+    localStorage.setItem("fromArticleDetail","")
   }
 }

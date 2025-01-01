@@ -20,6 +20,9 @@ export class ViewnewsletterComponent implements OnInit {
 
   // Pour la confirmation
   articleToConfirm: Article | null = null;
+  fromarticledetail: string | null | undefined;
+  display="display; inline";
+  isButtonVisible=true;
 
   constructor(
     private newsletterService: ManageNewsletterService,
@@ -31,6 +34,8 @@ export class ViewnewsletterComponent implements OnInit {
   ngOnInit(): void {
     const newsletterId = +localStorage.getItem('seeidnewsletter')!;
     this.getnewsletter(newsletterId);
+    const fromArticleDetail = localStorage.getItem('fromArticleDetail');
+    this.isButtonVisible = fromArticleDetail !== 'ok';
   }
 
   getnewsletter(id: number): void {

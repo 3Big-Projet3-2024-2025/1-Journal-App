@@ -115,13 +115,13 @@ const routes: Routes = [
     path: 'see-newsletter',
     component: ViewnewsletterComponent,
     canActivate: [RoleGuard],
-    data: { roles: ['ADMIN', 'EDITOR', 'JOURNALIST'] },
+    data: { roles: ['ADMIN', 'EDITOR', 'JOURNALIST','READER'] },
   },
   {
     path: 'My-read-articles',
     component: MyReadArticlesComponent,
     canActivate: [RoleGuard],
-    data: { roles: ["ADMIN","EDITOR", "JOURNALIST"] },
+    data: { roles: ["ADMIN","EDITOR", "JOURNALIST",'READER'] },
   },
   {
     path: 'view-article/:id',

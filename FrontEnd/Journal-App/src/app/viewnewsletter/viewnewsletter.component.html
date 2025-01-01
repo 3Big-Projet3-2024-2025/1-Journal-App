@@ -10,12 +10,12 @@
         <div class="article-card" *ngFor="let article of addedArticles">
           <h3>{{ article.title }}</h3>
           <p>{{ article.content }}</p>
-          <button class="delete-btn" (click)="deleteArticle(article)">Supprimer</button>
+          <button class="delete-btn" (click)="deleteArticle(article)" *ngIf="isButtonVisible">Supprimer</button>
         </div>
       </div>
 
       <!-- Bouton pour afficher les articles disponibles -->
-      <button (click)="toggleArticleList()">Ajouter un article</button>
+      <button (click)="toggleArticleList()"*ngIf="isButtonVisible">Ajouter un article</button>
 
       <!-- Liste des articles disponibles -->
       <div *ngIf="showArticleList" class="article-list">

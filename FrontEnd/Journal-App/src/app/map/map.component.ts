@@ -20,10 +20,13 @@ import { Router } from '@angular/router';
   styleUrls: ['./map.component.css']
 })
 export class MapComponent implements OnInit, OnChanges {
+setlocalstorage() {
+localStorage.setItem("fromArticleDetail","ok")
+}
   isCommentFormVisible = false;
   newCommentContent = '';
 
-  userId: number = 1; 
+  userId=''; 
 
   @Input() articles: Article[] = []; // Articles à afficher sur la carte
   readArticles: Article[] = [];
@@ -316,6 +319,7 @@ export class MapComponent implements OnInit, OnChanges {
   }
   addCommet() {
     this.isCommentFormVisible = true; // affiche le formulaire
+    this.isCommentsVisible=false
   }
 
   submitComment() {
@@ -324,14 +328,18 @@ export class MapComponent implements OnInit, OnChanges {
       return;
     }
 
+   
     const commentData = {
       content: this.newCommentContent,
       publicationDate: new Date().toISOString().split('T')[0], // par exemple la date du jour
-      user_id: this.userId,
+      user_id: parseInt( localStorage.getItem('userId')||""),
       article_id: this.selectedArticle.articleId
     };
-
-    this.commentService.addComment(commentData).subscribe({
+    if (commentData.content==="") {
+      alert("contnet field cannot be empty")
+      
+    }else{
+       this.commentService.addComment(commentData).subscribe({
       next: (createdComment) => {
         console.log("Comment created:", createdComment);
         this.isCommentFormVisible = false;
@@ -342,11 +350,14 @@ export class MapComponent implements OnInit, OnChanges {
         console.error("Error creating comment:", err);
       }
     });
+    }
+   
   }
 
   
   toggleComments() {
     this.isCommentsVisible = !this.isCommentsVisible;
+    this.isCommentFormVisible=false
     if (this.isCommentsVisible) {
       const articleId= localStorage.getItem("articleid")
       this.loadComments(Number(articleId));
@@ -355,7 +366,6 @@ export class MapComponent implements OnInit, OnChanges {
 
   
     loadComments(articleId: number): void {
-      alert(articleId)
       this.commentService.getCommentsByArticleId(articleId).subscribe({
         next: (comments) => {
           this.comments = comments;
