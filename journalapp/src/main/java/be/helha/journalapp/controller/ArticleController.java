@@ -46,29 +46,30 @@ public class ArticleController {
     }
 
 
-    /**
-     * Creates a new article.
-     * Sets the title, content, publication date, longitude, latitude, valid status, and associates the article with a newsletter and an author.
-     * Also sets the background color of the article based on the newsletter's background color.
-     *
-     * @param articleData A map containing the article data.
-     * @return A ResponseEntity containing the saved Article object.
-     * @throws RuntimeException if the Newsletter or User are not found
-     */
     @PostMapping
     public ResponseEntity<Article> addArticle(@RequestBody Map<String, Object> articleData) {
         Article article = new Article();
+
+        // Récupération des données
         article.setTitle((String) articleData.get("title"));
         article.setContent((String) articleData.get("content"));
         article.setPublicationDate((String) articleData.get("publicationDate"));
-        article.setLongitude((Double) articleData.get("longitude"));
-        article.setLatitude((Double) articleData.get("latitude"));
-        article.setValid((Boolean) articleData.get("valid"));
-        article.setRead((Boolean) articleData.getOrDefault("read", false)); // Défaut: non lu
+        article.setLongitude(Double.parseDouble(articleData.get("longitude").toString()));
+        article.setLatitude(Double.parseDouble(articleData.get("latitude").toString()));
+        article.setValid(Boolean.parseBoolean(articleData.get("valid").toString()));
+        article.setRead(Boolean.parseBoolean(articleData.getOrDefault("read", false).toString()));
 
-        Long newsletterId = ((Number) articleData.get("newsletter_id")).longValue();
-        Long userId = ((Number) articleData.get("user_id")).longValue();
+        // Gestion des IDs
+        Long newsletterId;
+        Long userId;
+        try {
+            newsletterId = Long.parseLong(articleData.get("newsletter_id").toString());
+            userId = Long.parseLong(articleData.get("user_id").toString());
+        } catch (NumberFormatException e) {
+            throw new RuntimeException("Invalid newsletter_id or user_id format");
+        }
 
+        // Recherche des entités
         Newsletter newsletter = newsletterRepository.findById(newsletterId)
                 .orElseThrow(() -> new RuntimeException("Newsletter not found"));
         User author = userRepository.findById(userId)
@@ -80,6 +81,7 @@ public class ArticleController {
         // Définir la couleur de fond basée sur la newsletter
         article.setBackgroundColor(newsletter.getBackgroundColor());
 
+        // Sauvegarde de l'article
         Article savedArticle = articleRepository.save(article);
         return ResponseEntity.ok(savedArticle);
     }

@@ -24,6 +24,19 @@
       required
     ></textarea>
 
+      <!-- Selection de la newsletter -->
+      <label for="newsletter">Choose a Newsletter:</label>
+      <select
+        id="newsletter"
+        [(ngModel)]="articleToAdd.newsletter_id"
+        name="newsletter"
+        required
+      >
+        <option *ngFor="let newsletter of userNewsletters" [value]="newsletter.newsletterId">
+          {{ newsletter.title }}
+        </option>
+      </select>
+
     <!-- Map for location selection -->
     <div id="map" style="height: 300px; margin: 20px 0;"></div>
     <p>

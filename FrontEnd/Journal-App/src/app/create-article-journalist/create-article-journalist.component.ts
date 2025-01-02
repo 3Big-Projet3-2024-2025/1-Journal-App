@@ -30,6 +30,7 @@ export class CreateArticleJournalistComponent implements OnInit {
   };
 
   successMessage: string = "";
+  userNewsletters: Newsletter[] = [];
   selectedFiles: File[] = [];
 
   map!: L.Map; // Carte Leaflet
@@ -57,6 +58,7 @@ export class CreateArticleJournalistComponent implements OnInit {
   private async initializeComponent(): Promise<void> {
     try {
       await this.getUserId();
+      this.loadUserNewsletters();
       this.setUserNewsletter();
     } catch (error) {
       console.error('Erreur lors de l\'initialisation du composant:', error);
@@ -135,6 +137,31 @@ export class CreateArticleJournalistComponent implements OnInit {
       }
     );
   }
+
+  loadUserNewsletters(): void {
+    if (this.articleToAdd.user_id === 0) {
+      console.warn('Impossible de récupérer les newsletters car l\'user_id est manquant.');
+      return;
+    }
+  
+    this.newsletterService.getNewslettersForJournalist(this.articleToAdd.user_id).subscribe(
+      (newsletters: Newsletter[]) => {
+        if (newsletters && newsletters.length > 0) {
+          this.userNewsletters = newsletters; // Stocker les newsletters disponibles
+          // Si une seule newsletter, la sélectionner par défaut
+          if (newsletters.length === 1) {
+            this.articleToAdd.newsletter_id = newsletters[0].newsletterId;
+          }
+        } else {
+          console.error("L'utilisateur n'est journaliste dans aucune newsletter.");
+        }
+      },
+      (error) => {
+        console.error('Erreur lors de la récupération des newsletters du journaliste:', error);
+      }
+    );
+  }
+
 
   validateFileCount(event: any): void {
     const files = event.target.files;
