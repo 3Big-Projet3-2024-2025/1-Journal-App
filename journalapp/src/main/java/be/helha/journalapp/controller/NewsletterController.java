@@ -257,6 +257,42 @@ public class NewsletterController {
         }
         return ResponseEntity.ok(newsletter);
     }
+    @PostMapping("/{newsletterId}/addJournalistByEmail")
+    public ResponseEntity<?> addJournalistByEmail(
+            @PathVariable Long newsletterId,
+            @RequestBody Map<String, String> body) {
+
+        String email = body.get("email");
+
+        // Rechercher l'utilisateur par email
+        Optional<User> userOpt = userRepository.findByEmail(email);
+
+        if (userOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("message", "User not found."));
+        }
+
+        User user = userOpt.get();
+
+        // Vérifier si la newsletter existe
+        Optional<Newsletter> newsletterOpt = newsletterRepository.findById(newsletterId);
+        if (newsletterOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("message", "Newsletter not found."));
+        }
+
+        Newsletter newsletter = newsletterOpt.get();
+
+        // Ajouter le journaliste s'il n'est pas déjà associé
+        if (newsletter.getJournalists().contains(user)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("message", "User is already a journalist for this newsletter."));
+        }
+
+        newsletter.getJournalists().add(user);
+        newsletterRepository.save(newsletter);
+
+        return ResponseEntity.ok(Map.of("message", "Journalist added successfully."));
+    }
+
 
     /**
      * Supprime un journaliste (utilisateur) de la liste des journalistes d'une newsletter.
