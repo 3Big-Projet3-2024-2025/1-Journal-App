@@ -1,18 +1,38 @@
+<div class="container">
+  <h2>My Articles</h2>
 
-<br><br><div class="container">
-    <h2>My Articles</h2>
+  <!-- Sélecteur de newsletters -->
+  <div *ngIf="!loading && newsletters.length > 0" class="mb-3">
+    <label for="newsletterSelect">Filter by Newsletter:</label>
+    <select
+    id="newsletterSelect"
+    class="form-select"
+    [(ngModel)]="selectedNewsletterId"
+    (change)="onNewsletterChange()"
+  >
+    <option *ngFor="let newsletter of newsletters" [value]="newsletter.newsletterId">
+      {{ newsletter.title }}
+    </option>
+  </select>
+  
+  </div>
+
+  <!-- Liste des articles filtrés -->
+  <ng-container *ngIf="!loading && filteredArticles.length > 0">
     <table class="table">
       <thead>
         <tr>
           <th>#</th>
+          <th>Newsletter</th>
           <th>Title</th>
           <th>Publication Date</th>
           <th>Actions</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let article of myArticles; let i = index">
+        <tr *ngFor="let article of filteredArticles; let i = index">
           <td>{{ i + 1 }}</td>
+          <td>{{ article.newsletter?.title || 'No Newsletter' }}</td>
           <td>{{ article.title }}</td>
           <td>{{ article.publicationDate | date: 'MM/dd/yyyy' }}</td>
           <td>
@@ -22,11 +42,15 @@
             >
               Edit
             </button>
-            <button class="btn-danger" (click)="deleteArticle(article.articleId)">Delete</button>
-
+            <button
+              class="btn btn-danger btn-sm"
+              (click)="deleteArticle(article.articleId)"
+            >
+              Delete
+            </button>
           </td>
         </tr>
       </tbody>
     </table>
-  </div>
-  
+  </ng-container>
+</div>
