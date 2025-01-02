@@ -48,12 +48,11 @@ export class ListCrudComponent {
     if (this.type === 'articles') {
       this.titre = 'Management of the Articles';
       this.titretable = 'articles';
-  
+
       const userRole = localStorage.getItem('userRole');
       const userId = Number(localStorage.getItem('userId'));
-  
+
       if (userRole === 'ADMIN') {
-        // Récupérer tous les articles si l'utilisateur est ADMIN
         this.articleService.getArticles().subscribe(
           (articles) => {
             this.validArticles = articles.filter((article) => article.valid);
@@ -64,7 +63,6 @@ export class ListCrudComponent {
           }
         );
       } else if (userRole === 'EDITOR') {
-        // Récupérer uniquement les articles des newsletters de l'éditeur
         this.articleService.getArticlesByEditorId(userId).subscribe(
           (articles) => {
             this.validArticles = articles.filter((article) => article.valid);
@@ -80,12 +78,12 @@ export class ListCrudComponent {
     } else if (this.type === 'newsletters') {
       this.titre = 'Management of the Newsletters';
       this.titretable = 'newsletters';
-  
+
       this.manageNewsletterService.GetALlnewsletter().subscribe(
         (newsletters) => {
           const userId = Number(localStorage.getItem('userId'));
           const userRole = localStorage.getItem('userRole');
-  
+
           if (userRole === 'ADMIN') {
             this.newsletters = newsletters;
           } else {
@@ -94,7 +92,7 @@ export class ListCrudComponent {
                 newsletter.creator.userId === userId && userRole === 'EDITOR'
             );
           }
-  
+
           console.log(this.newsletters);
         },
         (error) => {
@@ -108,15 +106,15 @@ export class ListCrudComponent {
         (comments) => {
           const userId = Number(localStorage.getItem('userId'));
           const userRole = localStorage.getItem('userRole');
-  
+
           this.comments = comments.filter((comment) => {
-            const condition =
+            const newsletterCreatorId = comment.article?.newsletter?.creator?.userId || null;
+            return (
               userRole === 'ADMIN' ||
-              (comment.article.newsletter.creator.userId === userId &&
-                userRole === 'EDITOR');
-            return condition;
+              (userRole === 'EDITOR' && newsletterCreatorId === userId)
+            );
           });
-  
+
           console.log('Filtered comments:', this.comments);
         },
         (error) => {
@@ -125,7 +123,6 @@ export class ListCrudComponent {
       );
     }
   }
-  
 
   validateArticle(article: Article): void {
     if (confirm('Are you sure you want to validate this article?')) {
@@ -207,6 +204,24 @@ export class ListCrudComponent {
     this.router.navigate(['/see-newsletter']);
     localStorage.setItem('see', 'look');
     localStorage.setItem('seeidnewsletter', id.toString());
-    localStorage.setItem("fromArticleDetail","")
+    localStorage.setItem('fromArticleDetail', '');
+  }
+
+  getCommentsGroupedByArticle(): { [key: string]: Comments[] } {
+    if (!this.comments) {
+      return {};
+    }
+    return this.comments.reduce((grouped: { [key: string]: Comments[] }, comment: Comments) => {
+      const articleTitle = comment.article.title;
+      if (!grouped[articleTitle]) {
+        grouped[articleTitle] = [];
+      }
+      grouped[articleTitle].push(comment);
+      return grouped;
+    }, {});
+  }
+
+  getObjectKeys(obj: any): string[] {
+    return Object.keys(obj);
   }
 }

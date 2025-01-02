@@ -181,43 +181,49 @@
     </ng-template>
   </div>
 
-  <!-- Section Comments -->
   <div *ngIf="titretable === 'comments'">
-    <h3>Comments</h3>
-    <table
-      class="table table-striped"
-      *ngIf="comments.length > 0; else noComments"
-    >
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>ID</th>
-          <th>Author</th>
-          <th>Content</th>
-          <th>Date</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let comment of comments; let i = index">
-          <td>{{ i + 1 }}</td>
-          <td>{{ comment.commentId }}</td>
-          <td>{{ comment.user.email }}</td>
-          <td>{{ comment.content }}</td>
-          <td>{{ comment.publicationDate }}</td>
-          <td>
-            <button
-              class="btn btn-danger btn-sm"
-              (click)="confirmDelete(comment.commentId, 'comment')"
-            >
-              Delete
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <ng-template #noComments>
+    <ng-container *ngIf="comments && comments.length > 0; else noOverallComments">
+      <ng-container *ngFor="let articleTitle of getObjectKeys(getCommentsGroupedByArticle())">
+        <h4>All the comments from the article: {{ articleTitle }}</h4>
+        <ng-container *ngIf="getCommentsGroupedByArticle()[articleTitle].length > 0; else noCommentsForArticle">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Author</th>
+                <th>Content</th>
+                <th>Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let comment of getCommentsGroupedByArticle()[articleTitle]; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ comment.user.email }}</td>
+                <td>{{ comment.content }}</td>
+                <td>{{ comment.publicationDate }}</td>
+                <td>
+                  <button
+                    class="btn btn-danger btn-sm"
+                    (click)="confirmDelete(comment.commentId, 'comment')"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </ng-container>
+        <ng-template #noCommentsForArticle>
+          <p>No comments available for this article.</p>
+        </ng-template>
+      </ng-container>
+    </ng-container>
+    <ng-template #noOverallComments>
       <p>No comments available.</p>
     </ng-template>
   </div>
+  
+
+  
 </div>

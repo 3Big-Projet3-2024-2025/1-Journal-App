@@ -59,18 +59,19 @@ button:hover {
   padding-bottom: 60px; /* Ajout d'espace pour ne pas chevaucher le bouton */
 }
 .section-article {
-  display: flex;
-  flex-wrap: wrap; /* Permet d'aller à la ligne si nécessaire */
-  gap: 10px; /* Espace entre les cartes */
+  display: grid; /* Remplace flex par grid pour un meilleur contrôle des tailles */
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Définit des colonnes adaptatives */
+  gap: 20px; /* Augmente l'espace entre les articles */
   justify-content: center; /* Centre les articles horizontalement */
   max-width: 100%; /* Limite la largeur totale */
+  align-items: start; /* Assure que tous les articles commencent en haut */
 }
 
+
 .article-card {
-  flex: 0 1 calc(33.333% - 20px); /* 3 articles par ligne, en comptant le gap */
-  max-width: 300px; /* Taille maximale pour chaque carte */
-  min-width: 250px; /* Taille minimale pour chaque carte */
-  height: 200px; /* Hauteur fixe */
+  flex: 0 1 calc(33.333% - 20px); /* Toujours 3 cartes par ligne */
+  max-width: 300px;
+  min-width: 250px;
   border: 1px solid #ddd;
   border-radius: 5px;
   padding: 10px;
@@ -78,25 +79,20 @@ button:hover {
   background-color: #f9f9f9;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Équilibre le contenu */
-  text-align: center; /* Centre le texte */
+  justify-content: flex-start; /* S'assure que tout commence en haut */
+  text-align: center;
+  height: auto; /* Ajuste la hauteur automatiquement en fonction du contenu */
 }
 
-.article-card h3 {
-  font-size: 1.2rem;
-  margin: 10px 0;
-  text-overflow: ellipsis; /* Gère les titres trop longs */
-  white-space: nowrap;
-  overflow: hidden;
-}
 
 .article-card p {
   font-size: 0.9rem;
   margin: 10px 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  max-height: 150px; /* Définit une hauteur maximale */
+  overflow-y: auto; /* Permet un défilement vertical pour les articles très longs */
+  line-height: 1.5; /* Améliore la lisibilité */
 }
+
 
 .add-btn, .delete-btn {
   background-color: #007bff;

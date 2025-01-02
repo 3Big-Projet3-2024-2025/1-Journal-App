@@ -199,9 +199,13 @@ localStorage.setItem("fromArticleDetail","ok")
   getArticleDetails(articleId: number): void {
     this.articleService.getArticleById(articleId).subscribe(
       (data: Article) => {
+        console.log()
         this.selectedArticle = data;
         this.isMapVisible = false;
         this.isDetailsVisible = true;
+        const idnewslettertosee = data.newsletter?.newsletterId?.toString() || '';
+        localStorage.setItem("seeidnewsletter", idnewslettertosee);
+        
   
         // Récupérer le titre de la newsletter
         this.getNewsletterTitle(articleId);

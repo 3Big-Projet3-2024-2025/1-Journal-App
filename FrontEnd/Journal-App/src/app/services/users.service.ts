@@ -78,7 +78,18 @@ export class UsersService {
         });
     }
 
-   
+   // Ajoute une demande RGPD pour un utilisateur
+addGdprRequest(userId: number, gdprRequest: string): Observable<any> {
+  const url = `${this.baseUrl}/${userId}/gdpr-requests/add`;
+  return this.http.patch(url, gdprRequest, { headers: this.getAuthHeaders() });
+}
+
+// Supprime une demande RGPD pour un utilisateur
+removeGdprRequest(userId: number, gdprRequest: string): Observable<any> {
+  const url = `${this.baseUrl}/${userId}/gdpr-requests/remove`;
+  return this.http.patch(url, gdprRequest, { headers: this.getAuthHeaders() });
+}
+
     
 
  
