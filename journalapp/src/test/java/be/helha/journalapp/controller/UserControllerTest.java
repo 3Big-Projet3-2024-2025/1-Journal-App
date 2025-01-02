@@ -5,6 +5,9 @@ import be.helha.journalapp.model.User;
 import be.helha.journalapp.repositories.RoleRepository;
 import be.helha.journalapp.repositories.UserRepository;
 import be.helha.journalapp.service.EmailService;
+import be.helha.journalapp.service.KeycloakAdminService;
+import be.helha.journalapp.service.RoleSynchronizationService;
+import be.helha.journalapp.service.UserService;
 import jakarta.mail.MessagingException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -52,7 +55,12 @@ class UserControllerTest {
      */
     @InjectMocks
     private UserController userController;
-
+    @Mock
+    private UserService userService;
+    @Mock
+    private KeycloakAdminService keycloakAdminService;
+    @Mock
+    private RoleSynchronizationService roleSynchronizationService;
     /**
      * Objet de test pour User.
      */
@@ -84,6 +92,7 @@ class UserControllerTest {
         testRole = new Role();
         testRole.setRoleId(1L);
         testRole.setRoleName("ADMIN");
+        testRole.setKeycloakRoleId("admin-keycloak-id");
 
         testUser = new User();
         testUser.setUserId(1L);
@@ -101,6 +110,40 @@ class UserControllerTest {
         // Configuration du SecurityContextHolder pour les tests impliquant la sécurité
         when(securityContext.getAuthentication()).thenReturn(authentication);
         SecurityContextHolder.setContext(securityContext);
+    }
+    // -------------------- Tests pour createUser --------------------
+    /**
+     * Test de la création réussie d'un utilisateur.
+     */
+    @Test
+    void createUser_Success() {
+        // Arrange
+        Map<String, Object> userDetails = Map.of("username", "john.doe", "firstName", "John", "lastName", "Doe", "email", "john.doe@example.com");
+        when(userService.createUser(userDetails)).thenReturn("john-keycloak-id");
+        // Act
+        ResponseEntity<String> response = userController.createUser(userDetails);
+
+        // Assert
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("Utilisateur créé avec l'ID: john-keycloak-id", response.getBody());
+        verify(userService).createUser(userDetails);
+    }
+    /**
+     * Test de la création echoué d'un utilisateur.
+     */
+    @Test
+    void createUser_Error() {
+        // Arrange
+        Map<String, Object> userDetails = Map.of("username", "john.doe", "firstName", "John", "lastName", "Doe", "email", "john.doe@example.com");
+        when(userService.createUser(userDetails)).thenThrow(new RuntimeException("Error creating user"));
+
+        // Act
+        ResponseEntity<String> response = userController.createUser(userDetails);
+
+        // Assert
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+        assertEquals("Erreur lors de la création de l'utilisateur: Error creating user", response.getBody());
+        verify(userService).createUser(userDetails);
     }
 
     // -------------------- Tests pour getAllUsers --------------------
@@ -166,16 +209,20 @@ class UserControllerTest {
     @Test
     void deleteUser_Success() {
         // Arrange
-        when(userRepository.existsById(1L)).thenReturn(true);
+        when(userRepository.findById(1L)).thenReturn(Optional.of(testUser));
+        doNothing().when(keycloakAdminService).deleteUserInKeycloak("john-keycloak-id");
         doNothing().when(userRepository).deleteById(1L);
 
         // Act
-        ResponseEntity<String> response = userController.deleteUser(1L);
+        ResponseEntity<?> response = userController.deleteUser(1L);
 
         // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("User deleted successfully", response.getBody());
+        assertEquals("User deleted successfully.", response.getBody());
+        verify(userRepository).findById(1L);
+        verify(keycloakAdminService).deleteUserInKeycloak("john-keycloak-id");
         verify(userRepository).deleteById(1L);
+
     }
 
     /**
@@ -184,70 +231,19 @@ class UserControllerTest {
     @Test
     void deleteUser_NotFound() {
         // Arrange
-        when(userRepository.existsById(999L)).thenReturn(false);
+        when(userRepository.findById(999L)).thenReturn(Optional.empty());
 
         // Act
-        ResponseEntity<String> response = userController.deleteUser(999L);
+        ResponseEntity<?> response = userController.deleteUser(999L);
 
         // Assert
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-        assertEquals("User not found", response.getBody());
+        assertEquals("User not found.", response.getBody());
+        verify(userRepository).findById(999L);
+        verify(keycloakAdminService, never()).deleteUserInKeycloak(anyString());
         verify(userRepository, never()).deleteById(anyLong());
     }
 
-    // -------------------- Tests pour forgotPassword --------------------
-    /**
-     * Test de l'envoi réussi d'un email de réinitialisation de mot de passe.
-     */
-    @Test
-    void forgotPassword_Success() throws MessagingException {
-        // Arrange
-        when(userRepository.findByEmail("john.doe@example.com")).thenReturn(Optional.of(testUser));
-        doNothing().when(emailService).sendEmail(anyString(), anyString(), anyString());
-
-        // Act
-        ResponseEntity<String> response = userController.forgotPassword("john.doe@example.com");
-
-        // Assert
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("Password reset email sent", response.getBody());
-        verify(emailService).sendEmail(eq("john.doe@example.com"), anyString(), anyString());
-    }
-
-    /**
-     * Test de l'envoi d'un email de réinitialisation de mot de passe à un utilisateur non existant.
-     */
-    @Test
-    void forgotPassword_UserNotFound() throws MessagingException {
-        // Arrange
-        when(userRepository.findByEmail("unknown@example.com")).thenReturn(Optional.empty());
-
-        // Act
-        ResponseEntity<String> response = userController.forgotPassword("unknown@example.com");
-
-        // Assert
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-        assertEquals("User with the specified email not found", response.getBody());
-        verify(emailService, never()).sendEmail(anyString(), anyString(), anyString());
-    }
-
-    /**
-     * Test de l'échec de l'envoi d'un email de réinitialisation de mot de passe.
-     */
-    @Test
-    void forgotPassword_EmailSendingFailed() throws MessagingException {
-        // Arrange
-        when(userRepository.findByEmail("john.doe@example.com")).thenReturn(Optional.of(testUser));
-        doThrow(new MessagingException("Failed to send email")).when(emailService).sendEmail(anyString(), anyString(), anyString());
-
-        // Act
-        ResponseEntity<String> response = userController.forgotPassword("john.doe@example.com");
-
-        // Assert
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-        assertEquals("Failed to send password reset email", response.getBody());
-        verify(emailService).sendEmail(eq("john.doe@example.com"), anyString(), anyString());
-    }
 
     // -------------------- Tests pour changeUserRole --------------------
     /**
@@ -259,6 +255,7 @@ class UserControllerTest {
         Role newRole = new Role();
         newRole.setRoleId(2L);
         newRole.setRoleName("USER");
+        newRole.setKeycloakRoleId("user-keycloak-id");
 
         when(userRepository.findById(1L)).thenReturn(Optional.of(testUser));
         when(roleRepository.findByRoleName("USER")).thenReturn(Optional.of(newRole));
@@ -439,4 +436,54 @@ class UserControllerTest {
         assertNull(response.getBody());
         verify(userRepository).findByKeycloakId("unknown-keycloak-id");
     }
+    @Test
+    void updateUser_Success() {
+        // Arrange
+        User userUpdates = new User();
+        userUpdates.setFirstName("UpdatedFirstName");
+        userUpdates.setLastName("UpdatedLastName");
+        userUpdates.setEmail("updated.john.doe@example.com");
+        userUpdates.setAuthorized(true);
+        userUpdates.setRoleChange(false);
+        Role newRole = new Role();
+        newRole.setRoleId(2L);
+        newRole.setRoleName("USER");
+        newRole.setKeycloakRoleId("user-keycloak-id");
+        userUpdates.setRole(newRole);
+
+        when(userRepository.findById(1L)).thenReturn(Optional.of(testUser));
+        when(roleRepository.findById(2L)).thenReturn(Optional.of(newRole));
+        doNothing().when(keycloakAdminService).updateUserInKeycloak(eq("john-keycloak-id"), anyMap());
+        when(userRepository.save(any(User.class))).thenReturn(testUser);
+
+
+        // Act
+        ResponseEntity<?> response = userController.updateUser(1L, userUpdates);
+
+        // Assert
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(Map.of("message", "User updated successfully."), response.getBody());
+
+        verify(userRepository).findById(1L);
+        verify(roleRepository).findById(2L);
+        verify(keycloakAdminService).updateUserInKeycloak(eq("john-keycloak-id"), anyMap());
+        verify(userRepository).save(any(User.class));
+    }
+    @Test
+    void updateUser_NotFound() {
+        // Arrange
+        User userUpdates = new User();
+        when(userRepository.findById(999L)).thenReturn(Optional.empty());
+
+        // Act
+        ResponseEntity<?> response = userController.updateUser(999L, userUpdates);
+
+        // Assert
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertEquals(Map.of("error", "User not found."),response.getBody());
+        verify(userRepository).findById(999L);
+        verify(keycloakAdminService, never()).updateUserInKeycloak(anyString(), anyMap());
+    }
+
+
 }

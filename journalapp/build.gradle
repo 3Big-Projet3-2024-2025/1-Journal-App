@@ -95,6 +95,16 @@ dependencies {
 
 	// Driver PostgreSQL
 	implementation 'org.postgresql:postgresql:42.7.4'
+	// Keycloak Admin Client
+	implementation 'org.keycloak:keycloak-admin-client:24.0.0'
+
+	// Jackson pour le traitement JSON (si nécessaire)
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
+
+	// Dépendances Keycloak SPI
+	compileOnly 'org.keycloak:keycloak-server-spi:24.0.0'
+	compileOnly 'org.keycloak:keycloak-server-spi-private:24.0.0'
+
 }
 
 

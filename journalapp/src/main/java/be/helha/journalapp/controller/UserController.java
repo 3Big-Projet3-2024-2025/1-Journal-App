@@ -7,6 +7,8 @@ import be.helha.journalapp.repositories.RoleRepository;
 import be.helha.journalapp.repositories.UserRepository;
 import be.helha.journalapp.service.EmailService;
 import be.helha.journalapp.service.KeycloakAdminService;
+import be.helha.journalapp.service.RoleSynchronizationService;
+import be.helha.journalapp.service.UserService;
 import jakarta.mail.MessagingException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,8 +33,10 @@ public class UserController {
     private final EmailService emailService;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final UserService userService;
 
     private final  KeycloakAdminService keycloakAdminService;
+    private final RoleSynchronizationService roleSynchronizationService;
 
     /**
      * Constructor for UserController, injecting dependencies.
@@ -40,13 +44,26 @@ public class UserController {
      * @param userRepository The repository for accessing user data.
      * @param roleRepository The repository for accessing role data.
      */
-    public UserController( EmailService emailService, UserRepository userRepository, RoleRepository roleRepository,KeycloakAdminService keycloakAdminService) {
+    public UserController( EmailService emailService, UserRepository userRepository, RoleRepository roleRepository,
+                           KeycloakAdminService keycloakAdminService , RoleSynchronizationService roleSynchronizationService,UserService userService) {
         this.emailService = emailService;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.keycloakAdminService = keycloakAdminService;
+        this.roleSynchronizationService = roleSynchronizationService;
+        this.userService = userService;
     }
 
+    @PostMapping("/create")
+    public ResponseEntity<String> createUser(@RequestBody Map<String, Object> userDetails) {
+        try {
+            String userId = userService.createUser(userDetails);
+            return ResponseEntity.ok("Utilisateur créé avec l'ID: " + userId);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erreur lors de la création de l'utilisateur: " + e.getMessage());
+        }
+    }
 
 
     /**
@@ -99,63 +116,6 @@ public class UserController {
 
 
 
-    /**
-     * Sends a password reset email to the user with the specified email address.
-     * Generates a reset token, constructs the reset link, and sends the email with reset instructions.
-     *
-   
-     * @return A ResponseEntity with a success message if the email is sent or an error message and a corresponding HTTP status.
-     */
-  /*  @PostMapping("/forgot-password")
-    public ResponseEntity<String> forgotPassword(@RequestParam String email) {
-        return userRepository.findByEmail(email)
-                .map(user -> {
-                    try {
-                        String resetToken = "reset-token-" + user.getUserId(); // Generate a token
-                        String resetLink = "http://localhost:3306/reset-password?token=" + resetToken; // frontend url
-                        String subject = "Password Reset Request";
-                        String content = "<p>Hello " + user.getFirstName() + ",</p>"
-                                + "<p>You requested a password reset. Click the link below to reset your password:</p>"
-                                + "<p><a href=\"" + resetLink + "\">Reset Password</a></p>"
-                                + "<p>If you did not request this, please ignore this email.</p>";
-
-                        emailService.sendEmail(user.getEmail(), subject, content);
-                        return ResponseEntity.ok("Password reset email sent");
-                    } catch (MessagingException e) {
-                        e.printStackTrace();
-                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                .body("Failed to send password reset email");
-                    }
-                })
-                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with the specified email not found"));
-    }*/
-
-    @PostMapping
-    public ResponseEntity<?> addUser(@RequestBody User newUser) {
-        // Prépare les détails pour Keycloak
-        Map<String, Object> keycloakUserDetails = Map.of(
-                "username", newUser.getEmail(),
-                "firstName", newUser.getFirstName(),
-                "lastName", newUser.getLastName(),
-                "email", newUser.getEmail(),
-                "enabled", true,
-                "credentials", List.of(Map.of(
-                        "type", "password",
-                        "value", "temporaryPassword",
-                        "temporary", true
-                ))
-        );
-
-        // Créer l'utilisateur dans Keycloak
-        String keycloakId = keycloakAdminService.addUserToKeycloak(keycloakUserDetails);
-
-        // Ajouter l'utilisateur dans la base locale
-        newUser.setKeycloakId(keycloakId);
-        User savedUser = userRepository.save(newUser);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
-    }
-
 
     /**
      * Changes the role of a user by their ID.
@@ -196,27 +156,62 @@ public class UserController {
     }
 
 
+    /**
+     * Updates an existing user's information.
+     */
     @PatchMapping("/{id}/update")
-    public ResponseEntity<?> updateUser(
-            @PathVariable Long id,
-            @RequestBody User userUpdates
-    ) {
-        Optional<User> existingUser = userRepository.findById(id);
-        if (existingUser.isPresent()) {
-            User user = existingUser.get();
+    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody User userUpdates) {
+       //log.info("Updating user with ID: {}", id);
+       // log.info("User updates received: {}", userUpdates);
+
+        Optional<User> existingUserOpt = userRepository.findById(id);
+        if (existingUserOpt.isPresent()) {
+            User user = existingUserOpt.get();
+
+            // Mise à jour des informations dans Keycloak
             keycloakAdminService.updateUserInKeycloak(user.getKeycloakId(), Map.of(
                     "firstName", userUpdates.getFirstName(),
                     "lastName", userUpdates.getLastName(),
                     "email", userUpdates.getEmail()
             ));
+          //  log.info("User updated in Keycloak");
+
+            // Vérification de l'ID du rôle
+            if (userUpdates.getRole() == null || userUpdates.getRole().getRoleId() == null) {
+             //   log.error("Role ID is null");
+                return ResponseEntity.badRequest().body(Map.of("error", "Role ID must not be null"));
+            }
+
+            // Charger le rôle depuis la base de données locale
+            Role role = roleRepository.findById(userUpdates.getRole().getRoleId())
+                    .orElseThrow(() -> new RuntimeException("Role not found"));
+          //  log.info("Role found: {}", role);
+
+            // Mise à jour des informations locales
             user.setFirstName(userUpdates.getFirstName());
             user.setLastName(userUpdates.getLastName());
             user.setEmail(userUpdates.getEmail());
+            user.setAuthorized(userUpdates.isAuthorized());
+            user.setRoleChange(userUpdates.isRoleChange());
+            user.setRole(role);
             userRepository.save(user);
-            return ResponseEntity.ok("User updated successfully.");
+         //   log.info("User updated locally");
+
+            // Assigner le rôle dans Keycloak en utilisant keycloakRoleId
+            keycloakAdminService.assignRolesToUser(
+                    user.getKeycloakId(),
+                    List.of(role)
+            );
+          //  log.info("Role assigned in Keycloak");
+
+            return ResponseEntity.ok(Map.of("message", "User updated successfully."));
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
+
+      //  log.error("User not found with ID: {}", id);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", "User not found."));
     }
+
+
 
 
 
