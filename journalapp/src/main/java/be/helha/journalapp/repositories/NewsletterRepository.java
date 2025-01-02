@@ -1,6 +1,7 @@
 package be.helha.journalapp.repositories;
 
 import be.helha.journalapp.model.Newsletter;
+import be.helha.journalapp.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -34,4 +35,6 @@ public interface NewsletterRepository extends JpaRepository<Newsletter, Long> {
      */
     @Query("SELECT n FROM Newsletter n JOIN n.journalists j WHERE j.userId = :userId")
     List<Newsletter> findByJournalistUserId(@Param("userId") Long userId);
+    List<Newsletter> findByCreator(User creator);
+
 }

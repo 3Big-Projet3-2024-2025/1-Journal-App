@@ -20,7 +20,7 @@ export class NavbarComponent implements OnInit {
   private roleHierarchy: string[] = ['ADMIN', 'EDITOR', 'JOURNALIST', 'READER'];
   useridbykey: number | undefined;
   useridtransformed: string | undefined; 
-  newsletterId: number = 12; 
+
 
   constructor(
     private authService: AuthService,

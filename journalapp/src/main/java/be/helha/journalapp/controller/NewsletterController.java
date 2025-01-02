@@ -410,4 +410,13 @@ public class NewsletterController {
 
         return ResponseEntity.ok(Map.of("message", "Article successfully removed from the newsletter."));
     }
+    @GetMapping("/by-editor-email/{email}")
+    public ResponseEntity<List<Newsletter>> getNewslettersByEditorEmail(@PathVariable String email) {
+        User editor = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Éditeur non trouvé avec cet email : " + email));
+
+        List<Newsletter> newsletters = newsletterRepository.findByCreator(editor);
+        return ResponseEntity.ok(newsletters);
+    }
+
 }

@@ -3,6 +3,7 @@ import { Newsletter } from '../models/newsletter';
 import { User } from '../models/user';
 import { ManageNewsletterService } from '../services/manage-newsletter.service';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-manage-journalist',
@@ -12,65 +13,134 @@ import { ActivatedRoute } from '@angular/router';
 export class ManageJournalistComponent implements OnInit {
 
   titretable: string = 'journalists'; 
-  newsletterId:number = NaN;
+  newsletterId: number = NaN;
+  newsletters: Newsletter[] = []; // Liste des newsletters
+  selectedNewsletterId: number | null = null; // Newsletter sélectionnée
   journalists: User[] = [];
-  journalistIdToAdd: number | null = null;
+  journalistEmailToAdd: string | null = null;
 
-
-
-  constructor(private route: ActivatedRoute, private manageNewsletterService: ManageNewsletterService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private manageNewsletterService: ManageNewsletterService,
+    private authService: AuthService
+  ) {}
   
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      this.newsletterId = +params['newsletterId']; // Convertir en nombre
-      this.loadJournalists();
-    });
+    this.loadEditorNewsletters(); 
+  }
+  
+  // Charger les newsletters créées par l'éditeur connecté
+  async loadEditorNewsletters(): Promise<void> {
+    try {
+      const editorEmail = await this.authService.getUserEmail(); // Attendre que l'email soit récupéré
+  
+      if (!editorEmail) {
+        console.error('Email de l\'éditeur non disponible');
+        return;
+      }
+  
+      this.manageNewsletterService.getNewslettersByEditorEmail(editorEmail).subscribe(
+        (newsletters: Newsletter[]) => {
+          this.newsletters = newsletters;
+          if (this.newsletters.length > 0) {
+            this.selectedNewsletterId = this.newsletters[0].newsletterId; // Sélectionner la première newsletter
+            this.loadJournalists(this.selectedNewsletterId); // Charger les journalistes associés
+          }
+        },
+        (error) => {
+          console.error('Erreur lors du chargement des newsletters:', error);
+        }
+      );
+    } catch (error) {
+      console.error('Erreur lors de la récupération de l\'email de l\'éditeur :', error);
+    }
   }
   
 
-  // Charge la liste des journalistes pour la newsletter donnée
-  loadJournalists(): void {
-    this.manageNewsletterService.getnewsletterById(this.newsletterId).subscribe(
+
+  // Charger toutes les newsletters disponibles
+  loadNewsletters(): void {
+    this.manageNewsletterService.GetALlnewsletter().subscribe(
+      (newsletters: Newsletter[]) => {
+        this.newsletters = newsletters;
+        if (this.newsletters.length > 0) {
+          this.selectedNewsletterId = this.newsletters[0].newsletterId; // Sélectionner la première newsletter
+          this.loadJournalists(this.selectedNewsletterId); // Charger les journalistes associés
+        }
+      },
+      (error) => {
+        console.error('Erreur lors du chargement des newsletters:', error);
+      }
+    );
+  }
+
+  // Charger les journalistes associés à une newsletter donnée
+  loadJournalists(newsletterId: number): void {
+    this.manageNewsletterService.getnewsletterById(newsletterId).subscribe(
       (newsletter: Newsletter) => {
         this.journalists = newsletter.journalists || [];
       },
       (error) => {
-        console.error('Error loading newsletter:', error);
+        console.error('Erreur lors du chargement des journalistes:', error);
       }
     );
   }
 
-  journalistEmailToAdd: string | null = null;
+// Ajouter un journaliste à une newsletter
+addJournalist(): void {
+  if (!this.journalistEmailToAdd || !this.selectedNewsletterId) {
+    console.error('Email ou newsletter non sélectionnée');
+    return;
+  }
 
-  // Ajoute un journaliste à la newsletter
-  addJournalist(): void {
-    if (!this.journalistEmailToAdd) {
-      console.error('No journalist email provided');
-      return;
+  this.manageNewsletterService.addJournalistToNewsletterByEmail(
+    this.selectedNewsletterId,
+    this.journalistEmailToAdd
+  ).subscribe(
+    (updatedNewsletter: Newsletter) => {
+      // Recharger les journalistes après ajout
+      this.loadJournalists(this.selectedNewsletterId!);
+      this.journalistEmailToAdd = null; // Réinitialiser le champ d'email
+    },
+    (error) => {
+      console.error('Erreur lors de l\'ajout du journaliste:', error);
     }
-  
-    this.manageNewsletterService.addJournalistToNewsletterByEmail(this.newsletterId, this.journalistEmailToAdd).subscribe(
-      (updatedNewsletter: Newsletter) => {
-        this.journalists = updatedNewsletter.journalists || [];
-        this.journalistEmailToAdd = null; // Reset du champ
-      },
-      (error) => {
-        console.error('Error adding journalist:', error);
-      }
-    );
-  }
-  
+  );
+}
 
-  // Supprime un journaliste de la newsletter
-  removeJournalist(userId: number): void {
-    this.manageNewsletterService.removeJournalistFromNewsletter(this.newsletterId, userId).subscribe(
-      (updatedNewsletter: Newsletter) => {
-        this.journalists = updatedNewsletter.journalists || [];
-      },
-      (error) => {
-        console.error('Error removing journalist:', error);
-      }
-    );
+// Supprimer un journaliste de la newsletter
+removeJournalist(userId: number): void {
+  if (!this.selectedNewsletterId) {
+    console.error('Newsletter non sélectionnée');
+    return;
   }
 
+  const confirmDelete = confirm('Êtes-vous sûr de vouloir supprimer ce journaliste de la newsletter ?');
+  if (confirmDelete) {
+    this.manageNewsletterService.removeJournalistFromNewsletter(
+      this.selectedNewsletterId,
+      userId
+    ).subscribe(
+      (updatedNewsletter: Newsletter) => {
+        // Recharger les journalistes après suppression
+        this.loadJournalists(this.selectedNewsletterId!);
+        alert('Le journaliste a été supprimé avec succès.');
+      },
+      (error) => {
+        console.error('Erreur lors de la suppression du journaliste:', error);
+        alert('Une erreur est survenue lors de la suppression.');
+      }
+    );
+  } else {
+    console.log('Suppression annulée par l\'utilisateur.');
+  }
+}
+
+
+  // Gérer le changement de newsletter
+  onNewsletterChange(): void {
+    if (this.selectedNewsletterId) {
+      this.loadJournalists(this.selectedNewsletterId);
+    }
+  }
 }

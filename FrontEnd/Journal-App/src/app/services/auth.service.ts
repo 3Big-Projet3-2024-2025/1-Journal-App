@@ -81,5 +81,14 @@ export class AuthService {
     return realmAccess ? realmAccess.roles : [];
     
   }
+  getUserEmail(): Promise<string | null> {
+    return this.keycloakService.loadUserProfile().then(profile => {
+      return profile.email || null;
+    }).catch(error => {
+      console.error('Erreur lors de la récupération de l\'email utilisateur:', error);
+      return null;
+    });
+  }
+  
   
 }

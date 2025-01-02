@@ -1,7 +1,39 @@
-<!-- Section Journalists -->
-<div>
-    <h3>Journalists</h3>
-    <table class="table table-striped" *ngIf="journalists.length > 0; else noJournalists">
+<div class="container mt-4">
+  <h2>Manage Journalists</h2>
+
+  <!-- Ajouter un journaliste -->
+  <div class="mb-4">
+    <label for="journalistEmail" class="form-label fw-bold">Add Journalist:</label>
+    <div class="input-group">
+      <input
+        type="email"
+        id="journalistEmail"
+        class="form-control"
+        [(ngModel)]="journalistEmailToAdd"
+        placeholder="Enter journalist email"
+      />
+      <button class="btn btn-primary" (click)="addJournalist()">Add</button>
+    </div>
+  </div>
+
+  <!-- Sélecteur de newsletters -->
+  <div class="mb-4">
+    <label for="newsletterSelect" class="form-label fw-bold">Select Newsletter:</label>
+    <select
+      id="newsletterSelect"
+      class="form-select"
+      [(ngModel)]="selectedNewsletterId"
+      (change)="onNewsletterChange()"
+    >
+      <option *ngFor="let newsletter of newsletters" [value]="newsletter.newsletterId">
+        {{ newsletter.title }}
+      </option>
+    </select>
+  </div>
+
+  <!-- Liste des journalistes -->
+  <div class="table-responsive">
+    <table class="table">
       <thead>
         <tr>
           <th>#</th>
@@ -16,31 +48,12 @@
           <td>{{ journalist.firstName }}</td>
           <td>{{ journalist.email }}</td>
           <td>
-            <button
-              class="btn btn-danger btn-sm"
-              (click)="removeJournalist(journalist.userId)"
-            >
+            <button class="btn btn-danger btn-sm" (click)="removeJournalist(journalist.userId)">
               Remove
             </button>
           </td>
         </tr>
       </tbody>
-      
     </table>
-    <ng-template #noJournalists>
-      <p>No journalists found.</p>
-    </ng-template>
-  
-<!-- Ajouter un journaliste -->
-<div class="add-journalist-section">
-  <h4>Add Journalist</h4>
-  <input
-    type="email"
-    [(ngModel)]="journalistEmailToAdd"
-    placeholder="Enter journalist email"
-  />
-  <button class="btn btn-success btn-sm" (click)="addJournalist()">Add</button>
-</div>
-
   </div>
-  
+</div>

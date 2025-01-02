@@ -85,5 +85,12 @@ addJournalistToNewsletterByEmail(newsletterId: number, email: string): Observabl
   const url = `${this.apiUrl}/${newsletterId}/addJournalistByEmail`;
   return this.http.post<Newsletter>(url, { email });
 }
+// Récupérer les newsletters créées par un éditeur via son email
+getNewslettersByEditorEmail(email: string): Observable<Newsletter[]> {
+  const url = `${this.apiUrl}/by-editor-email/${email}`;
+  return this.http.get<Newsletter[]>(url);
+}
+
+
 
 }

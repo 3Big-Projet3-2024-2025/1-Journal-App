@@ -1,0 +1,90 @@
+/* Conteneur principal */
+.container {
+    background-color: #ffffff; /* Fond blanc */
+    color: #333; /* Couleur du texte */
+    border-radius: 10px; /* Coins arrondis */
+    padding: 20px; /* Espacement interne */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombre */
+    margin-top: 20px; /* Espacement avec le haut */
+  }
+  
+  /* Titre principal */
+  h2 {
+    color: #1e3c72; /* Bleu principal */
+    text-align: center; /* Centré */
+    font-size: 2rem; /* Taille du texte */
+    margin-bottom: 20px; /* Espacement en bas */
+  }
+  
+  /* Bouton Ajouter */
+  button.btn-primary {
+    background-color: #1e3c72; /* Bleu principal */
+    color: #ffffff; /* Texte blanc */
+    border: none; /* Pas de bordure */
+    padding: 10px 20px; /* Espacement interne */
+    border-radius: 5px; /* Coins arrondis */
+    cursor: pointer; /* Curseur pointeur */
+    font-size: 1rem; /* Taille de la police */
+  }
+  
+  button.btn-primary:hover {
+    background-color: #164b8a; /* Bleu plus foncé au survol */
+  }
+  
+  /* Table */
+  .table {
+    border-radius: 10px; /* Coins arrondis */
+    overflow: hidden; /* Pas de débordement */
+    background-color: #ffffff; /* Fond blanc */
+    color: #333; /* Texte sombre */
+    width: 100%; /* Largeur totale */
+    border-collapse: collapse; /* Fusion des bordures */
+  }
+  
+  /* En-têtes du tableau */
+  .table th {
+    background-color: #1e3c72; /* Bleu principal */
+    color: #ffffff; /* Texte blanc */
+    padding: 15px; /* Espacement interne */
+    text-align: center; /* Centrage du texte */
+    font-weight: bold; /* Texte en gras */
+    text-transform: uppercase; /* Texte en majuscules */
+  }
+  
+  /* Cellules du tableau */
+  .table td {
+    padding: 15px; /* Espacement interne */
+    text-align: center; /* Centrage du texte */
+    border-top: 1px solid #ddd; /* Ligne de séparation grise */
+    font-size: 0.9rem; /* Taille de la police */
+  }
+  
+  /* Lignes alternées */
+  .table tbody tr:nth-of-type(odd) {
+    background-color: #f9f9f9; /* Gris clair */
+  }
+  
+  .table tbody tr:nth-of-type(even) {
+    background-color: #ffffff; /* Fond blanc */
+  }
+  
+  /* Survol des lignes */
+  .table tbody tr:hover {
+    background-color: #e6f7ff; /* Bleu clair au survol */
+  }
+  
+  /* Boutons d'action */
+  button.btn-danger {
+    background-color: #d9534f; /* Rouge principal */
+    color: #ffffff; /* Texte blanc */
+    border: none; /* Pas de bordure */
+    padding: 5px 15px; /* Espacement interne */
+    border-radius: 5px; /* Coins arrondis */
+    cursor: pointer; /* Curseur pointeur */
+    font-size: 0.9rem; /* Taille de la police */
+  }
+  
+  button.btn-danger:hover {
+    background-color: #c9302c; /* Rouge plus foncé au survol */
+  }
+  
