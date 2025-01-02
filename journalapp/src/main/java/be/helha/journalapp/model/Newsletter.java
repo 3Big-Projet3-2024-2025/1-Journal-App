@@ -126,5 +126,6 @@ public class Newsletter {
             joinColumns = @JoinColumn(name = "newsletter_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
+
     private List<User> journalists;
 }

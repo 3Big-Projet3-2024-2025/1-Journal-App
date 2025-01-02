@@ -17,6 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -257,8 +258,40 @@ public class UserController {
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
+    /**
+     * Adds a GDPR request to a user's list.
+     *
+     * @param id The ID of the user.
+     * @param gdprRequest The GDPR request to add.
+     * @return A ResponseEntity containing the updated User object or an error message.
+     */
+    @PatchMapping("/{id}/gdpr-requests/add")
+    public ResponseEntity<User> addGdprRequest(@PathVariable Long id, @RequestBody String gdprRequest) {
+        return userRepository.findById(id)
+                .map(user -> {
+                    if (user.getGdprRequests() == null) {
+                        user.setGdprRequests(new ArrayList<>());
+                    }
+                    user.getGdprRequests().add(gdprRequest);
+                    userRepository.save(user);
+                    return ResponseEntity.ok(user); // Retour explicite d'un ResponseEntity<User>
+                })
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
 
 
+    @PatchMapping("/{id}/gdpr-requests/remove")
+    public ResponseEntity<User> removeGdprRequest(@PathVariable Long id, @RequestBody String gdprRequest) {
+        return userRepository.findById(id)
+                .map(user -> {
+                    if (user.getGdprRequests() != null && user.getGdprRequests().remove(gdprRequest)) {
+                        userRepository.save(user);
+                        return ResponseEntity.ok(user); // Retour explicite d'un ResponseEntity<User>
+                    }
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(user); // Assurez-vous de retourner User ou null
+                })
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
 
 
 
