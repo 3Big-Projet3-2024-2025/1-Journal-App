@@ -18,6 +18,7 @@ export class AuthComponent {
       if (this.isAuthenticated) {
         this.authService.getUserProfile().then(profile => {
           console.log('Utilisateur connecté:', profile);
+          
         });
       }
     }).catch(error => {

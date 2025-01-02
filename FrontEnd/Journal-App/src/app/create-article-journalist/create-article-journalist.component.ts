@@ -94,13 +94,17 @@ export class CreateArticleJournalistComponent implements OnInit {
 
   getUserId(): Promise<void> {
     return new Promise((resolve, reject) => {
+      
       const keycloakId = this.keycloakService.getKeycloakInstance().tokenParsed?.sub;
+      console.log('Keycloak ID:', keycloakId);
+      
       if (!keycloakId) {
         reject('Aucun ID Keycloak trouvé');
         return;
       }
       this.userService.getUserByKeycloakId(keycloakId).subscribe(
         (user) => {
+          console.log('Utilisateur récupéré:', user);
           this.articleToAdd.user_id = user.userId;
           resolve();
         },

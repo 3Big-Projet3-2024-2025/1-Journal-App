@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Newsletter } from '../models/newsletter';
 import { User } from '../models/user';
 import { ManageNewsletterService } from '../services/manage-newsletter.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-manage-journalist',
@@ -11,15 +12,21 @@ import { ManageNewsletterService } from '../services/manage-newsletter.service';
 export class ManageJournalistComponent implements OnInit {
 
   titretable: string = 'journalists'; 
-  newsletterId: number = 1; // L'ID de la newsletter à gérer (à adapter selon votre logique)
+  newsletterId:number = NaN;
   journalists: User[] = [];
   journalistIdToAdd: number | null = null;
 
-  constructor(private manageNewsletterService: ManageNewsletterService) {}
 
+
+  constructor(private route: ActivatedRoute, private manageNewsletterService: ManageNewsletterService) {}
+  
   ngOnInit(): void {
-    this.loadJournalists();
+    this.route.params.subscribe(params => {
+      this.newsletterId = +params['newsletterId']; // Convertir en nombre
+      this.loadJournalists();
+    });
   }
+  
 
   // Charge la liste des journalistes pour la newsletter donnée
   loadJournalists(): void {
@@ -33,23 +40,26 @@ export class ManageJournalistComponent implements OnInit {
     );
   }
 
+  journalistEmailToAdd: string | null = null;
+
   // Ajoute un journaliste à la newsletter
   addJournalist(): void {
-    if (!this.journalistIdToAdd) {
-      console.error('No journalist ID provided');
+    if (!this.journalistEmailToAdd) {
+      console.error('No journalist email provided');
       return;
     }
-
-    this.manageNewsletterService.addJournalistToNewsletter(this.newsletterId, this.journalistIdToAdd).subscribe(
+  
+    this.manageNewsletterService.addJournalistToNewsletterByEmail(this.newsletterId, this.journalistEmailToAdd).subscribe(
       (updatedNewsletter: Newsletter) => {
         this.journalists = updatedNewsletter.journalists || [];
-        this.journalistIdToAdd = null; // Reset du champ
+        this.journalistEmailToAdd = null; // Reset du champ
       },
       (error) => {
         console.error('Error adding journalist:', error);
       }
     );
   }
+  
 
   // Supprime un journaliste de la newsletter
   removeJournalist(userId: number): void {

@@ -80,4 +80,10 @@ export class ManageNewsletterService {
     const url = `${this.apiUrl}/${newsletterId}/articles`;
     return this.http.get<any[]>(url);
   }
+  // Ajouter un journaliste à une newsletter via email
+addJournalistToNewsletterByEmail(newsletterId: number, email: string): Observable<Newsletter> {
+  const url = `${this.apiUrl}/${newsletterId}/addJournalistByEmail`;
+  return this.http.post<Newsletter>(url, { email });
+}
+
 }

@@ -29,7 +29,7 @@ const routes: Routes = [
     data: { roles: ["ADMIN","EDITOR", "JOURNALIST"] },
   },
   {
-    path: 'managejournalist',
+    path: 'manage-journalist/:newsletterId',
     component: ManageJournalistComponent,
     canActivate: [RoleGuard],
     data: { roles: ["ADMIN","EDITOR"] },

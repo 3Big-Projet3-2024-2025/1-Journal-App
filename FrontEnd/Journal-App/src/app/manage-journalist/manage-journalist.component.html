@@ -6,13 +6,15 @@
         <tr>
           <th>#</th>
           <th>Journalist Name</th>
+          <th>Email</th>
           <th>Actions</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let journalist of journalists; let i = index">
           <td>{{ i + 1 }}</td>
-          <td>{{ journalist.firstName}}</td>
+          <td>{{ journalist.firstName }}</td>
+          <td>{{ journalist.email }}</td>
           <td>
             <button
               class="btn btn-danger btn-sm"
@@ -23,20 +25,22 @@
           </td>
         </tr>
       </tbody>
+      
     </table>
     <ng-template #noJournalists>
       <p>No journalists found.</p>
     </ng-template>
   
-    <!-- Ajouter un journaliste -->
-    <div class="add-journalist-section">
-      <h4>Add Journalist</h4>
-      <input
-        type="number"
-        [(ngModel)]="journalistIdToAdd"
-        placeholder="Enter journalist userId"
-      />
-      <button class="btn btn-success btn-sm" (click)="addJournalist()">Add</button>
-    </div>
+<!-- Ajouter un journaliste -->
+<div class="add-journalist-section">
+  <h4>Add Journalist</h4>
+  <input
+    type="email"
+    [(ngModel)]="journalistEmailToAdd"
+    placeholder="Enter journalist email"
+  />
+  <button class="btn btn-success btn-sm" (click)="addJournalist()">Add</button>
+</div>
+
   </div>
   

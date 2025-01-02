@@ -77,7 +77,9 @@ export class AuthService {
   getRoles(): string[] {
     const token = this.keycloakService.getKeycloakInstance().tokenParsed;
     const realmAccess = token?.realm_access;
+    console.log('Roles utilisateur:', realmAccess?.roles);
     return realmAccess ? realmAccess.roles : [];
+    
   }
   
 }
