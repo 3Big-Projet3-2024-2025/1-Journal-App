@@ -109,87 +109,80 @@ export class ManageNewsletterFormComponent implements OnInit {
 
   onSubmit(): void {
     if (!this.isFormValid()) {
-      return;
+        return;
     }
 
     const newsletter: Newsletter = {
-      newsletterId: this.newsletterId || 0,  // Si l'ID est défini, on met à jour, sinon on crée
-      title: this.formData.title,
-      subtitle: this.formData.subtitle,
-      publicationDate: new Date(),
-      creator: this.useridbykey || 0,
-      backgroundColor: this.formData.backgroundColor,
-      titleFont: this.formData.titleFont,
-      titleFontSize: this.formData.titleFontSize,
-      titleColor: this.formData.titleColor,
-      titleBold: this.formData.titleBold,
-      titleUnderline: this.formData.titleUnderline,
-      subtitleFont: this.formData.subtitleFont,
-      subtitleFontSize: this.formData.subtitleFontSize,
-      subtitleColor: this.formData.subtitleColor,
-      subtitleBold: this.formData.subtitleBold,
-      subtitleItalic: this.formData.subtitleItalic,
-      textAlign: this.formData.textAlign,
-      journalists: this.formData.journalists // On envoie la liste de journalistes avec la newsletter
-    };
-
-    // Pour la mise à jour, certains champs comme le creator ne sont pas requis si déjà existant,
-    // mais ce n'est pas un problème de les renvoyer.
-    const putnewsletter: Newsletter = {
-      newsletterId: this.newsletterId || 0,
-      title: this.formData.title,
-      subtitle: this.formData.subtitle,
-      publicationDate: new Date(),
-      backgroundColor: this.formData.backgroundColor,
-      titleFont: this.formData.titleFont,
-      titleFontSize: this.formData.titleFontSize,
-      titleColor: this.formData.titleColor,
-      titleBold: this.formData.titleBold,
-      titleUnderline: this.formData.titleUnderline,
-      subtitleFont: this.formData.subtitleFont,
-      subtitleFontSize: this.formData.subtitleFontSize,
-      subtitleColor: this.formData.subtitleColor,
-      subtitleBold: this.formData.subtitleBold,
-      subtitleItalic: this.formData.subtitleItalic,
-      textAlign: this.formData.textAlign,
-      // Pas besoin de re-spécifier les journalistes ici si c'est une mise à jour partielle.
-      // Cependant, si l'API REST les attend, vous pouvez les remettre.
-      journalists: this.formData.journalists
+        newsletterId: this.newsletterId || 0,
+        title: this.formData.title,
+        subtitle: this.formData.subtitle,
+        publicationDate: new Date(),
+        creator: this.useridbykey || 0, // Créateur
+        backgroundColor: this.formData.backgroundColor,
+        titleFont: this.formData.titleFont,
+        titleFontSize: this.formData.titleFontSize,
+        titleColor: this.formData.titleColor,
+        titleBold: this.formData.titleBold,
+        titleUnderline: this.formData.titleUnderline,
+        subtitleFont: this.formData.subtitleFont,
+        subtitleFontSize: this.formData.subtitleFontSize,
+        subtitleColor: this.formData.subtitleColor,
+        subtitleBold: this.formData.subtitleBold,
+        subtitleItalic: this.formData.subtitleItalic,
+        textAlign: this.formData.textAlign,
+        journalists: this.formData.journalists // Les journalistes existants
     };
 
     if (this.newsletterId) {
-      // Mise à jour de la newsletter
-      this.manageNewsletterService.Updatenewsletter(this.newsletterId, putnewsletter).subscribe({
-        next: (value) => {
-          console.log('Newsletter successfully updated', value);
-         
-          this.successMessage = "Newsletter successfully updated !";
-          setTimeout(() => {
-            this.router.navigate(['crud/article']); // Remplace '/articles' par la route souhaitée
-          }, 2000);
-        },
-        error: (err) => {
-          console.error('Error while updating the newsletter', err);
-          alert('Error while updating the newsletter.');
-        }
-      });
+        // Mise à jour de la newsletter
+        this.manageNewsletterService.Updatenewsletter(this.newsletterId, newsletter).subscribe({
+            next: (value) => {
+                console.log('Newsletter successfully updated', value);
+                this.successMessage = "Newsletter successfully updated!";
+                setTimeout(() => {
+                    this.router.navigate(['crud/article']);
+                }, 2000);
+            },
+            error: (err) => {
+                console.error('Error while updating the newsletter', err);
+                alert('Error while updating the newsletter.');
+            }
+        });
     } else {
-      // Création d'une nouvelle newsletter
-      this.manageNewsletterService.Addnewsletter(newsletter).subscribe({
-        next: (value) => {
-          console.log('Newsletter successfully added', value);
-          this.successMessage = "Newsletter successfully created";
-          setTimeout(() => {
-            this.router.navigate(['crud/article']); // Remplace '/articles' par la route souhaitée
-          }, 2000);
-        },
-        error: (err) => {
-          console.error('Error while adding the newsletter', err);
-          alert('Error while adding the newsletter.');
-        }
-      });
+        // Création d'une nouvelle newsletter
+        this.manageNewsletterService.Addnewsletter(newsletter).subscribe({
+            next: (newNewsletter) => {
+                console.log('Newsletter successfully added', newNewsletter);
+                this.addCreatorAsJournalist(newNewsletter.newsletterId);
+                this.successMessage = "Newsletter successfully created";
+                setTimeout(() => {
+                    this.router.navigate(['crud/article']);
+                }, 2000);
+            },
+            error: (err) => {
+                console.error('Error while adding the newsletter', err);
+                alert('Error while adding the newsletter.');
+            }
+        });
     }
+}
+
+private addCreatorAsJournalist(newsletterId: number): void {
+  if (!this.useridbykey) {
+      console.error('User ID (creator) is missing');
+      return;
   }
+
+  this.manageNewsletterService.addJournalistToNewsletter(newsletterId, this.useridbykey).subscribe({
+      next: () => {
+          console.log(`Creator (User ID: ${this.useridbykey}) added as journalist to newsletter (ID: ${newsletterId})`);
+      },
+      error: (err) => {
+          console.error('Error while adding the creator as journalist:', err);
+      }
+  });
+}
+
 
   deleteNewsletter(newsletterId: number): void {
     if (confirm('Are you sure you want to delete this newsletter?')) {
