@@ -1,91 +1,129 @@
 <h3>Manage Users</h3>
 
-<table class="table table-striped" *ngIf="users.length > 0; else noUsers">
-  <thead>
-    <tr>
-      <th>#</th>
-      <th>First Name</th>
-      <th>Last Name</th>
-      <th>Email</th>
-      <th>Role</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let user of users; let i = index">
-      <td>{{ i + 1 }}</td>
-      <td>{{ user.firstName }}</td>
-      <td>{{ user.lastName }}</td>
-      <td>{{ user.email }}</td>
-      <td>{{ user.role.roleName }}</td>
-      <td>
-        <button class="btn btn-warning btn-sm" (click)="editUser(user)">
-          Edit
-        </button>
-        <button
-          class="btn btn-danger btn-sm"
-          (click)="deleteUser(user.userId)"
-        >
-          Delete
-        </button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div >
+    <table class="table table-striped" *ngIf="users.length > 0; else noUsers">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ user.firstName }}</td>
+            <td>{{ user.lastName }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.role.roleName }}</td>
+            <td>
+              <button class="btn btn-warning btn-sm" (click)="editUser(user)">
+                Edit
+              </button>
+              <button
+                class="btn btn-danger btn-sm"
+                (click)="deleteUser(user.userId)"
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+</div>
 <ng-template #noUsers>
   <p>No users available.</p>
 </ng-template>
 
 <!-- Formulaire d'édition -->
 <div class="form-container" *ngIf="selectedUser">
-  <h1>Update User</h1>
-  <form (ngSubmit)="updateUser()">
-    <div>
-      <label for="firstName">First Name</label>
-      <input
-        type="text"
-        id="firstName"
-        name="firstName"
-        [(ngModel)]="selectedUser.firstName"
-        placeholder="First Name"
-        required
-      />
-    </div>
-
-    <div>
-      <label for="lastName">Last Name</label>
-      <input
-        type="text"
-        id="lastName"
-        name="lastName"
-        [(ngModel)]="selectedUser.lastName"
-        placeholder="Last Name"
-        required
-      />
-    </div>
-
-    <div>
-      <label for="email">Email</label>
-      <input
-        type="email"
-        id="email"
-        name="email"
-        [(ngModel)]="selectedUser.email"
-        placeholder="Email"
-        required
-      />
-    </div>
-
-    <div>
-      <label for="role">Role</label>
-      <select id="role" name="role" [(ngModel)]="selectedUser.role">
-        <option *ngFor="let role of users[0]?.role | keyvalue" [ngValue]="role">
-          {{ role.value }}
-        </option>
-      </select>
-    </div>
-
-    <button type="submit">Update</button>
-    <button type="button" (click)="cancelEdit()">Cancel</button>
-  </form>
-</div>
+    <h1>Edit User</h1>
+    <form (ngSubmit)="updateUser()">
+      <div class="form-group">
+        <label for="firstName">First Name</label>
+        <input
+          type="text"
+          id="firstName"
+          name="firstName"
+          [(ngModel)]="selectedUser.firstName"
+          placeholder="First Name"
+          required
+          class="form-control"
+        />
+      </div>
+  
+      <div class="form-group">
+        <label for="lastName">Last Name</label>
+        <input
+          type="text"
+          id="lastName"
+          name="lastName"
+          [(ngModel)]="selectedUser.lastName"
+          placeholder="Last Name"
+          required
+          class="form-control"
+        />
+      </div>
+  
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          [(ngModel)]="selectedUser.email"
+          placeholder="Email"
+          required
+          class="form-control"
+        />
+      </div>
+  
+      <div class="form-group">
+        <label for="role">Role</label>
+        <select
+          id="role"
+          name="role"
+          [(ngModel)]="selectedUser.role"
+          required
+          class="form-control"
+        >
+          <option *ngFor="let role of roles" [ngValue]="role">
+            {{ role.roleName }}
+          </option>
+        </select>
+      </div>
+  
+      <div class="form-group checkbox-group">
+        <label for="authorized">
+          <input
+            type="checkbox"
+            id="authorized"
+            name="authorized"
+            [(ngModel)]="selectedUser.isAuthorized"
+          />
+          Authorized
+        </label>
+      </div>
+  
+      <div class="form-group checkbox-group">
+        <label for="roleChange">
+          <input
+            type="checkbox"
+            id="roleChange"
+            name="roleChange"
+            [(ngModel)]="selectedUser.isRoleChange"
+          />
+          Role Change
+        </label>
+      </div>
+  
+      <div class="button-group">
+        <button type="submit" class="btn btn-primary">Update</button><br>
+        <button type="button" class="btn btn-secondary" (click)="cancelEdit()">Cancel</button>
+      </div>
+    </form>
+  </div>
+  
