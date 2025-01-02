@@ -162,8 +162,8 @@ export class ManageNewsletterFormComponent implements OnInit {
       this.manageNewsletterService.Updatenewsletter(this.newsletterId, putnewsletter).subscribe({
         next: (value) => {
           console.log('Newsletter successfully updated', value);
-          alert('Newsletter successfully updated!');
-          this.successMessage = "Article sent successfully";
+         
+          this.successMessage = "Newsletter successfully updated !";
           setTimeout(() => {
             this.router.navigate(['crud/article']); // Remplace '/articles' par la route souhaitée
           }, 2000);
@@ -178,8 +178,7 @@ export class ManageNewsletterFormComponent implements OnInit {
       this.manageNewsletterService.Addnewsletter(newsletter).subscribe({
         next: (value) => {
           console.log('Newsletter successfully added', value);
-          alert('Newsletter successfully added!');
-          this.successMessage = "Article sent successfully";
+          this.successMessage = "Newsletter successfully created";
           setTimeout(() => {
             this.router.navigate(['crud/article']); // Remplace '/articles' par la route souhaitée
           }, 2000);
