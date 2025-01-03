@@ -15,6 +15,7 @@ import { MyReadArticlesComponent } from './my-read-articles/my-read-articles.com
 import { ViewArticleDetailComponent } from './view-article-detail/view-article-detail.component';
 import { ManageRgpdFormComponent } from './manage-rgpd-form/manage-rgpd-form.component';
 import { ManageUserComponent } from './manage-user/manage-user.component';
+import { GpdrrequestComponent } from './gpdrrequest/gpdrrequest.component';
 
 const routes: Routes = [
   // Route par défaut
@@ -146,7 +147,13 @@ const routes: Routes = [
     component: ListCrudComponent,
     canActivate: [RoleGuard],
     data: { roles: ["ADMIN"] },
+  },
+  {
+    path: 'seergpdrequest/:id',
+    component: GpdrrequestComponent,
+    canActivate: [RoleGuard],
   }
+  
 ];
 
 @NgModule({

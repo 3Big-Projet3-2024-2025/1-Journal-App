@@ -38,6 +38,7 @@ import { ViewMyArticlesComponent } from './view-my-articles/view-my-articles.com
 import { MyReadArticlesComponent } from './my-read-articles/my-read-articles.component';
 import { ViewArticleDetailComponent } from './view-article-detail/view-article-detail.component';
 import { ManageUserComponent } from './manage-user/manage-user.component';
+import { GpdrrequestComponent } from './gpdrrequest/gpdrrequest.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { ManageUserComponent } from './manage-user/manage-user.component';
     ViewMyArticlesComponent,
     MyReadArticlesComponent,
     ViewArticleDetailComponent,
-    ManageUserComponent,  
+    ManageUserComponent,
+    GpdrrequestComponent,  
     
    
 

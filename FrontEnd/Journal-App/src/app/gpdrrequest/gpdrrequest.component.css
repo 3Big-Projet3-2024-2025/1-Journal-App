@@ -1,0 +1,67 @@
+/* General Container Styling */
+.container {
+    text-align: left; /* Align all text to the left */
+    font-size: 16px; /* Uniform font size */
+    line-height: 1.6; /* Improve readability */
+  }
+  
+  /* Card Styling */
+  .card {
+    margin-top: 20px;
+    border: 1px solid #ddd; /* Add a subtle border */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  }
+  
+  .card-body {
+    padding: 15px;
+  }
+  
+  .card-body p {
+    margin: 0 0 10px; /* Space between lines */
+  }
+  
+  /* Card Footer */
+  .card-footer {
+    display: flex;
+    gap: 10px; /* Space between buttons */
+  }
+  
+  button {
+    font-size: 16px; /* Uniform button font size */
+    padding: 10px 15px;
+    border-radius: 5px; /* Rounded corners for buttons */
+  }
+  
+  .btn-secondary {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+  }
+  
+  .btn-danger {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+  }
+  
+  .btn-secondary:hover,
+  .btn-danger:hover {
+    opacity: 0.9; /* Subtle hover effect */
+  }
+  
+  /* Error and Loading Styling */
+  .alert {
+    font-size: 16px;
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .text-center {
+    font-size: 16px;
+    color: #555;
+  }
+  

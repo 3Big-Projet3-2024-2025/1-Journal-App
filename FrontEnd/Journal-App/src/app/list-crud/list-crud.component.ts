@@ -37,9 +37,9 @@ export class ListCrudComponent {
 
   ngOnInit(): void {
     const storedType = localStorage.getItem('newsletter');
-    const gdprMode = localStorage.getItem('gpdr'); // Check GDPR mode
+    
 
-    if (gdprMode === '1') {
+    if (storedType === '6') {
       this.type = 'gdpr';
     } else if (storedType === '1') {
       this.type = 'newsletters';
@@ -250,7 +250,7 @@ export class ListCrudComponent {
   }
   viewGdprDetails(userId: number): void {
     // Navigate to a detailed view of the user's GDPR requests
-    this.router.navigate(['/gdpr-details', userId]);
+    this.router.navigate(['/seergpdrequest', userId]);
   }
   
   deleteGdprRequest(userId: number,gdprRequest :string): void {

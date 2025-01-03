@@ -1,0 +1,29 @@
+<div class="container mt-4">
+    <h2>GDPR Request Details</h2>
+  
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="text-center">
+      <p>Loading GDPR request details...</p>
+    </div>
+  
+    <!-- Error State -->
+    <div *ngIf="!isLoading && errorMessage" class="alert">
+      {{ errorMessage }}
+    </div>
+  
+    <!-- GDPR Request Details -->
+    <div *ngIf="!isLoading && !errorMessage">
+      <div class="card">
+        <div class="card-body">
+          <p><strong>User:</strong> {{ userName }}</p>
+          <p><strong>Type:</strong> {{ gdprRequestType }}</p>
+          <p><strong>Request:</strong> {{ gdprRequestDetails }}</p>
+        </div>
+        <div class="card-footer">
+          <button class="btn btn-secondary" (click)="goBack()">Back</button>
+          <button class="btn btn-danger" (click)="deleteGdprRequest()">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  

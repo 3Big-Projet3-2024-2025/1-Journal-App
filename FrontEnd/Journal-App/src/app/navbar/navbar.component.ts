@@ -127,7 +127,7 @@ export class NavbarComponent implements OnInit {
     
     
   goToGpdrRequest() {
-    localStorage.setItem("gpdr","1")
+    localStorage.setItem("newsletter","6")
     this.route.navigate(["/rgpdrequest"])
   }
 }
