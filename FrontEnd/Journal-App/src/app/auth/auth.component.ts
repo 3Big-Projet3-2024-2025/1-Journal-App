@@ -12,17 +12,17 @@ export class AuthComponent {
   constructor(private authService: AuthService) {}
 
   ngOnInit() {
-    // Initialisation de Keycloak
+    // Initialization of Keycloak
     this.authService.initKeycloak().then(() => {
       this.isAuthenticated = this.authService.isAuthenticated();
       if (this.isAuthenticated) {
         this.authService.getUserProfile().then(profile => {
-          console.log('Utilisateur connecté:', profile);
+          console.log('Connected user:', profile);
           
         });
       }
     }).catch(error => {
-      console.error('Erreur d\'initialisation de Keycloak:', error);
+      console.error('Keycloak initialization error:', error);
     });
   }
 

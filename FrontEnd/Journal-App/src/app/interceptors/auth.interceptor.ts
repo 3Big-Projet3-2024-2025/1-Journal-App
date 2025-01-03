@@ -9,11 +9,11 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(private keycloakService: KeycloakService) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    // Si isLoggedIn() retourne un boolean directement, on utilise of(...)
+    // If isLoggedIn() returns a boolean directly, use of(...)
     return of(this.keycloakService.isLoggedIn()).pipe(
       mergeMap((loggedIn: boolean) => {
         if (loggedIn) {
-          // getToken() retourne un Promise<string> donc on peut utiliser from()
+          // getToken() returns a Promise<string>, so we can use from()
           return from(this.keycloakService.getToken()).pipe(
             mergeMap((token: string) => {
               if (token) {

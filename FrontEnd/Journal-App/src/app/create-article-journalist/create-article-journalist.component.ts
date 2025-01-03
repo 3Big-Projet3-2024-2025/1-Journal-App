@@ -33,10 +33,10 @@ export class CreateArticleJournalistComponent implements OnInit {
   userNewsletters: Newsletter[] = [];
   selectedFiles: File[] = [];
 
-  map!: L.Map; // Carte Leaflet
-  marker!: L.Marker; // Marqueur interactif
+  map!: L.Map;  // Leaflet map
+  marker!: L.Marker; // Interactive marker
   customIcon = L.icon({
-    iconUrl: 'assets/warning_icon.png', // Icône personnalisée
+    iconUrl: 'assets/warning_icon.png', // Custom icon
     iconSize: [50, 50],
     iconAnchor: [25, 50],
     popupAnchor: [0, -50]
@@ -61,12 +61,12 @@ export class CreateArticleJournalistComponent implements OnInit {
       this.loadUserNewsletters();
       this.setUserNewsletter();
     } catch (error) {
-      console.error('Erreur lors de l\'initialisation du composant:', error);
+      console.error('Error during component initialization:', error);
     }
   }
 
   initializeMap(): void {
-    const defaultLocation: [number, number] = [50.4106, 4.4447]; // Position par défaut : Charleroi
+    const defaultLocation: [number, number] = [50.4106, 4.4447]; // Default position: Charleroi
     this.map = L.map('map').setView(defaultLocation, 13);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -78,14 +78,14 @@ export class CreateArticleJournalistComponent implements OnInit {
       draggable: true
     }).addTo(this.map);
 
-    // Mettre à jour les coordonnées sur drag-and-drop
+    // Update coordinates on drag-and-drop
     this.marker.on('dragend', () => {
       const position = this.marker.getLatLng();
       this.articleToAdd.latitude = position.lat;
       this.articleToAdd.longitude = position.lng;
     });
 
-    // Permettre le clic sur la carte pour déplacer le marqueur
+    // Allow clicking on the map to move the marker
     this.map.on('click', (e: L.LeafletMouseEvent) => {
       const position = e.latlng;
       this.marker.setLatLng(position);
@@ -101,17 +101,17 @@ export class CreateArticleJournalistComponent implements OnInit {
       console.log('Keycloak ID:', keycloakId);
       
       if (!keycloakId) {
-        reject('Aucun ID Keycloak trouvé');
+        reject('No Keycloak ID found');
         return;
       }
       this.userService.getUserByKeycloakId(keycloakId).subscribe(
         (user) => {
-          console.log('Utilisateur récupéré:', user);
+          console.log('Retrieved user:', user);
           this.articleToAdd.user_id = user.userId;
           resolve();
         },
         (error) => {
-          console.error('Erreur lors de la récupération de l\'utilisateur:', error);
+          console.error('Error retrieving the user:', error);
           reject(error);
         }
       );
@@ -120,7 +120,7 @@ export class CreateArticleJournalistComponent implements OnInit {
 
   setUserNewsletter(): void {
     if (this.articleToAdd.user_id === 0) {
-      console.warn('Impossible de récupérer la newsletter car l\'user_id est manquant.');
+      console.warn('Cannot retrieve newsletter because user_id is missing.');
       return;
     }
 
@@ -129,35 +129,35 @@ export class CreateArticleJournalistComponent implements OnInit {
         if (newsletters && newsletters.length > 0) {
           this.articleToAdd.newsletter_id = newsletters[0].newsletterId;
         } else {
-          console.error("L'utilisateur n'est journaliste dans aucune newsletter.");
+          console.error("The user is not a journalist in any newsletter.");
         }
       },
       (error) => {
-        console.error('Erreur lors de la récupération des newsletters du journaliste:', error);
+        console.error('Error retrieving the journalist\'s newsletters:', error);
       }
     );
   }
 
   loadUserNewsletters(): void {
     if (this.articleToAdd.user_id === 0) {
-      console.warn('Impossible de récupérer les newsletters car l\'user_id est manquant.');
+      console.warn('Cannot retrieve newsletters because user_id is missing.');
       return;
     }
   
     this.newsletterService.getNewslettersForJournalist(this.articleToAdd.user_id).subscribe(
       (newsletters: Newsletter[]) => {
         if (newsletters && newsletters.length > 0) {
-          this.userNewsletters = newsletters; // Stocker les newsletters disponibles
-          // Si une seule newsletter, la sélectionner par défaut
+          this.userNewsletters = newsletters; // Store available newsletters
+          // If only one newsletter, select it by default
           if (newsletters.length === 1) {
             this.articleToAdd.newsletter_id = newsletters[0].newsletterId;
           }
         } else {
-          console.error("L'utilisateur n'est journaliste dans aucune newsletter.");
+          console.error("The user is not a journalist in any newsletter.");
         }
       },
       (error) => {
-        console.error('Erreur lors de la récupération des newsletters du journaliste:', error);
+        console.error('Error retrieving the journalist\'s newsletters:', error);
       }
     );
   }
@@ -201,10 +201,10 @@ export class CreateArticleJournalistComponent implements OnInit {
             this.successMessage = "Article sent successfully";
             this.router.navigate(['/home'])
           },
-          (error) => console.error('Erreur lors de l\'ajout de l\'article:', error)
+          (error) => console.error('Error adding the article:', error)
         );
       },
-      (error) => console.error('Erreur lors de la récupération de la couleur de fond:', error)
+      (error) => console.error('Error adding the article:', error)
     );
   }
 
@@ -214,8 +214,8 @@ export class CreateArticleJournalistComponent implements OnInit {
       const imageToAdd: Image = { imageId: 0, imagePath: base64Image, articleId: articleId };
 
       this.articleService.addImage(imageToAdd).subscribe(
-        () => console.log('Image ajoutée avec succès'),
-        (error) => console.error('Erreur lors de l\'ajout de l\'image:', error)
+        () => console.log('Image added successfully'),
+        (error) => console.error('Error adding the image:', error)
       );
     }
   }

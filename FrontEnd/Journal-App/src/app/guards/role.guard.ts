@@ -9,19 +9,19 @@ export class RoleGuard implements CanActivate {
   constructor(private keycloakService: KeycloakService, private router: Router) {}
 
   async canActivate(route: ActivatedRouteSnapshot): Promise<boolean> {
-    const expectedRoles: string[] = route.data['roles']; // Récupère les rôles attendus de la route
+    const expectedRoles: string[] = route.data['roles']; // Retrieve the expected roles from the route
     const isLoggedIn = await this.keycloakService.isLoggedIn();
 
     if (isLoggedIn) {
       const userRoles = this.keycloakService.getUserRoles();
 
-      // Vérifie si l'utilisateur est ADMIN ou a un des rôles attendus
+   // Check if the user is ADMIN or has one of the expected roles
       if (userRoles.includes('ADMIN') || expectedRoles.some(role => userRoles.includes(role))) {
         return true;
       }
     }
 
-    // Rediriger si l'utilisateur n'a pas les permissions
+    // Redirect if the user does not have permissions
     this.router.navigate(['/home']);
     return false;
   }

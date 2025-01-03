@@ -1,4 +1,4 @@
-/* Styles spécifiques au formulaire qui s'intègrent avec Material et Bootstrap */
+/* Specific styles for the form that integrate with Material and Bootstrap */
 .form-container {
     background: #ffffff;
     padding: 2rem;
@@ -22,7 +22,7 @@
     margin-bottom: 2rem;
   }
   
-  /* Amélioration des inputs Bootstrap */
+  /* Enhancing Bootstrap inputs */
   .form-container input[type="text"],
   .form-container textarea,
   .form-container select {
@@ -52,7 +52,7 @@
     resize: vertical;
   }
   
-  /* Style pour la section newsletter */
+  /* Style for the newsletter section */
   .newsletter-select {
     margin-bottom: 1.5rem;
   }
@@ -65,7 +65,7 @@
     color: #1A3568;
   }
   
-  /* Style pour l'upload de fichiers */
+  /* Style for file upload */
   .file-upload {
     margin-bottom: 1.5rem;
   }
@@ -85,7 +85,7 @@
     background-color: #e9ecef;
   }
   
-  /* Style pour les radios */
+  /* Style for radios */
   .valid {
     background-color: #f8f9fa;
     padding: 1rem;
@@ -106,7 +106,7 @@
     margin-right: 1.5rem;
   }
   
-  /* Style du bouton submit */
+  /* Style for the submit button */
   .form-container button[type="submit"] {
     display: inline-block;
     font-weight: 500;
@@ -123,13 +123,13 @@
   }
   
   .form-container button[type="submit"] {
-    background-color: #1A3568; /* Bleu */
-    color: #ffffff; /* Blanc pour le texte */
+    background-color: #1A3568; /* Blue */
+    color: #ffffff; /* White text */
     border: none;
   }
   
   .form-container button[type="submit"]:hover {
-    background-color: #264785; /* Bleu plus foncé au survol */
+    background-color: #264785; /* Darker blue on hover */
   }
   
   

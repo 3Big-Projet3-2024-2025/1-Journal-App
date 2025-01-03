@@ -74,14 +74,14 @@ export class AddArticleComponent implements OnInit {
         (position) => {
           const latitude = position.coords.latitude;
           const longitude = position.coords.longitude;
-          this.createFormMap([latitude, longitude], 13); // Position utilisateur
+          this.createFormMap([latitude, longitude], 13); // User position
         },
         () => {
-          this.createFormMap([charleroiLat, charleroiLng], 13); // Position par défaut : Charleroi
+          this.createFormMap([charleroiLat, charleroiLng], 13); // Default position: Charleroi
         }
       );
     } else {
-      this.createFormMap([charleroiLat, charleroiLng], 13); // Position par défaut : Charleroi
+      this.createFormMap([charleroiLat, charleroiLng], 13); // // Default position: Charleroi
     }
   }
 
@@ -92,7 +92,7 @@ export class AddArticleComponent implements OnInit {
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(this.map);
 
-    // Ajouter un marqueur draggable avec l'icône personnalisée
+// Add a draggable marker with the custom icon
     this.marker = L.marker(center, { icon: this.customIcon, draggable: true }).addTo(this.map);
 
     this.marker.on('dragend', () => {
@@ -103,7 +103,7 @@ export class AddArticleComponent implements OnInit {
 
     this.map.on('click', (e: L.LeafletMouseEvent) => {
       const position = e.latlng;
-      this.marker.setLatLng(position); // Déplace le marqueur
+      this.marker.setLatLng(position); // Move the marker
       this.articleToAdd.latitude = position.lat;
       this.articleToAdd.longitude = position.lng;
     });
@@ -114,32 +114,32 @@ export class AddArticleComponent implements OnInit {
 
   
 
-  // Récupérer l'ID de l'utilisateur connecté via Keycloak
+   // Retrieve the ID of the connected user via Keycloak
   getUserId(): Promise<void> {
     return new Promise((resolve, reject) => {
       const keycloakId = this.keycloakService.getKeycloakInstance().tokenParsed?.sub;
       if (keycloakId) {
         this.userService.getUserByKeycloakId(keycloakId).subscribe(
           (user) => {
-            // Assigner l'ID de l'utilisateur au `user_id` de l'article
+            // Assign the user's ID to the `user_id` of the article
             this.articleToAdd.user_id = user.userId;
-            //console.log('Utilisateur connecté:', user);
+            //console.log('Connected user:', user);
             resolve();
           },
           (error) => {
-            console.error('Erreur lors de la récupération de l\'utilisateur:', error);
+            console.error('Error retrieving the user:', error);
             reject(error);
           }
         );
       } else {
-        reject('Keycloak ID non trouvé');
+        reject('Keycloak ID not found');
       }
     });
   }
 
  
 
-  // Charger les newsletters disponibles
+  // Load available newsletters
   loadNewsletters(): void {
     this.newsletterService.GetALlnewsletter().subscribe(
       (data: Newsletter[]) => {
@@ -151,12 +151,12 @@ export class AddArticleComponent implements OnInit {
         }
       },
       (error) => {
-        console.error('Erreur lors du chargement des newsletters:', error);
+        console.error('Error loading newsletters:', error);
       }
     );
   }
 
-  // Validation du nombre de fichiers et type de fichiers
+ // Validate the number and type of files
   validateFileCount(event: any): void {
     const files = event.target.files;
     if (files.length > 3) {
@@ -177,13 +177,13 @@ export class AddArticleComponent implements OnInit {
     alert(`${files.length} file(s) selected successfully.`);
   }
 
-  // Conversion d'image en base64
+  // Convert image to base64
   convertToBase64(file: File): Promise<string> {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {
-        const base64String = (reader.result as string).split(',')[1]; // Supprimer le préfixe "data:image/...;base64,"
+        const base64String = (reader.result as string).split(',')[1]; // Remove the "data:image/...;base64," prefix
         resolve(base64String);
       };
       reader.onerror = (error) => reject(error);
@@ -208,7 +208,7 @@ export class AddArticleComponent implements OnInit {
     }*/
 
     if (this.articleToAdd.newsletter_id === 0) {
-      console.error('L\'ID de la newsletter est manquant');
+      console.error('The newsletter ID is missing');
       return;
     }
 
@@ -224,12 +224,12 @@ export class AddArticleComponent implements OnInit {
             this.router.navigate(['crud/article']);
           },
           (error) => {
-            console.error('Erreur lors de l\'ajout de l\'article:', error);
+            console.error('The newsletter ID is missing', error);
           }
         );
       },
       (error) => {
-        console.error('Erreur lors de la récupération de la couleur de fond de la newsletter:', error);
+        console.error('Error retrieving the newsletter background color:', error);
       }
     );
   }
@@ -261,17 +261,17 @@ export class AddArticleComponent implements OnInit {
     for (const file of this.selectedFiles) {
       const base64Image = await this.convertToBase64(file);
       const imageToAdd: Image = {
-        imageId: 0, // Valeur par défaut pour l'ID de l'image
-        imagePath: base64Image, // Contenu encodé en Base64 (sans préfixe)
-        articleId: articleId    // ID de l'article
+        imageId: 0, // Default value for image ID
+        imagePath: base64Image, // Base64 encoded content (without prefix)
+        articleId: articleId    // Article ID
       };
   
       this.articleService.addImage(imageToAdd).subscribe(
         (imageSaved) => {
-          //console.log('Image ajoutée avec succès:', imageSaved);
+          
         },
         (error) => {
-          console.error('Erreur lors de l\'ajout de l\'image:', error);
+          console.error('Error adding the image:', error);
         }
       );
     }

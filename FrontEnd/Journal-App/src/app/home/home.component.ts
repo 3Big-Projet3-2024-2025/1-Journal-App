@@ -29,7 +29,7 @@ export class HomeComponent implements OnInit {
 
       },
       (error) => {
-        console.error('Erreur lors du chargement des articles:', error);
+        console.error('Error loading articles:', error);
       }
     );
   }
@@ -42,7 +42,7 @@ export class HomeComponent implements OnInit {
           this.searchResults = data; 
         },
         (error) => {
-          console.error('Erreur lors de la recherche des articles:', error);
+          console.error('Error searching articles:', error);
         }
       );
     } else {

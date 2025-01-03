@@ -7,7 +7,7 @@
 
 .footer-content {
   display: flex;
-  justify-content: space-between;  /* Aligne les éléments à gauche et à droite */
+  justify-content: space-between;  /* Align elements to the left and right */
 
   padding: 20px;
   max-width: 1200px;
@@ -32,7 +32,7 @@
 .footer-social {
   flex: 1;
   min-width: 200px;
-  text-align: right;  /* Aligne les éléments sociaux à droite */
+  text-align: right;  /* Align social elements to the right */
 }
 
 .footer-social h4 {
@@ -42,13 +42,13 @@
 
 .social-icons {
   display: flex;
-  justify-content: flex-end; /* Aligne les icônes à droite */
+  justify-content: flex-end; /* Align icons to the right */
   gap: 10px;
 }
 
 .social-icons a {
-  color: #ffffff; /* Change la couleur des icônes */
-  font-size: 1.5rem; /* Ajuste la taille des icônes */
+  color: #ffffff; /* Change icon color */
+  font-size: 1.5rem; /* Adjust icon size */
 }
 
 .footer-bottom {
