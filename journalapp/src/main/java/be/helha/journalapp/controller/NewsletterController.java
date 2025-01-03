@@ -121,15 +121,8 @@ public class NewsletterController {
         return ResponseEntity.ok(newsletterOpt.get());
     }
 
-    /**
-     * Met à jour une newsletter existante avec les données fournies.
-     *
-     * @param id               l'ID de la newsletter à mettre à jour
-     * @param updatedNewsletter l'objet newsletter contenant les données mises à jour
-     * @return un ResponseEntity contenant la newsletter mise à jour ou un message d'erreur
-     */
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateNewsletter(@PathVariable Long id, @RequestBody Newsletter updatedNewsletter) {
+    public ResponseEntity<?> updateNewsletter(@PathVariable Long id, @RequestBody Map<String, Object> updatedNewsletterData) {
         Optional<Newsletter> existingOpt = newsletterRepository.findById(id);
         if (existingOpt.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -137,33 +130,53 @@ public class NewsletterController {
         }
 
         Newsletter existingNewsletter = existingOpt.get();
-        String oldBackgroundColor = existingNewsletter.getBackgroundColor();
 
-        existingNewsletter.setTitle(updatedNewsletter.getTitle());
-        existingNewsletter.setSubtitle(updatedNewsletter.getSubtitle());
-        existingNewsletter.setPublicationDate(updatedNewsletter.getPublicationDate());
-        existingNewsletter.setBackgroundColor(updatedNewsletter.getBackgroundColor());
-        existingNewsletter.setTitleFont(updatedNewsletter.getTitleFont());
-        existingNewsletter.setTitleFontSize(updatedNewsletter.getTitleFontSize());
-        existingNewsletter.setTitleColor(updatedNewsletter.getTitleColor());
-        existingNewsletter.setTitleBold(updatedNewsletter.isTitleBold());
-        existingNewsletter.setTitleUnderline(updatedNewsletter.isTitleUnderline());
-        existingNewsletter.setSubtitleFont(updatedNewsletter.getSubtitleFont());
-        existingNewsletter.setSubtitleFontSize(updatedNewsletter.getSubtitleFontSize());
-        existingNewsletter.setSubtitleColor(updatedNewsletter.getSubtitleColor());
-        existingNewsletter.setSubtitleBold(updatedNewsletter.isSubtitleBold());
-        existingNewsletter.setSubtitleItalic(updatedNewsletter.isSubtitleItalic());
-        existingNewsletter.setTextAlign(updatedNewsletter.getTextAlign());
+        // Mettre à jour les champs
+        existingNewsletter.setTitle((String) updatedNewsletterData.get("title"));
+        existingNewsletter.setSubtitle((String) updatedNewsletterData.get("subtitle"));
+        existingNewsletter.setPublicationDate((String) updatedNewsletterData.get("publicationDate"));
+        existingNewsletter.setBackgroundColor((String) updatedNewsletterData.get("backgroundColor"));
+        existingNewsletter.setTitleFont((String) updatedNewsletterData.get("titleFont"));
+        existingNewsletter.setTitleFontSize((Integer) updatedNewsletterData.get("titleFontSize"));
+        existingNewsletter.setTitleColor((String) updatedNewsletterData.get("titleColor"));
+        existingNewsletter.setTitleBold((Boolean) updatedNewsletterData.get("titleBold"));
+        existingNewsletter.setTitleUnderline((Boolean) updatedNewsletterData.get("titleUnderline"));
+        existingNewsletter.setSubtitleFont((String) updatedNewsletterData.get("subtitleFont"));
+        existingNewsletter.setSubtitleFontSize((Integer) updatedNewsletterData.get("subtitleFontSize"));
+        existingNewsletter.setSubtitleColor((String) updatedNewsletterData.get("subtitleColor"));
+        existingNewsletter.setSubtitleBold((Boolean) updatedNewsletterData.get("subtitleBold"));
+        existingNewsletter.setSubtitleItalic((Boolean) updatedNewsletterData.get("subtitleItalic"));
+        existingNewsletter.setTextAlign((String) updatedNewsletterData.get("textAlign"));
+
+        // Gérer le créateur
+        if (updatedNewsletterData.containsKey("creator")) {
+            Long creatorId;
+            try {
+                creatorId = ((Number) updatedNewsletterData.get("creator")).longValue();
+            } catch (ClassCastException | NullPointerException e) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(Map.of("message", "Invalid creator ID format."));
+            }
+
+            User creator = userRepository.findById(creatorId).orElse(null);
+            if (creator == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(Map.of("message", "User with ID " + creatorId + " not found."));
+            }
+            existingNewsletter.setCreator(creator);
+        }
 
         Newsletter savedNewsletter = newsletterRepository.save(existingNewsletter);
 
-        // Si la couleur de fond a changé, met à jour tous les articles associés
-        if (oldBackgroundColor != null && !oldBackgroundColor.equals(updatedNewsletter.getBackgroundColor())) {
-            updateArticlesBackgroundColor(savedNewsletter.getNewsletterId(), updatedNewsletter.getBackgroundColor());
+        // Mettre à jour les articles si nécessaire
+        String oldBackgroundColor = existingNewsletter.getBackgroundColor();
+        if (oldBackgroundColor != null && !oldBackgroundColor.equals(existingNewsletter.getBackgroundColor())) {
+            updateArticlesBackgroundColor(savedNewsletter.getNewsletterId(), existingNewsletter.getBackgroundColor());
         }
 
         return ResponseEntity.ok(savedNewsletter);
     }
+ 
 
     /**
      * Met à jour la couleur de fond de tous les articles associés à une newsletter.

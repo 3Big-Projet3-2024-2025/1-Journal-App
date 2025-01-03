@@ -113,26 +113,27 @@ export class ManageNewsletterFormComponent implements OnInit {
     }
 
     const newsletter: Newsletter = {
-        newsletterId: this.newsletterId || 0,
-        title: this.formData.title,
-        subtitle: this.formData.subtitle,
-        publicationDate: new Date(),
-        creator: this.useridbykey || 0, // Créateur
-        backgroundColor: this.formData.backgroundColor,
-        titleFont: this.formData.titleFont,
-        titleFontSize: this.formData.titleFontSize,
-        titleColor: this.formData.titleColor,
-        titleBold: this.formData.titleBold,
-        titleUnderline: this.formData.titleUnderline,
-        subtitleFont: this.formData.subtitleFont,
-        subtitleFontSize: this.formData.subtitleFontSize,
-        subtitleColor: this.formData.subtitleColor,
-        subtitleBold: this.formData.subtitleBold,
-        subtitleItalic: this.formData.subtitleItalic,
-        textAlign: this.formData.textAlign,
-        journalists: this.formData.journalists // Les journalistes existants
-    };
-
+      newsletterId: this.newsletterId || 0,
+      title: this.formData.title,
+      subtitle: this.formData.subtitle,
+      publicationDate: new Date(),
+      creator: this.useridbykey || 0, // ID de l'utilisateur
+      backgroundColor: this.formData.backgroundColor,
+      titleFont: this.formData.titleFont,
+      titleFontSize: this.formData.titleFontSize,
+      titleColor: this.formData.titleColor,
+      titleBold: this.formData.titleBold,
+      titleUnderline: this.formData.titleUnderline,
+      subtitleFont: this.formData.subtitleFont,
+      subtitleFontSize: this.formData.subtitleFontSize,
+      subtitleColor: this.formData.subtitleColor,
+      subtitleBold: this.formData.subtitleBold,
+      subtitleItalic: this.formData.subtitleItalic,
+      textAlign: this.formData.textAlign,
+      journalists: this.formData.journalists
+  };
+  
+  
     if (this.newsletterId) {
         // Mise à jour de la newsletter
         this.manageNewsletterService.Updatenewsletter(this.newsletterId, newsletter).subscribe({
