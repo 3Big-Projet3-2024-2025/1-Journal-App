@@ -14,11 +14,11 @@ import { ArticleService } from '../services/article.service';
 export class ViewnewsletterComponent implements OnInit {
 
   newsletter: Newsletter | null = null;
-  validArticles: Article[] = []; // Articles disponibles pour ajout
-  addedArticles: Article[] = []; // Articles associés à la newsletter
+  validArticles: Article[] = []; 
+  addedArticles: Article[] = []; 
   showArticleList: boolean = false;
 
-  // Pour la confirmation
+  
   articleToConfirm: Article | null = null;
   fromarticledetail: string | null | undefined;
   display="display; inline";
@@ -45,11 +45,20 @@ export class ViewnewsletterComponent implements OnInit {
         this.articleService.getArticles().subscribe(
           (articles) => {
             this.addedArticles = articles.filter(
-              (article) => article.newsletter?.newsletterId === id
-            );
+              (article) => article.newsletter?.newsletterId === id 
+              
+            );console.log(articles)
             this.validArticles = articles.filter(
-              (article) => article.valid && article.newsletter?.newsletterId !== id
+              (article) => article.valid && article.newsletter?.newsletterId === id
             );
+
+            
+  this.validArticles = this.validArticles.filter(
+    (validArticle) =>
+      !this.addedArticles.some(
+        (addedArticle) => addedArticle.articleId !== validArticle.articleId
+      )
+  );
           },
           (error) => console.error('Erreur lors de la récupération des articles:', error)
         );
@@ -63,14 +72,13 @@ export class ViewnewsletterComponent implements OnInit {
   }
   addArticleToNewsletter(article: Article): void {
     if (this.newsletter) {
-      // Si l'article est déjà lié à une autre newsletter
+     
       if (article.newsletter && article.newsletter.newsletterId !== this.newsletter.newsletterId) {
-        // On demande confirmation à l'utilisateur en assignant articleToConfirm
+       
         this.articleToConfirm = article;
-        // NE PAS appeler confirmAddArticle(article) ici !
-        // L'utilisateur doit confirmer manuellement, par exemple via un bouton dans le template.
+       
       } else {
-        // Si l'article n'est pas lié à une autre newsletter, on l'ajoute directement
+       
         this.confirmAddArticle(article);
       }
     }
@@ -101,8 +109,7 @@ export class ViewnewsletterComponent implements OnInit {
     if (this.newsletter) {
       this.newsletterService.removeArticleFromNewsletter(this.newsletter.newsletterId, article.articleId).subscribe(
         () => {
-          // Après suppression, on peut aussi recharger la newsletter si nécessaire,
-          // mais vous pouvez garder l'ancienne logique.
+         
           this.validArticles.push(article);
           this.addedArticles = this.addedArticles.filter((a) => a.articleId !== article.articleId);
         },

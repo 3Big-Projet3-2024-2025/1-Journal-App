@@ -36,9 +36,17 @@ export class ManageRgpdFormComponent implements OnInit {
         alert('Failed to load admin details.');
       }
     );
-    const storedUserId = localStorage.getItem('userId'); // Récupérer depuis localStorage
+    const storedUserId = localStorage.getItem('userId'); 
     if (storedUserId) {
-      this.formData.userId = +storedUserId; // Convertir en nombre
+      this.formData.userId = +storedUserId; 
+      this.userservice.getUserById(this.formData.userId).subscribe(
+        (user) =>{
+          console.log(user)
+          this.formData.fullName=user.lastName + user.firstName;
+          this.formData.email=user.email
+
+        }
+      )
     } else {
       console.error('User ID not found in localStorage');
     }
@@ -46,15 +54,15 @@ export class ManageRgpdFormComponent implements OnInit {
   
 
   onSubmit() {
-    const { fullName, email, requestType, requestDetails, adminEmail, userId } = this.formData;
+    const { requestType, requestDetails, adminEmail, userId } = this.formData;
   
-    if (!fullName || !email || !requestType || !adminEmail || requestDetails.length > 1000) {
+    if (!requestType || !adminEmail || requestDetails.length > 1000) {
       alert('Please fill out all required fields.');
       return;
     }
   
-    const subject = `RGPD Request from ${fullName}`;
-    const content = `User: ${fullName} (${email})\nType: ${requestType}\nDetails: ${requestDetails}`;
+    const subject = `RGPD Request from ${this.formData.fullName}`;
+    const content = `User: ${this.formData.fullName} (${this.formData.email})\nType: ${requestType}\nDetails: ${requestDetails}`;
   
     // Appeler le service pour envoyer l'email
     this.emailService.sendEmail(adminEmail, subject, content).subscribe(

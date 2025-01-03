@@ -93,7 +93,7 @@ export class ManageNewsletterFormComponent implements OnInit {
         this.userservice.getUserByKeycloakId(this.userInfo.id).subscribe({
           next: (data) => {
             this.useridbykey = data.userId;
-            alert(this.useridbykey)
+           
           },
           error: (err) => {
             console.error('Error while retrieving user ID', err);
