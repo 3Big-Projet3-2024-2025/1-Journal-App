@@ -1,4 +1,6 @@
 package be.helha.journalapp.service;
+import org.keycloak.admin.client.resource.RoleScopeResource;
+
 
 import be.helha.journalapp.model.Role;
 import jakarta.annotation.PostConstruct;
@@ -68,6 +70,31 @@ public class KeycloakAdminService {
     }
 
     /**
+     * Permet aux autres services de récupérer l'instance Keycloak.
+     */
+    public Keycloak getKeycloak() {
+        return this.keycloak;
+    }
+
+    /**
+     * Retourne l'ID du premier utilisateur de la liste Keycloak (index 0).
+     * Utile pour savoir qui est potentiellement promu en ADMIN.
+     */
+    public String getFirstUserId() {
+        RealmResource realmResource = keycloak.realm(realm);
+        UsersResource usersResource = realmResource.users();
+        // On prend la liste des utilisateurs (limite 1)
+        List<UserRepresentation> users = usersResource.list(0, 1);
+        if (!users.isEmpty()) {
+            return users.get(0).getId(); // ID Keycloak
+        }
+        return null;
+    }
+
+
+
+
+    /**
      * Adds a user to Keycloak and retrieves their Keycloak ID.
      *
      * @param userDetails A map containing the details of the user to be created (username, firstName, lastName, email).
@@ -131,35 +158,50 @@ public class KeycloakAdminService {
     }
 
     /**
-     * Assigns roles to a user in Keycloak.
-     *
-     * @param userId The Keycloak ID of the user.
-     * @param roles  A list of roles to assign to the user.
-     * @throws RuntimeException If an error occurs during the role assignment process.
+     * Assigne de nouveaux rôles à un utilisateur **sans** retirer les anciens rôles qu'il possède déjà.
+     * Si un rôle existe déjà, il n'est pas réajouté (on évite les doublons).
      */
     public void assignRolesToUser(String userId, List<Role> roles) {
         try {
+            // 1) Récupère le RealmResource correspondant à votre realm "journalapp"
             RealmResource realmResource = keycloak.realm("journalapp");
-            UsersResource usersResource = realmResource.users();
-            RoleMappingResource roleMappingResource = usersResource.get(userId).roles();
 
-            // Récupérer les représentations des rôles
-            List<RoleRepresentation> adminRoles = roles.stream()
-                    .filter(role -> "ADMIN".equalsIgnoreCase(role.getRoleName()))
-                    .map(role -> {
+            // 2) Récupère l'interface RoleMappingResource pour l’utilisateur
+            RoleMappingResource roleMappingResource = realmResource.users().get(userId).roles();
+
+            // 3) Récupère l'interface RoleScopeResource (le scope "realm level")
+            RoleScopeResource realmLevelResource = roleMappingResource.realmLevel();
+
+            // 4) Récupérer la liste des rôles existants déjà assignés à l'utilisateur
+            List<RoleRepresentation> existingRoles = realmLevelResource.listAll();
+
+            // 5) Construire la liste des nouveaux rôles à partir des entités "Role" (de votre DB locale)
+            List<RoleRepresentation> newRoles = roles.stream()
+                    .map(r -> {
                         RoleRepresentation rr = new RoleRepresentation();
-                        rr.setName(role.getRoleName());
-                        rr.setId(role.getKeycloakRoleId());
+                        rr.setName(r.getRoleName());
+                        rr.setId(r.getKeycloakRoleId());
                         return rr;
                     })
                     .collect(Collectors.toList());
 
-            // Assigner les rôles
-            roleMappingResource.realmLevel().add(adminRoles);
+            // 6) Filtrer les rôles pour n'ajouter que ceux qui ne sont pas déjà présents
+            List<RoleRepresentation> rolesToAdd = newRoles.stream()
+                    .filter(newRole -> existingRoles.stream()
+                            .noneMatch(existingRole -> existingRole.getName().equals(newRole.getName())))
+                    .collect(Collectors.toList());
+
+            // 7) Ajouter les nouveaux rôles qui n'existaient pas encore
+            if (!rolesToAdd.isEmpty()) {
+                realmLevelResource.add(rolesToAdd);
+            }
+
         } catch (Exception e) {
             throw new RuntimeException("Error assigning roles to user in Keycloak", e);
         }
     }
+
+
 
     /**
      * Retrieves all roles from the 'journalapp' realm in Keycloak.
@@ -315,5 +357,27 @@ public class KeycloakAdminService {
         if (userCount >= 1 && !hasAdmin) {
             assignAdminToFirstUser();
         }
+    }
+
+    /**
+     * Returns the list of realm-level role names assigned to the given user (by ID).
+     *
+     * @param userId The Keycloak ID of the user.
+     * @return A List of strings containing the names of the roles.
+     */
+    public List<String> getRealmLevelRoles(String userId) {
+        RealmResource realmResource = keycloak.realm(realm);
+
+        // Récupère l'interface "RoleScopeResource" pour l'utilisateur (realm level)
+        RoleScopeResource realmLevelResource =
+                realmResource.users().get(userId).roles().realmLevel();
+
+        // Liste des rôles "realm-level" affectés à l'utilisateur
+        List<RoleRepresentation> assignedRoles = realmLevelResource.listAll();
+
+        // On renvoie juste le "name" de chaque rôle
+        return assignedRoles.stream()
+                .map(RoleRepresentation::getName)
+                .collect(Collectors.toList());
     }
 }
