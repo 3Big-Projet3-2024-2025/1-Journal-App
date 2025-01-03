@@ -140,6 +140,12 @@ const routes: Routes = [
     component: ManageRgpdFormComponent,
     canActivate: [RoleGuard],
     data: { roles: ["ADMIN","READER"] },
+  },
+  {
+    path: 'rgpdrequest',
+    component: ListCrudComponent,
+    canActivate: [RoleGuard],
+    data: { roles: ["ADMIN"] },
   }
 ];
 

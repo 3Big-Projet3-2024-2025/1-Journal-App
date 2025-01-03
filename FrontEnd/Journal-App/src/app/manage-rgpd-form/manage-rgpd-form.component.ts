@@ -21,7 +21,7 @@ export class ManageRgpdFormComponent implements OnInit {
 
   ngOnInit() {
     // Récupérer l'email de l'admin avec l'ID 1
-    this.userservice.getUserById(5).subscribe(
+    this.userservice.getUserById(3).subscribe(
       (admin) => {
         if (admin && admin.email) {
           this.formData.adminEmail = admin.email;

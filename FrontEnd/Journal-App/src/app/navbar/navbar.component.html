@@ -1,109 +1,104 @@
 <header>
   <div class="navbar">
     <div class="left-section">
-      
-            <!-- Bouton gestion (affiché si l'utilisateur connect et bon role??) -->
-            <button *ngIf="isAuthenticated && (userRole === 'ADMIN' || userRole === 'JOURNALIST' || userRole === 'EDITOR')" 
-            class="menu-button" 
-            type="button" 
-            data-bs-toggle="offcanvas" 
-            data-bs-target="#offcanvasExample" 
-            aria-controls="offcanvasExample">
-            <i class="fa-solid fa-bars"></i>
-           </button>
+      <!-- Bouton gestion (affiché si l'utilisateur connecté et bon rôle) -->
+      <button *ngIf="isAuthenticated && (userRole === 'ADMIN' || userRole === 'JOURNALIST' || userRole === 'EDITOR')" 
+              class="menu-button" 
+              type="button" 
+              data-bs-toggle="offcanvas" 
+              data-bs-target="#offcanvasExample" 
+              aria-controls="offcanvasExample">
+        <i class="fa-solid fa-bars"></i>
+      </button>
 
-           <mat-icon routerLink="/home" aria-hidden="false" aria-label="Example home icon" fontIcon="home"></mat-icon>
-
-  
+      <mat-icon routerLink="/home" aria-hidden="false" aria-label="Example home icon" fontIcon="home"></mat-icon>
     </div>
     <div class="logo" routerLink="/home">Journal-App</div>
     <div class="right-section">
       <div *ngIf="isAuthenticated" class="user-icon">
-        <button type="button" class="archiveIcon" title="See the articles I've read"  routerLink="My-read-articles">
+        <button type="button" class="archiveIcon" title="See the articles I've read" routerLink="My-read-articles">
           <img src="/assets/archive_icone.png" alt="archive icon">
         </button>
-        
+
         <button type="button" class="menu-button" (click)="showUserInfo()">
-        👤
-        </button><!-- Bouton profile (affiché si l'utilisateur n'est pas connecté) -->
-       
-      </div> 
-      
-
-
-        <!-- Bouton d'identification (affiché si l'utilisateur n'est pas connecté) -->
-        <button *ngIf="!(isAuthenticated )" type="button" class="btn" (click)="login()" id="btGeen">
-          Log in <i class="fa-solid fa-right-to-bracket"></i>
+          👤
         </button>
-  
-        <!-- Bouton de déconnexion (affiché si l'utilisateur est connecté) -->
-        <button *ngIf="isAuthenticated" type="button" class="btn" (click)="logout()">
-          Log out <i class="fa-solid fa-right-from-bracket"></i>
-        </button>
-
-        <button *ngIf="isAuthenticated && userRole === 'READER'" type="button" class="btn btn-rgpd" (click)="sendRgpdRequest()">
-          Send RGPD Request <i class="fa-solid fa-envelope"></i>
-        </button>
-    </div>
-  </div>
-
-
-
-
-
-       <!-- Afficher un panneau avec les informations utilisateur -->
-       <div *ngIf="detailsVisible && userInfo"  class="user-info-panel">
-        <h5>My data</h5>
-       <p><strong>First name :</strong> {{ userInfo.firstName }}</p> 
-       <p><strong>Last name :</strong> {{ userInfo.lastName }}</p> 
-       <p><strong>Email :</strong> {{ userInfo.email }}</p> 
-       <p *ngIf="isAuthenticated"><strong>Role :</strong> {{ userRole }}</p> 
       </div>
 
+      <!-- Bouton d'identification (affiché si l'utilisateur n'est pas connecté) -->
+      <button *ngIf="!isAuthenticated" type="button" class="btn" (click)="login()" id="btGeen">
+        Log in <i class="fa-solid fa-right-to-bracket"></i>
+      </button>
+
+      <!-- Bouton de déconnexion (affiché si l'utilisateur est connecté) -->
+      <button *ngIf="isAuthenticated" type="button" class="btn" (click)="logout()">
+        Log out <i class="fa-solid fa-right-from-bracket"></i>
+      </button>
+
+<!-- GDPR Request Button (visible for Readers, Journalists, and Editors) -->
+<button 
+  *ngIf="isAuthenticated && (userRole === 'READER' || userRole === 'JOURNALIST' || userRole === 'EDITOR')" 
+  type="button" 
+  class="btn btn-rgpd" 
+  (click)="sendRgpdRequest()">
+  Send GDPR Request <i class="fa-solid fa-envelope"></i>
+</button>
 
 
- <!-- Menu offcanvas -->
-<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="offcanvasExampleLabel">
-      <i class="fa-solid fa-gears"></i>Manage Journal App 
-      <i class="fa-solid fa-gears"></i>
-    </h5>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div>
-  <div class="offcanvas-body">
-    <div>
-      <p>Welcome, you are {{ userRole }}!</p> 
-      This location is reserved only for users with the ADMIN, EDITOR, or JOURNALIST role!
-    </div><br>
-  
-    <div class="offcanvas-title" id="offcanvasExampleLabel" *ngIf="isAuthenticated && (userRole === 'ADMIN')">ADMIN
-      <div class="button-like mt-3" routerLink="manage-users">
-        Manage Users
-    </div>
-    </div>
-  
-    <div class="offcanvas-title" id="offcanvasExampleLabel" *ngIf="isAuthenticated && (userRole === 'ADMIN' ||  userRole === 'EDITOR')">EDITOR
-      <div class="button-like mt-3" (click)="setArticleInLocalStorage()" data-bs-dismiss="offcanvas">Manage Articles</div>
-      <div class="button-like" (click)="setNewsletterInLocalStorage()" data-bs-dismiss="offcanvas">Manage Newsletters</div>
-      <div class="button-like" (click)="setCommentInLocalStorage()" data-bs-dismiss="offcanvas">Manage Comments</div>
-      <div [routerLink]="['/manage-journalist']" class="button-like" data-bs-dismiss="offcanvas">Manage Journalist</div>
-
-
-    </div>
-  
-    <div class="offcanvas-title" id="offcanvasExampleLabel" *ngIf="isAuthenticated && (userRole === 'ADMIN' || userRole === 'JOURNALIST' || userRole === 'EDITOR')">JOURNALIST
-      <div routerLink="createarticlejournalist" class="button-like mt-3" data-bs-dismiss="offcanvas">Create an article</div>
-      <div routerLink="viewmyarticle" class="button-like" data-bs-dismiss="offcanvas">View My articles</div>
+      <!-- Bouton Manage GDPR (affiché si l'utilisateur est ADMIN) -->
+      <button 
+      *ngIf="isAuthenticated && userRole === 'ADMIN'" 
+      type="button" 
+      class="btn btn-gdpr" 
+      (click)="goToGpdrRequest()">
+      Manage GDPR <i class="fa-solid fa-shield"></i>
+    </button>
+    
     </div>
   </div>
-  
-</div>
 
+  <!-- Afficher un panneau avec les informations utilisateur -->
+  <div *ngIf="detailsVisible && userInfo" class="user-info-panel">
+    <h5>My data</h5>
+    <p><strong>First name :</strong> {{ userInfo.firstName }}</p>
+    <p><strong>Last name :</strong> {{ userInfo.lastName }}</p>
+    <p><strong>Email :</strong> {{ userInfo.email }}</p>
+    <p *ngIf="isAuthenticated"><strong>Role :</strong> {{ userRole }}</p>
+  </div>
 
+  <!-- Menu offcanvas -->
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="offcanvasExampleLabel">
+        <i class="fa-solid fa-gears"></i> Manage Journal App 
+        <i class="fa-solid fa-gears"></i>
+      </h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <div>
+        <p>Welcome, you are {{ userRole }}!</p> 
+        This location is reserved only for users with the ADMIN, EDITOR, or JOURNALIST role!
+      </div><br>
+
+      <!-- ADMIN Section -->
+      <div class="offcanvas-title" id="offcanvasExampleLabel" *ngIf="isAuthenticated && (userRole === 'ADMIN')">ADMIN
+        <div class="button-like mt-3" routerLink="manage-users">Manage Users</div>
+      </div>
+
+      <!-- EDITOR Section -->
+      <div class="offcanvas-title" id="offcanvasExampleLabel" *ngIf="isAuthenticated && (userRole === 'ADMIN' || userRole === 'EDITOR')">EDITOR
+        <div class="button-like mt-3" (click)="setArticleInLocalStorage()" data-bs-dismiss="offcanvas">Manage Articles</div>
+        <div class="button-like" (click)="setNewsletterInLocalStorage()" data-bs-dismiss="offcanvas">Manage Newsletters</div>
+        <div class="button-like" (click)="setCommentInLocalStorage()" data-bs-dismiss="offcanvas">Manage Comments</div>
+        <div [routerLink]="['/manage-journalist']" class="button-like" data-bs-dismiss="offcanvas">Manage Journalist</div>
+      </div>
+
+      <!-- JOURNALIST Section -->
+      <div class="offcanvas-title" id="offcanvasExampleLabel" *ngIf="isAuthenticated && (userRole === 'ADMIN' || userRole === 'JOURNALIST' || userRole === 'EDITOR')">JOURNALIST
+        <div routerLink="createarticlejournalist" class="button-like mt-3" data-bs-dismiss="offcanvas">Create an article</div>
+        <div routerLink="viewmyarticle" class="button-like" data-bs-dismiss="offcanvas">View My articles</div>
+      </div>
+    </div>
+  </div>
 </header>
-
-
-
-
-

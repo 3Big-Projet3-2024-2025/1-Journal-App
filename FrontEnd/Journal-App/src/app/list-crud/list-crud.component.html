@@ -1,10 +1,10 @@
-<!-- Conteneur principal -->
+<!-- Main Container -->
 <div class="container mt-4">
   <h2>{{ titre }}</h2>
 
-  <!-- Bouton d'ajout : visible uniquement pour les articles et newsletters -->
+  <!-- Add Button: Visible only for articles and newsletters -->
   <button
-    *ngIf="titretable !== 'comments'"
+    *ngIf="titretable !== 'comments' && titretable !== 'gdpr requests'"
     class="btn btn-primary mb-3"
     [routerLink]="
       titretable === 'articles'
@@ -23,7 +23,54 @@
     }}
   </button>
 
-  <!-- Section Articles -->
+  <!-- GDPR Requests Section -->
+  <div *ngIf="titretable === 'gdpr requests'">
+    <h3>GDPR Requests</h3>
+    <table
+      class="table table-striped"
+      *ngIf="gdprUsers.length > 0; else noGdprRequests"
+    >
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>User ID</th>
+          <th>Name</th>
+          <th>Type of Request</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of gdprUsers; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ user.userId }}</td>
+          <td>{{ user.firstName }} {{ user.lastName }}</td>
+          <td>
+            <!-- Extract the first word of the GDPR request -->
+            {{ user.gdprRequests[0].split(':')[0] }}
+          </td>
+          <td>
+            <button
+              class="btn btn-info btn-sm"
+              (click)="viewGdprDetails(user.userId)"
+            >
+              See
+            </button>
+            <button
+              class="btn btn-danger btn-sm"
+              (click)="deleteGdprRequest(user.userId,user.gdprRequests[0])"
+            >
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <ng-template #noGdprRequests>
+      <p>No GDPR requests available.</p>
+    </ng-template>
+  </div>
+
+  <!-- Articles Section -->
   <div *ngIf="titretable === 'articles'">
     <h3>Valid Articles</h3>
     <table
@@ -37,13 +84,12 @@
           <th>Title</th>
           <th>Publication Date</th>
           <th>Actions</th>
-          
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let article of validArticles; let i = index">
           <td>{{ i + 1 }}</td>
-          <td>{{article.newsletter?.title}}</td>
+          <td>{{ article.newsletter?.title }}</td>
           <td>{{ article.title }}</td>
           <td>{{ article.publicationDate | date: 'MM/dd/yyyy' }}</td>
           <td>
@@ -96,7 +142,7 @@
       <tbody>
         <tr *ngFor="let article of nonValidArticles; let i = index">
           <td>{{ i + 1 }}</td>
-          <td>{{article.newsletter?.title}}</td>
+          <td>{{ article.newsletter?.title }}</td>
           <td>{{ article.title }}</td>
           <td>{{ article.publicationDate | date: 'MM/dd/yyyy' }}</td>
           <td>
@@ -133,7 +179,7 @@
     </ng-template>
   </div>
 
-  <!-- Section Newsletters -->
+  <!-- Newsletters Section -->
   <div *ngIf="titretable === 'newsletters'">
     <h3>Newsletters</h3>
     <table
@@ -181,6 +227,7 @@
     </ng-template>
   </div>
 
+  <!-- Comments Section -->
   <div *ngIf="titretable === 'comments'">
     <ng-container *ngIf="comments && comments.length > 0; else noOverallComments">
       <ng-container *ngFor="let articleTitle of getObjectKeys(getCommentsGroupedByArticle())">
@@ -223,7 +270,4 @@
       <p>No comments available.</p>
     </ng-template>
   </div>
-  
-
-  
 </div>

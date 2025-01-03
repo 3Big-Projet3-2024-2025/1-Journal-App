@@ -239,7 +239,8 @@ private addCreatorAsJournalist(newsletterId: number): void {
       role: {
         roleId: 0,
         roleName: ''
-      }
+      },
+      gdprRequests:[]
     };
     
 

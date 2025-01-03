@@ -3,9 +3,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ManageNewsletterService } from '../services/manage-newsletter.service';
 import { ArticleService } from '../services/article.service';
 import { CommentService } from '../services/comment.service';
+import { UsersService } from '../services/users.service';
 import { Article } from '../models/article';
 import { Newsletter } from '../models/newsletter';
 import { Comments } from '../models/comment';
+import { User } from '../models/user';
 import { CookieService } from 'ngx-cookie-service';
 
 @Component({
@@ -21,19 +23,25 @@ export class ListCrudComponent {
   nonValidArticles: Article[] = [];
   newsletters: Newsletter[] = [];
   comments: Comments[] = [];
+  gdprUsers: User[] = []; // GDPR users list
 
   constructor(
     private route: ActivatedRoute,
     private articleService: ArticleService,
     private manageNewsletterService: ManageNewsletterService,
     private commentService: CommentService,
+    private usersService: UsersService,
     private cookieService: CookieService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
     const storedType = localStorage.getItem('newsletter');
-    if (storedType === '1') {
+    const gdprMode = localStorage.getItem('gpdr'); // Check GDPR mode
+
+    if (gdprMode === '1') {
+      this.type = 'gdpr';
+    } else if (storedType === '1') {
       this.type = 'newsletters';
     } else if (storedType === '3') {
       this.type = 'comments';
@@ -102,13 +110,15 @@ export class ListCrudComponent {
     } else if (this.type === 'comments') {
       this.titre = 'Management of the Comments';
       this.titretable = 'comments';
+
       this.commentService.getAllComments().subscribe(
         (comments) => {
           const userId = Number(localStorage.getItem('userId'));
           const userRole = localStorage.getItem('userRole');
 
           this.comments = comments.filter((comment) => {
-            const newsletterCreatorId = comment.article?.newsletter?.creator?.userId || null;
+            const newsletterCreatorId =
+              comment.article?.newsletter?.creator?.userId || null;
             return (
               userRole === 'ADMIN' ||
               (userRole === 'EDITOR' && newsletterCreatorId === userId)
@@ -119,6 +129,20 @@ export class ListCrudComponent {
         },
         (error) => {
           console.error('Error fetching comments:', error);
+        }
+      );
+    } else if (this.type === 'gdpr') {
+      this.titre = 'Management of GDPR Requests';
+      this.titretable = 'gdpr requests';
+
+      this.usersService.getUsersWithGdprRequests().subscribe(
+        (users) => {
+          this.gdprUsers = users;
+          //alert(this.gdprUsers[0].firstName)
+          console.log('Users with GDPR requests:', this.gdprUsers);
+        },
+        (error) => {
+          console.error('Error fetching GDPR users:', error);
         }
       );
     }
@@ -224,4 +248,24 @@ export class ListCrudComponent {
   getObjectKeys(obj: any): string[] {
     return Object.keys(obj);
   }
+  viewGdprDetails(userId: number): void {
+    // Navigate to a detailed view of the user's GDPR requests
+    this.router.navigate(['/gdpr-details', userId]);
+  }
+  
+  deleteGdprRequest(userId: number,gdprRequest :string): void {
+    if (confirm('Are you sure you want to delete this GDPR request?')) {
+      // Logic to delete GDPR requests for the user
+      this.usersService.removeGdprRequest(userId,gdprRequest).subscribe(
+        () => {
+          alert('GDPR request deleted successfully.');
+          location.reload() // Reload data after deletion
+        },
+        (error) => {
+          console.error('Error deleting GDPR request:', error);
+        }
+      );
+    }
+  }
+  
 }

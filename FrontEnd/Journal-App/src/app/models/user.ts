@@ -15,5 +15,5 @@ export interface User {
     role: Role;
     articles?: Article[];  
     newsletters?: Newsletter[]; 
-    gdprRequests?: string[];
+    gdprRequests : string[];
 }

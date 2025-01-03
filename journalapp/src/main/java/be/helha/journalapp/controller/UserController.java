@@ -293,6 +293,23 @@ public class UserController {
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
+    /**
+     * Endpoint to fetch users with GDPR requests.
+     *
+     * @return A list of users with GDPR requests.
+     */
+    @GetMapping("/with-gdpr-requests")
+    public ResponseEntity<List<User>> getUsersWithGdprRequests() {
+        List<User> usersWithGdprRequests = userRepository.findUsersWithGdprRequests();
+        if (usersWithGdprRequests.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(usersWithGdprRequests);
+    }
+
+
+
+
 
 
 }
