@@ -4,6 +4,7 @@ import { User } from '../models/user';
 import { ManageNewsletterService } from '../services/manage-newsletter.service';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { UsersService } from '../services/users.service';
 
 @Component({
   selector: 'app-manage-journalist',
@@ -22,7 +23,8 @@ export class ManageJournalistComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private manageNewsletterService: ManageNewsletterService,
-    private authService: AuthService
+    private authService: AuthService,
+    private userService: UsersService
   ) {}
   
   ngOnInit(): void {
@@ -86,27 +88,55 @@ export class ManageJournalistComponent implements OnInit {
     );
   }
 
-// Ajouter un journaliste à une newsletter
-addJournalist(): void {
-  if (!this.journalistEmailToAdd || !this.selectedNewsletterId) {
-    console.error('Email ou newsletter non sélectionnée');
-    return;
-  }
-
-  this.manageNewsletterService.addJournalistToNewsletterByEmail(
-    this.selectedNewsletterId,
-    this.journalistEmailToAdd
-  ).subscribe(
-    (updatedNewsletter: Newsletter) => {
-      // Recharger les journalistes après ajout
-      this.loadJournalists(this.selectedNewsletterId!);
-      this.journalistEmailToAdd = null; // Réinitialiser le champ d'email
-    },
-    (error) => {
-      console.error('Erreur lors de l\'ajout du journaliste:', error);
+  addJournalist(): void {
+    if (!this.journalistEmailToAdd || !this.selectedNewsletterId) {
+      console.error('Email ou newsletter non sélectionnée');
+      return;
     }
-  );
-}
+  
+    this.manageNewsletterService.addJournalistToNewsletterByEmail(
+      this.selectedNewsletterId,
+      this.journalistEmailToAdd
+    ).subscribe(
+      (updatedNewsletter: Newsletter) => {
+        // Recharger les journalistes après ajout
+        this.loadJournalists(this.selectedNewsletterId!);
+  
+        // Change le rôle de l'utilisateur dans la base après l'ajout
+        this.userService.getUserByEmail(this.journalistEmailToAdd!).subscribe(
+          (user) => {
+            const updatedUser = {
+              ...user,
+              role: {
+                roleId: 3, // ID du rôle JOURNALIST
+                roleName: 'JOURNALIST',
+              },
+            };
+  
+            this.userService.updateUser(user.userId, updatedUser).subscribe(
+              () => {
+                console.log('Role updated to JOURNALIST for:', user.email);
+                alert('Le journaliste a été ajouté et son rôle mis à jour avec succès.');
+              },
+              (error) => {
+                console.error('Erreur lors de la mise à jour du rôle:', error);
+              }
+            );
+          },
+          (error) => {
+            console.error('Erreur lors de la récupération de l\'utilisateur:', error);
+          }
+        );
+  
+        this.journalistEmailToAdd = null; // Réinitialiser l'email
+      },
+      (error) => {
+        console.error('Erreur lors de l\'ajout du journaliste:', error);
+      }
+    );
+  }
+  
+  
 
 // Supprimer un journaliste de la newsletter
 removeJournalist(userId: number): void {

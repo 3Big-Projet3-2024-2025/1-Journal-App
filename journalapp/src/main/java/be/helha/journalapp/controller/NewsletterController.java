@@ -2,10 +2,12 @@ package be.helha.journalapp.controller;
 
 import be.helha.journalapp.model.Article;
 import be.helha.journalapp.model.Newsletter;
+import be.helha.journalapp.model.Role;
 import be.helha.journalapp.model.User;
 import be.helha.journalapp.repositories.ArticleRepository;
 import be.helha.journalapp.repositories.NewsletterRepository;
 import be.helha.journalapp.repositories.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.HashMap;
+import be.helha.journalapp.repositories.RoleRepository;
 
 /**
  * REST controller for managing newsletters.
@@ -28,6 +31,7 @@ public class NewsletterController {
     private final NewsletterRepository newsletterRepository;
     private final UserRepository userRepository;
     private final ArticleRepository articleRepository;
+    private final RoleRepository roleRepository;
 
     /**
      * Construit un nouveau NewsletterController avec les dépôts spécifiés.
@@ -36,10 +40,11 @@ public class NewsletterController {
      * @param userRepository       le dépôt pour les utilisateurs
      * @param articleRepository    le dépôt pour les articles
      */
-    public NewsletterController(NewsletterRepository newsletterRepository, UserRepository userRepository, ArticleRepository articleRepository) {
+    public NewsletterController(NewsletterRepository newsletterRepository, UserRepository userRepository, ArticleRepository articleRepository, RoleRepository roleRepository) {
         this.newsletterRepository = newsletterRepository;
         this.userRepository = userRepository;
         this.articleRepository = articleRepository;
+        this.roleRepository = roleRepository;
     }
 
     /**
@@ -176,7 +181,7 @@ public class NewsletterController {
 
         return ResponseEntity.ok(savedNewsletter);
     }
- 
+
 
     /**
      * Met à jour la couleur de fond de tous les articles associés à une newsletter.
@@ -270,41 +275,65 @@ public class NewsletterController {
         }
         return ResponseEntity.ok(newsletter);
     }
+
     @PostMapping("/{newsletterId}/addJournalistByEmail")
+    @Transactional
     public ResponseEntity<?> addJournalistByEmail(
             @PathVariable Long newsletterId,
             @RequestBody Map<String, String> body) {
 
+        // Récupération de l'email du corps de la requête
         String email = body.get("email");
 
-        // Rechercher l'utilisateur par email
-        Optional<User> userOpt = userRepository.findByEmail(email);
+        // Vérification que l'email est présent
+        if (email == null || email.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("message", "Email is required."));
+        }
 
+        // Recherche de l'utilisateur par email
+        Optional<User> userOpt = userRepository.findByEmail(email);
         if (userOpt.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("message", "User not found."));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("message", "User with email " + email + " not found."));
         }
 
         User user = userOpt.get();
 
-        // Vérifier si la newsletter existe
+        // Recherche de la newsletter par ID
         Optional<Newsletter> newsletterOpt = newsletterRepository.findById(newsletterId);
         if (newsletterOpt.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("message", "Newsletter not found."));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("message", "Newsletter with ID " + newsletterId + " not found."));
         }
 
         Newsletter newsletter = newsletterOpt.get();
 
-        // Ajouter le journaliste s'il n'est pas déjà associé
+        // Vérifie si l'utilisateur est déjà un journaliste de la newsletter
         if (newsletter.getJournalists().contains(user)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(Map.of("message", "User is already a journalist for this newsletter."));
         }
 
+        // Ajouter l'utilisateur à la liste des journalistes
         newsletter.getJournalists().add(user);
+
+        // Mise à jour du rôle de l'utilisateur en "JOURNALIST"
+        Optional<Role> journalistRoleOpt = roleRepository.findByRoleName("JOURNALIST");
+        if (journalistRoleOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("message", "Role 'JOURNALIST' not found in the database."));
+        }
+
+        Role journalistRole = journalistRoleOpt.get();
+        if (!user.getRole().getRoleName().equals("JOURNALIST")) {
+            user.setRole(journalistRole); // Change le rôle de l'utilisateur
+            userRepository.save(user); // Sauvegarde l'utilisateur avec le nouveau rôle
+        }
+
+        // Sauvegarde de la newsletter mise à jour
         newsletterRepository.save(newsletter);
 
-        return ResponseEntity.ok(Map.of("message", "Journalist added successfully."));
+        return ResponseEntity.ok(Map.of("message", "Journalist added successfully and role updated."));
     }
+
 
 
     /**

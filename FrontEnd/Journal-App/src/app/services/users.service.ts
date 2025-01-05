@@ -86,4 +86,8 @@ export class UsersService {
       Authorization: token ? `Bearer ${token}` : ''
     });
   }
+  getUserByEmail(email: string): Observable<User> {
+    const url = `${this.baseUrl}/email/${email}`;
+    return this.http.get<User>(url);
+  }
 }
